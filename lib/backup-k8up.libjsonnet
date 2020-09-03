@@ -56,7 +56,7 @@ local Backend(backupkey, bucket, s3secret, create_bucket=true) =
     spec: {
       repoPasswordSecretRef: backupkey,
       s3: {
-        endpoint: k8up_params.s3_endpoint,
+        endpoint: k8up_params.global_backup_config.s3_endpoint,
         bucket: bname,
         accessKeyIDSecretRef: access_key_ref(bsecret),
         secretAccessKeySecretRef: secret_key_ref(bsecret)

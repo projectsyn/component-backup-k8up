@@ -24,7 +24,7 @@ local stem(elem) =
 
 
 local want_global_config = params.global_backup_config.enabled &&
-                           params.s3_endpoint != null;
+                           params.global_backup_config.s3_endpoint != null;
 
 local prune_env(deploy) =
   local env = deploy.spec.template.spec.containers[0].env;

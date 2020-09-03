@@ -15,13 +15,13 @@ local credentials_secret(creds) =
     },
   };
 
-local global_backup_secret = kube.Secret(params.global_backup_secret.name) {
+local global_backup_secret = kube.Secret(params.global_backup_config.backup_secret.name) {
   metadata+: {
     namespace: params.namespace,
   },
   // stringData because password comes from secret ref
   stringData: {
-    password: params.global_backup_secret.password,
+    password: params.global_backup_config.backup_secret.password,
   },
 };
 
@@ -38,8 +38,10 @@ local want_global_config = params.global_backup_config.enabled &&
       },
     },
   },
-  [ if want_global_config then '10_global_s3_credentials']: credentials_secret(params.global_s3_credentials),
-  [ if want_global_config then '10_global_s3restore_credentials']: credentials_secret(params.global_s3restore_credentials),
+  [ if want_global_config then '10_global_s3_credentials']: 
+    credentials_secret(params.global_backup_config.s3_credentials),
+  [ if want_global_config then '10_global_s3restore_credentials']: 
+    credentials_secret(params.global_backup_config.s3restore_credentials),
   [ if want_global_config then '10_global_backup_secret']: global_backup_secret,
   [ if params.monitoring_enabled then '30_monitoring']: monitoring,
 }
