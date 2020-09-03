@@ -3,3 +3,8 @@
 backup-k8up is a Commodore component to manage backup-k8up.
 
 See the xref:references/parameters.adoc[parameters] reference for further details.
+
+Method documentation for the component library `lib/backup-k8up.libjsonnet`
+can be generated with [`doxygen`].
+After executing `doxygen`, the rendered library documentation can be found in
+folder `doxygen/`.

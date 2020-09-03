@@ -6,9 +6,115 @@ The parent key for all of the following parameters is `backup_k8up`.
 
 [horizontal]
 type:: string
-default:: `syn-backup-k8up`
+default:: `syn-backup`
 
 The namespace in which to deploy this component.
+
+== `global_backup_config.enabled`
+
+[horizontal]
+type:: bool
+default:: `true`
+
+Enable global K8up configuration (via environment variables)
+
+== `global_backup_config.default_backup_bucket`
+
+[horizontal]
+type:: string
+default: `${cluster:name}-k8up-backups`
+
+== `global_backup_config.s3_credentials`
+
+[horizontal]
+type:: dict
+default:: `{'accesskey': '', 'secretkey': '', 'secretname': 'global-bucket-credentials', 'accesskeyname': 'username', 'secretkeyname': 'password'}`
+
+
+== `global_backup_config.backup_secret`
+
+[horizontal]
+type:: dict
+default:: `{'name': 'global-backup-password', 'password': '?{vaultkv:${customer:name}/${cluster:name}/global-backup/password}'}`
+
+== `global_backup_config.s3restore_credentials`
+
+[horizontal]
+type:: dict
+default:: `{'accesskey': '', 'secretkey': '', 'secretname': 'global-restore-credentials', 'accesskeyname': 'username', 'secretkeyname': 'password'}`
+
+
+== `global_backup_config.restore_s3endpoint`
+
+[horizontal]
+type:: string
+default:: `null`
+
+== `global_backup_config.restore_bucket`
+
+[horizontal]
+type:: string
+default:: `null`
+
+`global_backup_config.keepjobs`
+
+[horizontal]
+type:: string
+default:: `3`
+
+== `global_backup_config.stats_endpoint`
+
+[horizontal]
+type:: string
+default:: `null`
+
+== `global_backup_config.s3_endpoint`
+
+[horizontal]
+type:: string
+default:: `null`
+
+== `backofflimit`
+
+[horizontal]
+type:: string
+default:: `2`
+
+== `annotation`
+
+[horizontal]
+type:: string
+default:: `k8up.syn.tools/backup`
+
+== `backupcommandannotation`
+
+[horizontal]
+type:: string
+default:: `k8up.syn.tools/backupcommand`
+
+== `tz`
+
+[horizontal]
+type:: string
+default:: `Europe/Zurich`
+
+== `alert_rule_filters`
+
+[horizontal]
+type:: dict
+default:: `{'namespace': 'namespace=~"syn.*"'}
+
+== `prometheus_push_gateway`
+
+[horizontal]
+type:: string
+default:: `'http://platform-prometheus-pushgateway.syn-synsights.svc:9091'`
+
+== `monitoring_enabled`
+
+[horizontal]
+type:: bool
+default:: `true`
 
 
 == Example
@@ -16,4 +122,13 @@ The namespace in which to deploy this component.
 [source,yaml]
 ----
 namespace: example-namespace
+global_keepjobs: "1"
+global_s3_credentials:
+  accesskey: '?{vaultkv:${customer:name}/${cluster:name}/global-backup/access-key}'
+  secretkey: '?{vaultkv:${customer:name}/${cluster:name}/global-backup/secret-key}'
+global_s3restore_credentials:
+  accesskey: '?{vaultkv:${customer:name}/${cluster:name}/global-backup/restore-access-key}'
+  secretkey: '?{vaultkv:${customer:name}/${cluster:name}/global-backup/restore-secret-key}'
+global_restore_s3endpoint: https://s3endpoint.example.com
+global_restore_bucket: example-restore-bucket
 ----
