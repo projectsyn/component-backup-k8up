@@ -1,0 +1,5 @@
+= backup-k8up
+
+backup-k8up is a Commodore component to manage backup-k8up.
+
+See the xref:references/parameters.adoc[parameters] reference for further details.

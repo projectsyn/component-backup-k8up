@@ -1,0 +1,6 @@
+name: backup-k8up
+title: backup-k8up
+version: master
+start_page: ROOT:index.adoc
+nav:
+  - modules/ROOT/partials/nav.adoc

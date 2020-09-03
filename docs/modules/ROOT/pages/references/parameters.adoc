@@ -1,0 +1,19 @@
+= Parameters
+
+The parent key for all of the following parameters is `backup_k8up`.
+
+== `namespace`
+
+[horizontal]
+type:: string
+default:: `syn-backup-k8up`
+
+The namespace in which to deploy this component.
+
+
+== Example
+
+[source,yaml]
+----
+namespace: example-namespace
+----

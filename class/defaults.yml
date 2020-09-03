@@ -1,0 +1,3 @@
+parameters:
+  backup_k8up:
+    namespace: syn-backup-k8up

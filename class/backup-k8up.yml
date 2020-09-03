@@ -1,0 +1,11 @@
+parameters:
+  kapitan:
+    compile:
+      - input_paths:
+          - backup-k8up/component/app.jsonnet
+        input_type: jsonnet
+        output_path: apps/
+      - input_paths:
+          - backup-k8up/component/main.jsonnet
+        input_type: jsonnet
+        output_path: backup-k8up/
