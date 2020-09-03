@@ -1,0 +1,9 @@
+filters:
+  - path: backup-k8up/01_k8up_helmchart/k8up/templates
+    type: builtin
+    filter: helm_namespace
+    filterargs:
+      namespace: ${backup_k8up:namespace}
+  - output_path: backup-k8up/01_k8up_helmchart/k8up/templates
+    type: jsonnet
+    filter: optional_global_config.jsonnet

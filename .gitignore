@@ -3,3 +3,4 @@ _public/
 .cache/
 helmcharts/
 manifests/
+doxygen/

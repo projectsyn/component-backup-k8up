@@ -1,0 +1,234 @@
+/**
+ * \file backup.libjsonnet
+ * \brief methods to create K8up backup jobs, schedules and prebackup pods
+ */
+
+
+local kap = import 'lib/kapitan.libjsonnet';
+local kube = import 'lib/kube.libjsonnet';
+local com = import 'lib/commodore.libjsonnet';
+local inv = kap.inventory();
+local k8up_params = inv.parameters.backup_k8up;
+local crossplane = import 'lib/crossplane.libjsonnet';
+
+local access_key_ref(s3secret) =
+  if s3secret != null then
+    {
+      name: s3secret.name,
+      key: s3secret.accesskeyname
+    };
+
+local secret_key_ref(s3secret) =
+  if s3secret != null then
+    {
+      name: s3secret.name,
+      key: s3secret.secretkeyname
+    };
+
+local Backend(backupkey, bucket, s3secret, create_bucket=true) =
+  local bsecret =
+    if s3secret == null && bucket != null then
+      {
+        name: "bucket-%s-credentials" % bucket,
+        // crossplane connection secrets always use username/password as keys
+        // in secret
+        accesskeyname: "username",
+        secretkeyname: "password",
+      }
+    else
+      s3secret;
+  local bname = if create_bucket && bucket != null then
+    local prefix = "syn-%s-%s-%s" % [
+        inv.parameters.customer.name,
+        inv.parameters.cluster.name,
+        bucket,
+        ];
+    "%s-%s" % [ std.strReplace(prefix, "_", "-"),
+                std.substr(std.md5(prefix), 0, 16) ]
+    else if bucket != null then bucket
+    else k8up_params.default_backup_bucket;
+  {
+    bucket:
+      if create_bucket && bucket != null then
+        crossplane.Bucket(bucket, bname, bsecret.name, k8up_params.s3_class)
+      else
+        null,
+    spec: {
+      repoPasswordSecretRef: backupkey,
+      s3: {
+        endpoint: k8up_params.s3_endpoint,
+        bucket: bname,
+        accessKeyIDSecretRef: access_key_ref(bsecret),
+        secretAccessKeySecretRef: secret_key_ref(bsecret)
+      }
+    },
+  };
+
+/**
+ * \brief `CheckSpec` creates a definition for a K8up (restic) check job
+ *
+ * \arg `schedule` The schedule in cron format, e.g. '30 3 * * *' for running
+ *      the check job every night at 3:30 AM.
+ *
+ * The return value of CheckSpec can be merged with a Job or Schedule
+ * definition to use this particular check definition for the Job
+ */
+local CheckSpec(schedule) =
+{
+  spec+: {
+    check: {
+      promURL: k8up_params.prometheus_push_gateway,
+      schedule: schedule,
+    }
+  }
+};
+
+/**
+ * \brief `PruneSpec` creates a definition for a K8up (restic) prune job
+ *
+ * \arg `schedule` The schedule for the prune job in cron format. For example,
+ *      providing '30 3 * * *' would run the check job every night at 3:30 AM.
+ * \arg `keepDaily` The number of daily backups to keep.
+ * \arg `keepLast` The number of recent backups to keep.
+ *
+ * The return value of PruneSpec can be merged with a Job or Schedule
+ * definition to use this particular prune definition for the Job
+ */
+local PruneSpec(schedule, keepDaily, keepLast) =
+  {
+    spec+: {
+      prune: {
+        retention: {
+          keepDaily: keepDaily,
+          keepLast: keepLast
+        },
+        schedule: schedule
+      }
+    }
+  };
+
+/**
+ * \brief `Job` creates a K8up job object
+ *
+ * \arg `name` (required) the name of the job
+ * \arg `keep_jobs` the number of Kubernetes jobs to keep around (default=3)
+ *
+ * \arg `backupkey` A secretref, i.e. a JSON object with keys 'name' and 'key'
+ *      refering to a K8s secret with name 'name' and which has a key 'key'
+ *      which contains the password for the backup. If this arg is null, the
+ *      default backup password configured for the cluster will be used.
+ *
+ * \arg `bucket` The name of the bucket to backup into, defaults to `null`.
+ *      If this argument is not `null`, and `create_bucket` is true the method
+ *      will create a Crossplane Bucket claim to create a bucket for the Job.
+ *      If this argument is not `null`, and `create_bucket` is false, the
+ *      method will assume that the provided name refers to an existing
+ *      bucket.
+ *
+ * \arg `s3secret` A secret definition, i.e. an object that has the  keys
+ *      'name', 'accesskeyname', 'secretkeyname'.
+ *      The key `name` is used as the name of a K8s secret object in the same
+ *      namespace as the Job. This secret is expected to contain keys with
+ *      names equal to the values of 'accesskeyname' and 'secretkeyname' which
+ *      contain the S3 Access Key and Secret Key respectively.
+ *
+ * \arg `create_bucket` Whether to create an S3 bucket via crossplane.
+ *      Defaults to `true`. If set to false, the value of `bucket` is assumed
+ *      to refer to an existing S3 bucket.
+ *
+ * \returns an object with keys 'bucket' and 'job'. 'bucket' can be `null`, if
+ *          the global bucket or an externally-managed bucket is used.
+ */
+local Job(name, keep_jobs=3, backupkey=null, bucket=null, s3secret=null, create_bucket=true) =
+  local backend = Backend(backupkey, bucket, s3secret, create_bucket);
+  local thejob = {
+    apiVersion: "backup.appuio.ch/v1alpha1",
+    kind: "Backup",
+    metadata: { name: name },
+    spec: {
+      keepJobs: keep_jobs,
+      backend: backend.spec,
+    }
+  };
+  {
+    bucket: backend.bucket,
+    job: thejob,
+  };
+
+/**
+ * \brief `Schedule` creates a K8up schedule object
+ *
+ * \arg `name` (required) the name of the schedule
+ *
+ * \returns an object with keys 'bucket' and 'job'. 'bucket' can be `null`, if
+ *          the global bucket or an externally-managed bucket is used.
+ *
+ * See the documentation for \ref Job for definitions of the other arguments.
+ */
+local Schedule(name, schedule, keep_jobs=3, backupkey=null, bucket=null, s3secret=null, create_bucket=true) =
+  // prune backups daily, keep last 5 and 30 daily backups
+  local pspec = PruneSpec("30 2 * * *", 30, 5);
+  // check backup repo dalily
+  local cspec = CheckSpec("30 3 * * *");
+  local backend = Backend(backupkey, bucket, s3secret, create_bucket);
+  local theschedule =
+    {
+      apiVersion: "backup.appuio.ch/v1alpha1",
+      kind: "Schedule",
+      metadata: {
+        name: name
+      },
+      spec: {
+        backend: backend.spec,
+        backup: {
+          promURL: k8up_params.prometheus_push_gateway,
+          keepJobs: keep_jobs,
+          schedule: schedule
+        },
+      }
+    } + pspec + cspec;
+  {
+    bucket: backend.bucket,
+    schedule: theschedule,
+  };
+
+/**
+ * \brief `PreBackupPod` creates a K8up prebackup pod object
+ *
+ * \arg `name` The name of the object
+ * \arg `image` The docker image for the prebackup pod
+ * \arg `backupcmd` The command to execute in the container when the backup
+ *      job executes
+ * \arg `fileext` The file extension for the file resulting in the backup from
+ *      the command executed in this prebackup pod
+ */
+local PreBackupPod(name, image, backupcmd, fileext="") =
+  {
+    apiVersion: "backup.appuio.ch/v1alpha1",
+    kind: "PreBackupPod",
+    metadata: {
+      name: name
+    },
+    spec: {
+      backupCommand: backupcmd,
+      fileExtension: fileext,
+      pod: {
+        spec: kube.PodSpec {
+          containers_: {
+            [name]: kube.Container(name) {
+              image: image,
+              command: [ "tail", "-f", "/dev/null" ],
+            }
+          }
+        }
+      }
+    }
+  };
+
+{
+  Job: Job,
+  Schedule: Schedule,
+  PreBackupPod: PreBackupPod,
+  CheckSpec: CheckSpec,
+  PruneSpec: PruneSpec,
+}
