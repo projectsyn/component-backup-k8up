@@ -32,17 +32,18 @@ local prune_env(deploy) =
     std.prune([
       if !want_global_config && std.startsWith(e.name, 'BACKUP_GLOBAL') then
         null
-      else e for e in env
+      else e
+      for e in env
     ]);
   local fixed_env =
-    std.prune([ if std.length(e) > 1 then e for e in env_no_global_config ]);
+    std.prune([if std.length(e) > 1 then e for e in env_no_global_config]);
   deploy {
     spec+: {
       template+: {
         spec+: {
           containers: [
             deploy.spec.template.spec.containers[0] {
-              'env': fixed_env,
+              env: fixed_env,
             },
           ],
         },
@@ -59,8 +60,9 @@ local fixup_obj(obj) =
 local fixup(obj_file) =
   local objs = std.prune(com.yaml_load_all(obj_file));
   // process all objs
-  [ fixup_obj(obj) for obj in objs ];
+  [fixup_obj(obj) for obj in objs];
 
 {
-  [stem(elem)]: fixup(input_file(elem)) for elem in chart_files
+  [stem(elem)]: fixup(input_file(elem))
+  for elem in chart_files
 }

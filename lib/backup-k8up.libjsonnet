@@ -4,9 +4,9 @@
  */
 
 
+local com = import 'lib/commodore.libjsonnet';
 local kap = import 'lib/kapitan.libjsonnet';
 local kube = import 'lib/kube.libjsonnet';
-local com = import 'lib/commodore.libjsonnet';
 local inv = kap.inventory();
 local k8up_params = inv.parameters.backup_k8up;
 local crossplane = import 'lib/crossplane.libjsonnet';
@@ -15,38 +15,40 @@ local access_key_ref(s3secret) =
   if s3secret != null then
     {
       name: s3secret.name,
-      key: s3secret.accesskeyname
+      key: s3secret.accesskeyname,
     };
 
 local secret_key_ref(s3secret) =
   if s3secret != null then
     {
       name: s3secret.name,
-      key: s3secret.secretkeyname
+      key: s3secret.secretkeyname,
     };
 
 local Backend(backupkey, bucket, s3secret, create_bucket=true) =
   local bsecret =
     if s3secret == null && bucket != null then
       {
-        name: "bucket-%s-credentials" % bucket,
+        name: 'bucket-%s-credentials' % bucket,
         // crossplane connection secrets always use username/password as keys
         // in secret
-        accesskeyname: "username",
-        secretkeyname: "password",
+        accesskeyname: 'username',
+        secretkeyname: 'password',
       }
     else
       s3secret;
   local bname = if create_bucket && bucket != null then
-    local prefix = "syn-%s-%s-%s" % [
-        inv.parameters.customer.name,
-        inv.parameters.cluster.name,
-        bucket,
-        ];
-    "%s-%s" % [ std.strReplace(prefix, "_", "-"),
-                std.substr(std.md5(prefix), 0, 16) ]
-    else if bucket != null then bucket
-    else k8up_params.default_backup_bucket;
+    local prefix = 'syn-%s-%s-%s' % [
+      inv.parameters.customer.name,
+      inv.parameters.cluster.name,
+      bucket,
+    ];
+    '%s-%s' % [
+      std.strReplace(prefix, '_', '-'),
+      std.substr(std.md5(prefix), 0, 16),
+    ]
+  else if bucket != null then bucket
+  else k8up_params.default_backup_bucket;
   {
     bucket:
       if create_bucket && bucket != null then
@@ -59,8 +61,8 @@ local Backend(backupkey, bucket, s3secret, create_bucket=true) =
         endpoint: k8up_params.global_backup_config.s3_endpoint,
         bucket: bname,
         accessKeyIDSecretRef: access_key_ref(bsecret),
-        secretAccessKeySecretRef: secret_key_ref(bsecret)
-      }
+        secretAccessKeySecretRef: secret_key_ref(bsecret),
+      },
     },
   };
 
@@ -74,14 +76,14 @@ local Backend(backupkey, bucket, s3secret, create_bucket=true) =
  * definition to use this particular check definition for the Job
  */
 local CheckSpec(schedule) =
-{
-  spec+: {
-    check: {
-      promURL: k8up_params.prometheus_push_gateway,
-      schedule: schedule,
-    }
-  }
-};
+  {
+    spec+: {
+      check: {
+        promURL: k8up_params.prometheus_push_gateway,
+        schedule: schedule,
+      },
+    },
+  };
 
 /**
  * \brief `PruneSpec` creates a definition for a K8up (restic) prune job
@@ -100,11 +102,11 @@ local PruneSpec(schedule, keepDaily, keepLast) =
       prune: {
         retention: {
           keepDaily: keepDaily,
-          keepLast: keepLast
+          keepLast: keepLast,
         },
-        schedule: schedule
-      }
-    }
+        schedule: schedule,
+      },
+    },
   };
 
 /**
@@ -142,13 +144,13 @@ local PruneSpec(schedule, keepDaily, keepLast) =
 local Job(name, keep_jobs=3, backupkey=null, bucket=null, s3secret=null, create_bucket=true) =
   local backend = Backend(backupkey, bucket, s3secret, create_bucket);
   local thejob = {
-    apiVersion: "backup.appuio.ch/v1alpha1",
-    kind: "Backup",
+    apiVersion: 'backup.appuio.ch/v1alpha1',
+    kind: 'Backup',
     metadata: { name: name },
     spec: {
       keepJobs: keep_jobs,
       backend: backend.spec,
-    }
+    },
   };
   {
     bucket: backend.bucket,
@@ -167,25 +169,25 @@ local Job(name, keep_jobs=3, backupkey=null, bucket=null, s3secret=null, create_
  */
 local Schedule(name, schedule, keep_jobs=3, backupkey=null, bucket=null, s3secret=null, create_bucket=true) =
   // prune backups daily, keep last 5 and 30 daily backups
-  local pspec = PruneSpec("30 2 * * *", 30, 5);
+  local pspec = PruneSpec('30 2 * * *', 30, 5);
   // check backup repo dalily
-  local cspec = CheckSpec("30 3 * * *");
+  local cspec = CheckSpec('30 3 * * *');
   local backend = Backend(backupkey, bucket, s3secret, create_bucket);
   local theschedule =
     {
-      apiVersion: "backup.appuio.ch/v1alpha1",
-      kind: "Schedule",
+      apiVersion: 'backup.appuio.ch/v1alpha1',
+      kind: 'Schedule',
       metadata: {
-        name: name
+        name: name,
       },
       spec: {
         backend: backend.spec,
         backup: {
           promURL: k8up_params.prometheus_push_gateway,
           keepJobs: keep_jobs,
-          schedule: schedule
+          schedule: schedule,
         },
-      }
+      },
     } + pspec + cspec;
   {
     bucket: backend.bucket,
@@ -202,12 +204,12 @@ local Schedule(name, schedule, keep_jobs=3, backupkey=null, bucket=null, s3secre
  * \arg `fileext` The file extension for the file resulting in the backup from
  *      the command executed in this prebackup pod
  */
-local PreBackupPod(name, image, backupcmd, fileext="") =
+local PreBackupPod(name, image, backupcmd, fileext='') =
   {
-    apiVersion: "backup.appuio.ch/v1alpha1",
-    kind: "PreBackupPod",
+    apiVersion: 'backup.appuio.ch/v1alpha1',
+    kind: 'PreBackupPod',
     metadata: {
-      name: name
+      name: name,
     },
     spec: {
       backupCommand: backupcmd,
@@ -217,12 +219,12 @@ local PreBackupPod(name, image, backupcmd, fileext="") =
           containers_: {
             [name]: kube.Container(name) {
               image: image,
-              command: [ "tail", "-f", "/dev/null" ],
-            }
-          }
-        }
-      }
-    }
+              command: ['tail', '-f', '/dev/null'],
+            },
+          },
+        },
+      },
+    },
   };
 
 {

@@ -61,33 +61,33 @@ local alert_rules = com.namespaced(params.namespace, {
             expr: 'rate(k8up_jobs_failed_counter[1d]) > 0',
             'for': '1m',
             labels: {
-              severity: 'critical'
+              severity: 'critical',
             },
             annotations: {
-              message: 'Job in {{ $labels.exported_namespace }} of type {{ $labels.jobType }} failed'
-            }
+              message: 'Job in {{ $labels.exported_namespace }} of type {{ $labels.jobType }} failed',
+            },
           },
           {
             alert: 'K8upBackupNotRunning',
             expr: 'sum(rate(k8up_jobs_total[25h])) == 0 and on(namespace) k8up_schedules_gauge > 0',
             'for': '1m',
             labels: {
-              severity: 'critical'
+              severity: 'critical',
             },
             annotations: {
-              message: 'No K8up jobs were run in {{ $labels.exported_namespace }} within the last 24 hours. Check the operator, there might be a deadlock'
-            }
+              message: 'No K8up jobs were run in {{ $labels.exported_namespace }} within the last 24 hours. Check the operator, there might be a deadlock',
+            },
           },
           {
             alert: 'K8upJobStuck',
-            expr: 'k8up_jobs_queued_gauge{jobType=\"backup\"} > 0 and on(namespace) k8up_schedules_gauge > 0',
+            expr: 'k8up_jobs_queued_gauge{jobType="backup"} > 0 and on(namespace) k8up_schedules_gauge > 0',
             'for': '24h',
             labels: {
-              severity: 'critical'
+              severity: 'critical',
             },
             annotations: {
-              message: 'K8up jobs are stuck in {{ $labels.exported_namespace }} for the last 24 hours.'
-            }
+              message: 'K8up jobs are stuck in {{ $labels.exported_namespace }} for the last 24 hours.',
+            },
           },
         ],
       },
