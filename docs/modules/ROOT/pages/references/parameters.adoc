@@ -96,7 +96,7 @@ default:: `k8up.syn.tools/backupcommand`
 
 [horizontal]
 type:: string
-default:: `Europe/Zurich`
+default:: `Etc/UTC`
 
 == `alert_rule_filters`
 
