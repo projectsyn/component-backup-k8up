@@ -27,7 +27,7 @@ parameters:
     backofflimit: '2'
     annotation: k8up.syn.tools/backup
     backupcommandannotation: k8up.syn.tools/backupcommand
-    tz: Europe/Zurich
+    tz: Etc/UTC
     alert_rule_filters:
       namespace: namespace=~"syn.*"
     prometheus_push_gateway: 'http://platform-prometheus-pushgateway.syn-synsights.svc:9091'
