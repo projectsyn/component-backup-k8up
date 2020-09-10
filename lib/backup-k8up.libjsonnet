@@ -9,7 +9,6 @@ local kap = import 'lib/kapitan.libjsonnet';
 local kube = import 'lib/kube.libjsonnet';
 local inv = kap.inventory();
 local k8up_params = inv.parameters.backup_k8up;
-local crossplane = import 'lib/crossplane.libjsonnet';
 
 local access_key_ref(s3secret) =
   if s3secret != null then
@@ -52,6 +51,7 @@ local Backend(backupkey, bucket, s3secret, create_bucket=true) =
   {
     bucket:
       if create_bucket && bucket != null then
+        local crossplane = import 'lib/crossplane.libjsonnet';
         crossplane.Bucket(bucket, bname, bsecret.name, k8up_params.s3_class)
       else
         null,
