@@ -40,4 +40,4 @@ parameters:
         tag: 'v0.1.10@sha256:74ef61f26c85b4a6ab6b02761caefe6d59234db559f7ed6bb7430f345b7ac488'
       wrestic:
         image: docker.io/vshn/wrestic
-        tag: 'v0.2.0@sha256:b2c75ab4a444a4926855c3a264e330e3a6d6a72e586419c1809b48555277dff9'
+        tag: 'v0.1.9@sha256:6b756ddb70e15977fc3d53a0468bcf6386d79d989768d48696167161f20e115e'
