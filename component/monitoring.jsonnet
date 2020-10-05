@@ -50,7 +50,8 @@ local alert_rules = com.namespaced(params.namespace, {
             annotations: {
               message: 'Last backup for PVC {{ $labels.pvc }} in namespace {{ $labels.instance }} had {{ $value }} errors',
             },
-            expr: 'baas_backup_restic_last_errors{' + params.alert_rule_filters.namespace + '} > 0',
+            expr: 'baas_backup_restic_last_errors{%s} > 0' %
+                  com.getValueOrDefault(params.alert_rule_filters, 'namespace', ''),
             'for': '1m',
             labels: {
               severity: 'critical',
