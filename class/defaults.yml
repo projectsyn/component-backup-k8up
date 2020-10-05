@@ -29,7 +29,8 @@ parameters:
     backupcommandannotation: k8up.syn.tools/backupcommand
     tz: Europe/Zurich
     alert_rule_filters:
-      namespace: namespace=~"syn.*"
+      namespace:
+        match_re: "syn.*"
     prometheus_push_gateway: 'http://platform-prometheus-pushgateway.syn-synsights.svc:9091'
     monitoring_enabled: true
     charts:
