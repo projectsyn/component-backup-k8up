@@ -110,6 +110,22 @@ default:: `{'namespace': 'namespace=~"syn.*"'}
 type:: string
 default:: `'http://platform-prometheus-pushgateway.syn-synsights.svc:9091'`
 
+== `prometheus_name`
+
+[horizontal]
+type:: string
+default:: `'main'`
+
+PrometheusRule objects get the label `prometheus`.
+This label will be used by the Prometheus operator to select the rules to render for a prometheus instance.
+This parameter allows to set the value of that label.
+
+[NOTE]
+====
+If the component Synsights is being used, ensure that this value matches with `parameters.synsights.prometheus.name`.
+It is suggested to do this within you global configuration hierarchy.
+====
+
 == `monitoring_enabled`
 
 [horizontal]
