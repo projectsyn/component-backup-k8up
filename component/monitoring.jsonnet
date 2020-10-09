@@ -36,7 +36,7 @@ local alert_rules = com.namespaced(params.namespace, {
   metadata: {
     name: 'k8up',
     labels: {
-      prometheus: inv.parameters.synsights.prometheus.name,
+      prometheus: params.prometheus_name,
       role: 'alert-rules',
     },
   },

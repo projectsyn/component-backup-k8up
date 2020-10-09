@@ -31,6 +31,7 @@ parameters:
     alert_rule_filters:
       namespace: namespace=~"syn.*"
     prometheus_push_gateway: 'http://platform-prometheus-pushgateway.syn-synsights.svc:9091'
+    prometheus_name: main
     monitoring_enabled: true
     charts:
       k8up: 0.6.1
