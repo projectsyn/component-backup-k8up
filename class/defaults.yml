@@ -37,8 +37,8 @@ parameters:
       k8up: 0.6.1
     images:
       k8up:
-        image: docker.io/vshn/k8up
+        image: quay.io/vshn/k8up
         tag: 'v0.1.10@sha256:74ef61f26c85b4a6ab6b02761caefe6d59234db559f7ed6bb7430f345b7ac488'
       wrestic:
-        image: docker.io/vshn/wrestic
+        image: quay.io/vshn/wrestic
         tag: 'v0.1.9@sha256:6b756ddb70e15977fc3d53a0468bcf6386d79d989768d48696167161f20e115e'
