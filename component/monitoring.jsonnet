@@ -11,6 +11,7 @@ local service_monitor = com.namespaced(params.namespace, {
     labels: {
       'app.kubernetes.io/instance': 'k8up',
       'app.kubernetes.io/name': 'k8up',
+      prometheus: params.prometheus_name,
     },
     name: 'k8up-operator',
   },
