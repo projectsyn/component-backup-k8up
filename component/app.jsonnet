@@ -6,6 +6,6 @@ local argocd = import 'lib/argocd.libjsonnet';
 
 local app = argocd.App('backup-k8up', params.namespace, secrets=true);
 
-{
+if params.enabled then {
   backup: app,
-}
+} else {}
