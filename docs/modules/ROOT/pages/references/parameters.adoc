@@ -2,6 +2,17 @@
 
 The parent key for all of the following parameters is `backup_k8up`.
 
+== `enabled`
+
+[horizontal]
+type:: bool
+default:: `true`
+
+Whether to create the ArgoCD app for the component.
+Setting this to false, effectively disables the component from being deployed.
+
+NOTE: The manifests will still appear in the catalog, but without the ArgoCD app they won't get deployed.
+
 == `namespace`
 
 [horizontal]
