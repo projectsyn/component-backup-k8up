@@ -31,6 +31,29 @@ local service_monitor = com.namespaced(params.namespace, {
   },
 });
 
+local alert_selector(filters) =
+  local op = {
+    exclude: '!=',
+    exclude_re: '!~',
+    match: '=',
+    match_re: '=~',
+  };
+  local selector(sel) = [
+    {
+      op: op[s],
+      val: sel[s],
+    }
+    for s in std.objectFields(sel)
+  ];
+  if filters != null then
+    local selectors = std.mapWithKey(
+      function(key, sel) ([ '%s%s"%s"' % [ key, s.op, s.val ] for s in selector(sel) ]),
+      filters
+    );
+    std.join(',', std.flattenArrays([ selectors[f] for f in std.objectFields(selectors) ]))
+  else
+    '';
+
 local alert_rules = com.namespaced(params.namespace, {
   apiVersion: 'monitoring.coreos.com/v1',
   kind: 'PrometheusRule',
@@ -51,8 +74,7 @@ local alert_rules = com.namespaced(params.namespace, {
             annotations: {
               message: 'Last backup for PVC {{ $labels.pvc }} in namespace {{ $labels.instance }} had {{ $value }} errors',
             },
-            expr: 'baas_backup_restic_last_errors{%s} > 0' %
-                  com.getValueOrDefault(params.alert_rule_filters, 'namespace', ''),
+            expr: 'baas_backup_restic_last_errors{%s} > 0' % alert_selector(params.alert_rule_filters),
             'for': '1m',
             labels: {
               severity: 'critical',
