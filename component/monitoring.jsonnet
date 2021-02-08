@@ -45,7 +45,10 @@ local alert_rules = com.namespaced(params.namespace, {
     groups: [
       {
         name: 'k8up.rules',
-        rules: params.monitoring_alerts,
+        rules: [
+          { alert: field } + params.monitoring_alerts[field]
+          for field in std.sort(std.objectFields(params.monitoring_alerts))
+        ],
       },
     ],
   },
