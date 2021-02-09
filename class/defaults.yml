@@ -37,6 +37,35 @@ parameters:
     prometheus_push_gateway: 'http://platform-prometheus-pushgateway.syn-synsights.svc:9091'
     prometheus_name: main
     monitoring_enabled: true
+    monitoring_alerts:
+      k8up_last_errors:
+        annotations:
+          message: Last backup for PVC {{ $labels.pvc }} in namespace {{ $labels.instance }} had {{ $value }} errors
+        expr: baas_backup_restic_last_errors{${backup_k8up:alert_rule_filters:namespace}} > 0
+        for: 1m
+        labels:
+          severity: critical
+      K8upBackupFailed:
+        annotations:
+          message: Job in {{ $labels.exported_namespace }} of type {{ $labels.jobType }} failed
+        expr: rate(k8up_jobs_failed_counter[1d]) > 0
+        for: 1m
+        labels:
+          severity: critical
+      K8upBackupNotRunning:
+        annotations:
+          message: No K8up jobs were run in {{ $labels.exported_namespace }} within the last 24 hours. Check the operator, there might be a deadlock
+        expr: sum(rate(k8up_jobs_total[25h])) == 0 and on(namespace) k8up_schedules_gauge > 0
+        for: 1m
+        labels:
+          severity: critical
+      K8upJobStuck:
+        annotations:
+          message: K8up jobs are stuck in {{ $labels.exported_namespace }} for the last 24 hours.
+        expr: k8up_jobs_queued_gauge{jobType="backup"} > 0 and on(namespace) k8up_schedules_gauge > 0
+        for: 24h
+        labels:
+          severity: critical
     charts:
       k8up: 0.6.1
     images:

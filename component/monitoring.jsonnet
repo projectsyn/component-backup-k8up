@@ -46,51 +46,8 @@ local alert_rules = com.namespaced(params.namespace, {
       {
         name: 'k8up.rules',
         rules: [
-          {
-            alert: 'k8up_last_errors',
-            annotations: {
-              message: 'Last backup for PVC {{ $labels.pvc }} in namespace {{ $labels.instance }} had {{ $value }} errors',
-            },
-            expr: 'baas_backup_restic_last_errors{%s} > 0' %
-                  com.getValueOrDefault(params.alert_rule_filters, 'namespace', ''),
-            'for': '1m',
-            labels: {
-              severity: 'critical',
-            },
-          },
-          {
-            alert: 'K8upBackupFailed',
-            expr: 'rate(k8up_jobs_failed_counter[1d]) > 0',
-            'for': '1m',
-            labels: {
-              severity: 'critical',
-            },
-            annotations: {
-              message: 'Job in {{ $labels.exported_namespace }} of type {{ $labels.jobType }} failed',
-            },
-          },
-          {
-            alert: 'K8upBackupNotRunning',
-            expr: 'sum(rate(k8up_jobs_total[25h])) == 0 and on(namespace) k8up_schedules_gauge > 0',
-            'for': '1m',
-            labels: {
-              severity: 'critical',
-            },
-            annotations: {
-              message: 'No K8up jobs were run in {{ $labels.exported_namespace }} within the last 24 hours. Check the operator, there might be a deadlock',
-            },
-          },
-          {
-            alert: 'K8upJobStuck',
-            expr: 'k8up_jobs_queued_gauge{jobType="backup"} > 0 and on(namespace) k8up_schedules_gauge > 0',
-            'for': '24h',
-            labels: {
-              severity: 'critical',
-            },
-            annotations: {
-              message: 'K8up jobs are stuck in {{ $labels.exported_namespace }} for the last 24 hours.',
-            },
-          },
+          { alert: field } + params.monitoring_alerts[field]
+          for field in std.sort(std.objectFields(params.monitoring_alerts))
         ],
       },
     ],
