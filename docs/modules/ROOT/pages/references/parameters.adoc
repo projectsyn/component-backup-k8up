@@ -143,6 +143,48 @@ It is suggested to do this within you global configuration hierarchy.
 type:: bool
 default:: `true`
 
+== `monitoring_alerts`
+
+[horizontal]
+type:: dict
+default::
++
+[source,yaml]
+----
+k8up_last_errors:
+  annotations:
+    message: Last backup for PVC {{ $labels.pvc }} in namespace {{ $labels.instance }} had {{ $value }} errors
+  expr: baas_backup_restic_last_errors{${backup_k8up:alert_rule_filters:namespace}} > 0
+  for: 1m
+  labels:
+    severity: critical
+K8upBackupFailed:
+  annotations:
+    message: Job in {{ $labels.exported_namespace }} of type {{ $labels.jobType }} failed
+  expr: rate(k8up_jobs_failed_counter[1d]) > 0
+  for: 1m
+  labels:
+    severity: critical
+K8upBackupNotRunning:
+  annotations:
+    message: No K8up jobs were run in {{ $labels.exported_namespace }} within the last 24 hours. Check the operator, there might be a deadlock
+  expr: sum(rate(k8up_jobs_total[25h])) == 0 and on(namespace) k8up_schedules_gauge > 0
+  for: 1m
+  labels:
+    severity: critical
+K8upJobStuck:
+  annotations:
+    message: K8up jobs are stuck in {{ $labels.exported_namespace }} for the last 24 hours.
+  expr: k8up_jobs_queued_gauge{jobType="backup"} > 0 and on(namespace) k8up_schedules_gauge > 0
+  for: 24h
+  labels:
+    severity: critical
+----
+
+Alert definitions to deploy in a `PrometheusRule` object.
+The dict is transformed to a list of alerting rules by the component.
+Keys in the dict are used to add the field `alert: <key>` to each resulting alerting rule.
+This structure is chosen to easily adjust individual alert configurations in the hierarchy.
 
 == Example
 
@@ -158,4 +200,8 @@ global_s3restore_credentials:
   secretkey: '?{vaultkv:${customer:name}/${cluster:name}/global-backup/restore-secret-key}'
 global_restore_s3endpoint: https://s3endpoint.example.com
 global_restore_bucket: example-restore-bucket
+monitoring_alerts:
+  K8upJobStuck:
+    annotations:
+      runbook_url: https://example.com/k8up_runbook.md
 ----
