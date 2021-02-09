@@ -37,6 +37,8 @@ parameters:
     prometheus_push_gateway: 'http://platform-prometheus-pushgateway.syn-synsights.svc:9091'
     prometheus_name: main
     monitoring_enabled: true
+    alert_thresholds:
+      k8up_slow_backup_job_duration_seconds: 1200
     monitoring_alerts:
       k8up_last_errors:
         annotations:
@@ -66,6 +68,13 @@ parameters:
         for: 1h
         labels:
           severity: critical
+      K8upSlowBackup:
+        annotations:
+          message: Backup job {{ $labels.job_name }} in {{ $labels.namespace }} took {{ $value|humanizeDuration }} to complete
+        expr: (kube_job_status_completion_time{job_name=~"^backupjob-.*$"} - kube_job_status_start_time) > ${backup_k8up:alert_thresholds:k8up_slow_backup_job_duration_seconds}
+        for: 1m
+        labels:
+          severity: warning
     charts:
       k8up: 0.6.1
     images:

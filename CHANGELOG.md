@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Introduce paramter for confiugring the Prometheus name ([#11])
+- Add alert for slow backup jobs ([#19])
 
 ### Changed
 
@@ -25,3 +26,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#11]: https://github.com/projectsyn/component-backup-k8up/pull/11
 [#14]: https://github.com/projectsyn/component-backup-k8up/pull/14
 [#18]: https://github.com/projectsyn/component-backup-k8up/pull/18
+[#19]: https://github.com/projectsyn/component-backup-k8up/pull/19
