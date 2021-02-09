@@ -61,9 +61,9 @@ parameters:
           severity: critical
       K8upJobStuck:
         annotations:
-          message: K8up jobs are stuck in {{ $labels.exported_namespace }} for the last 24 hours.
+          message: Queued K8up jobs in {{ $labels.exported_namespace }} for the last hour.
         expr: k8up_jobs_queued_gauge{jobType="backup"} > 0 and on(namespace) k8up_schedules_gauge > 0
-        for: 24h
+        for: 1h
         labels:
           severity: critical
     charts:
