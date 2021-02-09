@@ -143,6 +143,23 @@ It is suggested to do this within you global configuration hierarchy.
 type:: bool
 default:: `true`
 
+
+== `alert_thresholds`
+
+[horizontal]
+type:: dict
+default::
++
+[source,yaml]
+----
+k8up_slow_backup_job_duration_seconds: 1200
+----
+
+Dict which holds configuration values for the alerts in `monitoring_alerts`.
+This allows users to make alert expressions configurable without having to copy-paste the entire Prometheus query.
+
+* `k8up_slow_backup_job_duration_seconds` configures the threshold in seconds above which alerts are generated for "slow" backup jobs.
+
 == `monitoring_alerts`
 
 [horizontal]
@@ -179,6 +196,13 @@ K8upJobStuck:
   for: 1h
   labels:
     severity: critical
+K8upSlowBackup:
+  annotations:
+    message: Backup job {{ $labels.job_name }} in {{ $labels.namespace }} took {{ $value|humanizeDuration }} to complete
+  expr: (kube_job_status_completion_time{job_name=~"^backupjob-.*$"} - kube_job_status_start_time) > ${backup_k8up:alert_thresholds:k8up_slow_backup_job_duration_seconds}
+  for: 1m
+  labels:
+    severity: warning
 ----
 
 Alert definitions to deploy in a `PrometheusRule` object.
