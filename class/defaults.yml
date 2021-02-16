@@ -76,11 +76,13 @@ parameters:
         labels:
           severity: warning
     charts:
-      k8up: 0.6.1
+      k8up: 1.0.0
     images:
       k8up:
-        image: quay.io/vshn/k8up
-        tag: 'v0.1.10@sha256:74ef61f26c85b4a6ab6b02761caefe6d59234db559f7ed6bb7430f345b7ac488'
+        registry: quay.io
+        image: vshn/k8up
+        tag: 'v1.0.0@sha256:444fdff25c401dd312116e8b2e4813d61ac6c88656b50c888dbc00f0d2f7ecd4'
       wrestic:
-        image: quay.io/vshn/wrestic
+        registry: quay.io
+        image: vshn/wrestic
         tag: 'v0.1.9@sha256:6b756ddb70e15977fc3d53a0468bcf6386d79d989768d48696167161f20e115e'

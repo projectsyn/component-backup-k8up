@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Option to disable the component
 - Move alert definitions to parameters ([#18])
 - Adjust K8upJobStuck alert configuration ([#10])
+- Upgrade K8up chart to v1.0 release ([#20])
 
 [Unreleased]: https://github.com/projectsyn/component-backup-k8up/compare/v1.0.0...HEAD
 [v1.0.0]: https://github.com/projectsyn/component-backup-k8up/releases/tag/v1.0.0
@@ -29,3 +30,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#14]: https://github.com/projectsyn/component-backup-k8up/pull/14
 [#18]: https://github.com/projectsyn/component-backup-k8up/pull/18
 [#19]: https://github.com/projectsyn/component-backup-k8up/pull/19
+[#20]: https://github.com/projectsyn/component-backup-k8up/pull/20

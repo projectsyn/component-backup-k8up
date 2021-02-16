@@ -2,5 +2,6 @@ _archive/
 _public/
 .cache/
 helmcharts/
+crds/
 manifests/
 doxygen/
