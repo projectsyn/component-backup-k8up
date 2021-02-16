@@ -6,7 +6,7 @@ parameters:
         unpack: true
         output_path: dependencies/backup-k8up/helmcharts
       - type: https
-        source: 'https://github.com/vshn/k8up/releases/download/v${backup_k8up:charts:k8up}/k8up-crd.yaml'
+        source: 'https://github.com/vshn/k8up/releases/download/v${backup_k8up:charts:k8up}/${backup_k8up:crd}'
         output_path: dependencies/backup-k8up/crds/${backup_k8up:charts:k8up}/02_k8up_crds.yaml
     compile:
       - input_paths:
@@ -33,6 +33,7 @@ parameters:
               registry: ${backup_k8up:images:wrestic:registry}
               repository: ${backup_k8up:images:wrestic:image}
               tag: ${backup_k8up:images:wrestic:tag}
+            enableLeaderElection: ${backup_k8up:enableLeaderElection}
             envVars:
               - name: BACKUP_PROMURL
                 value: '${backup_k8up:prometheus_push_gateway}'

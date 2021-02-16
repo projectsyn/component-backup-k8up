@@ -4,6 +4,8 @@ parameters:
     # TODO: Reevaluate the need for this once we can remove components
     # See: https://github.com/projectsyn/commodore/issues/71
     enabled: true
+    enableLeaderElection: true
+    crd: "k8up-crd.yaml" # Use k8up-crd-legacy.yaml for K8s <= 1.15 (e.g. OpenShift 3.11):
     namespace: syn-backup
     global_backup_config:
       enabled: true
