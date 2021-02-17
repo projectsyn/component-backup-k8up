@@ -16,7 +16,7 @@ parameters:
       replicaCount: 1
       k8up:
         enableLeaderElection: true
-        timezone: "Europe/Zurich"
+        timezone: "Etc/UTC"
 
         envVars:
           - name: BACKUP_PROMURL

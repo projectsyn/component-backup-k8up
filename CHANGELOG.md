@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Expose all Helm values ([#20])
 - Removed `image` parameter, they are available via Helm values ([#20])
 - Removed `tz` parameter, its available with same default value set in Helm values ([#20])
+- Set `Etc/UTC` as default Timezone ([#20])
 
 
 [Unreleased]: https://github.com/projectsyn/component-backup-k8up/compare/v1.0.0...HEAD
