@@ -4,9 +4,65 @@ parameters:
     # TODO: Reevaluate the need for this once we can remove components
     # See: https://github.com/projectsyn/commodore/issues/71
     enabled: true
-    enableLeaderElection: true
+
+    charts:
+      k8up: 1.0.3
+
+
     crd: "k8up-crd.yaml" # Use k8up-crd-legacy.yaml for K8s <= 1.15 (e.g. OpenShift 3.11):
     namespace: syn-backup
+
+    helmValues:
+      replicaCount: 1
+      k8up:
+        enableLeaderElection: true
+        timezone: "Europe/Zurich"
+
+        envVars:
+          - name: BACKUP_PROMURL
+            value: '${backup_k8up:prometheus_push_gateway}'
+          - name: BACKUP_GLOBALACCESSKEYID
+            valueFrom:
+              secretKeyRef:
+                name: '${backup_k8up:global_backup_config:s3_credentials:secretname}'
+                key: '${backup_k8up:global_backup_config:s3_credentials:accesskeyname}'
+          - name: BACKUP_GLOBALSECRETACCESSKEY
+            valueFrom:
+              secretKeyRef:
+                name: '${backup_k8up:global_backup_config:s3_credentials:secretname}'
+                key: '${backup_k8up:global_backup_config:s3_credentials:secretkeyname}'
+          - name: BACKUP_GLOBALREPOPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: '${backup_k8up:global_backup_config:backup_secret:name}'
+                key: password
+          - name: BACKUP_GLOBALRESTORES3ACCESSKEYID
+            valueFrom:
+              secretKeyRef:
+                name: '${backup_k8up:global_backup_config:s3restore_credentials:secretname}'
+                key: '${backup_k8up:global_backup_config:s3restore_credentials:accesskeyname}'
+          - name: BACKUP_GLOBALRESTORES3SECRETACCESSKEY
+            valueFrom:
+              secretKeyRef:
+                name: '${backup_k8up:global_backup_config:s3restore_credentials:secretname}'
+                key: '${backup_k8up:global_backup_config:s3restore_credentials:secretkeyname}'
+          - name: BACKUP_ANNOTATION
+            value: '${backup_k8up:annotation}'
+          - name: BACKUP_BACKUPCOMMANDANNOTATION
+            value: '${backup_k8up:backupcommandannotation}'
+          - name: BACKUP_GLOBALKEEPJOBS
+            value: '${backup_k8up:global_backup_config:keepjobs}'
+          - name: BACKUP_GLOBALS3ENDPOINT
+            value: '${backup_k8up:global_backup_config:s3_endpoint}'
+          - name: BACKUP_GLOBALSTATSURL
+            value: '${backup_k8up:global_backup_config:stats_url}'
+          - name: BACKUP_BACKOFFLIMIT
+            value: '${backup_k8up:backofflimit}'
+          - name: BACKUP_GLOBALRESTORES3BUCKET
+            value: '${backup_k8up:global_backup_config:restore_bucket}'
+          - name: BACKUP_GLOBALRESTORES3ENDPOINT
+            value: '${backup_k8up:global_backup_config:restore_s3endpoint}'
+
     global_backup_config:
       enabled: true
       default_backup_bucket: '${cluster:name}-k8up-backups'
@@ -33,7 +89,6 @@ parameters:
     backofflimit: '2'
     annotation: k8up.syn.tools/backup
     backupcommandannotation: k8up.syn.tools/backupcommand
-    tz: Europe/Zurich
     alert_rule_filters:
       namespace: namespace=~"syn.*"
     prometheus_push_gateway: 'http://platform-prometheus-pushgateway.syn-synsights.svc:9091'
@@ -77,14 +132,3 @@ parameters:
         for: 1m
         labels:
           severity: warning
-    charts:
-      k8up: 1.0.1
-    images:
-      k8up:
-        registry: quay.io
-        image: vshn/k8up
-        tag: 'v1.0.1@sha256:7c351aa03781fb4cab075b4754b1c47afd3ed1d4737a2ed60c67cb45a20373ca'
-      wrestic:
-        registry: quay.io
-        image: vshn/wrestic
-        tag: 'v0.1.9@sha256:6b756ddb70e15977fc3d53a0468bcf6386d79d989768d48696167161f20e115e'

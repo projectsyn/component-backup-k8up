@@ -18,7 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Option to disable the component
 - Move alert definitions to parameters ([#18])
 - Adjust K8upJobStuck alert configuration ([#10])
-- Upgrade K8up chart to v1.0 release ([#20])
+- Upgrade K8up chart to v1.0.1 release with seperate CRD deployment([#20])
+- Expose all Helm values ([#20])
+- Removed `image` parameter, they are available via Helm values ([#20])
+- Removed `tz` parameter, its available with same default value set in Helm values ([#20])
+
 
 [Unreleased]: https://github.com/projectsyn/component-backup-k8up/compare/v1.0.0...HEAD
 [v1.0.0]: https://github.com/projectsyn/component-backup-k8up/releases/tag/v1.0.0
