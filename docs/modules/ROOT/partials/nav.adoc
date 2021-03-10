@@ -1,2 +1,3 @@
 * xref:index.adoc[Home]
+* xref:how-tos/upgrade.adoc[Upgrade]
 * xref:references/parameters.adoc[Parameters]
