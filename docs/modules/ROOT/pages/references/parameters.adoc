@@ -68,7 +68,7 @@ default:: `{'accesskey': '', 'secretkey': '', 'secretname': 'global-bucket-crede
 
 [horizontal]
 type:: dict
-default:: `{'name': 'global-backup-password', 'password': '?{vaultkv:${customer:name}/${cluster:name}/global-backup/password}'}`
+default:: `{'name': 'global-backup-password', 'password': '?{vaultkv:${cluster:tenant}/${cluster:name}/global-backup/password}'}`
 
 == `global_backup_config.s3restore_credentials`
 
@@ -233,11 +233,11 @@ This structure is chosen to easily adjust individual alert configurations in the
 namespace: example-namespace
 global_keepjobs: "1"
 global_s3_credentials:
-  accesskey: '?{vaultkv:${customer:name}/${cluster:name}/global-backup/access-key}'
-  secretkey: '?{vaultkv:${customer:name}/${cluster:name}/global-backup/secret-key}'
+  accesskey: '?{vaultkv:${cluster:tenant}/${cluster:name}/global-backup/access-key}'
+  secretkey: '?{vaultkv:${cluster:tenant}/${cluster:name}/global-backup/secret-key}'
 global_s3restore_credentials:
-  accesskey: '?{vaultkv:${customer:name}/${cluster:name}/global-backup/restore-access-key}'
-  secretkey: '?{vaultkv:${customer:name}/${cluster:name}/global-backup/restore-secret-key}'
+  accesskey: '?{vaultkv:${cluster:tenant}/${cluster:name}/global-backup/restore-access-key}'
+  secretkey: '?{vaultkv:${cluster:tenant}/${cluster:name}/global-backup/restore-secret-key}'
 global_restore_s3endpoint: https://s3endpoint.example.com
 global_restore_bucket: example-restore-bucket
 monitoring_alerts:

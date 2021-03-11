@@ -38,7 +38,7 @@ local Backend(backupkey, bucket, s3secret, create_bucket=true) =
       s3secret;
   local bname = if create_bucket && bucket != null then
     local prefix = 'syn-%s-%s-%s' % [
-      inv.parameters.customer.name,
+      inv.parameters.cluster.tenant,
       inv.parameters.cluster.name,
       bucket,
     ];

@@ -74,7 +74,7 @@ parameters:
         secretkeyname: password
       backup_secret:
         name: global-backup-password
-        password: '?{vaultkv:${customer:name}/${cluster:name}/global-backup/password}'
+        password: '?{vaultkv:${cluster:tenant}/${cluster:name}/global-backup/password}'
       s3restore_credentials:
         accesskey: ''
         secretkey: ''
