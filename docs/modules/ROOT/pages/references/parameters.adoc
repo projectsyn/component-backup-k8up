@@ -2,6 +2,7 @@
 
 The parent key for all of the following parameters is `backup_k8up`.
 
+
 == `enabled`
 
 [horizontal]
@@ -12,6 +13,27 @@ Whether to create the ArgoCD app for the component.
 Setting this to false, effectively disables the component from being deployed.
 
 NOTE: The manifests will still appear in the catalog, but without the ArgoCD app they won't get deployed.
+
+== `crd`
+
+[horizontal]
+type:: string
+default:: `k8up-crd.yaml`
+
+The name of the CRD yaml File.
+
+Use `k8up-crd.yaml` (default) for K8s >= 1.16
+Change to `k8up-crd-legacy.yaml` for K8s <= 1.15 (e.g. OpenShift 3.11)
+
+See https://github.com/appuio/charts/tree/master/k8up#handling-crds
+
+== `helmValues`
+
+[horizontal]
+type:: dict
+default:: See `class/defaults.yaml`
+
+Values passed to Helm. See https://github.com/appuio/charts/tree/master/k8up
 
 == `namespace`
 
@@ -46,7 +68,7 @@ default:: `{'accesskey': '', 'secretkey': '', 'secretname': 'global-bucket-crede
 
 [horizontal]
 type:: dict
-default:: `{'name': 'global-backup-password', 'password': '?{vaultkv:${customer:name}/${cluster:name}/global-backup/password}'}`
+default:: `{'name': 'global-backup-password', 'password': '?{vaultkv:${cluster:tenant}/${cluster:name}/global-backup/password}'}`
 
 == `global_backup_config.s3restore_credentials`
 
@@ -102,12 +124,6 @@ default:: `k8up.syn.tools/backup`
 [horizontal]
 type:: string
 default:: `k8up.syn.tools/backupcommand`
-
-== `tz`
-
-[horizontal]
-type:: string
-default:: `Europe/Zurich`
 
 == `alert_rule_filters`
 
@@ -217,11 +233,11 @@ This structure is chosen to easily adjust individual alert configurations in the
 namespace: example-namespace
 global_keepjobs: "1"
 global_s3_credentials:
-  accesskey: '?{vaultkv:${customer:name}/${cluster:name}/global-backup/access-key}'
-  secretkey: '?{vaultkv:${customer:name}/${cluster:name}/global-backup/secret-key}'
+  accesskey: '?{vaultkv:${cluster:tenant}/${cluster:name}/global-backup/access-key}'
+  secretkey: '?{vaultkv:${cluster:tenant}/${cluster:name}/global-backup/secret-key}'
 global_s3restore_credentials:
-  accesskey: '?{vaultkv:${customer:name}/${cluster:name}/global-backup/restore-access-key}'
-  secretkey: '?{vaultkv:${customer:name}/${cluster:name}/global-backup/restore-secret-key}'
+  accesskey: '?{vaultkv:${cluster:tenant}/${cluster:name}/global-backup/restore-access-key}'
+  secretkey: '?{vaultkv:${cluster:tenant}/${cluster:name}/global-backup/restore-secret-key}'
 global_restore_s3endpoint: https://s3endpoint.example.com
 global_restore_bucket: example-restore-bucket
 monitoring_alerts:

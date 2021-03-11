@@ -4,72 +4,26 @@ parameters:
       - type: https
         source: 'https://charts.appuio.ch/k8up-${backup_k8up:charts:k8up}.tgz'
         unpack: true
-        output_path: dependencies/backup-k8up/helmcharts
+        output_path: dependencies/backup-k8up/helmcharts/v${backup_k8up:charts:k8up}
+      - type: https
+        source: 'https://github.com/vshn/k8up/releases/download/v${backup_k8up:charts:k8up}/${backup_k8up:crd}'
+        output_path: dependencies/backup-k8up/crds/v${backup_k8up:charts:k8up}/02_k8up_crds.yaml
     compile:
       - input_paths:
           - backup-k8up/component/app.jsonnet
         input_type: jsonnet
         output_path: apps/
+      - input_paths:
+          - dependencies/backup-k8up/crds/v${backup_k8up:charts:k8up}/
+        output_path: backup-k8up
+        input_type: copy
+        output_type: yaml
       - output_path: backup-k8up/01_k8up_helmchart
         input_type: helm
         output_type: yaml
         input_paths:
-          - backup-k8up/helmcharts/k8up
-        helm_values:
-          image:
-            repository: ${backup_k8up:images:k8up:image}
-            tag: ${backup_k8up:images:k8up:tag}
-          k8up:
-            backupImage:
-              repository: ${backup_k8up:images:wrestic:image}
-              tag: ${backup_k8up:images:wrestic:tag}
-            envVars:
-              - name: BACKUP_PROMURL
-                value: '${backup_k8up:prometheus_push_gateway}'
-              - name: BACKUP_GLOBALACCESSKEYID
-                valueFrom:
-                  secretKeyRef:
-                    name: '${backup_k8up:global_backup_config:s3_credentials:secretname}'
-                    key: '${backup_k8up:global_backup_config:s3_credentials:accesskeyname}'
-              - name: BACKUP_GLOBALSECRETACCESSKEY
-                valueFrom:
-                  secretKeyRef:
-                    name: '${backup_k8up:global_backup_config:s3_credentials:secretname}'
-                    key: '${backup_k8up:global_backup_config:s3_credentials:secretkeyname}'
-              - name: BACKUP_GLOBALREPOPASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: '${backup_k8up:global_backup_config:backup_secret:name}'
-                    key: password
-              - name: BACKUP_GLOBALRESTORES3ACCESSKEYID
-                valueFrom:
-                  secretKeyRef:
-                    name: '${backup_k8up:global_backup_config:s3restore_credentials:secretname}'
-                    key: '${backup_k8up:global_backup_config:s3restore_credentials:accesskeyname}'
-              - name: BACKUP_GLOBALRESTORES3SECRETACCESSKEY
-                valueFrom:
-                  secretKeyRef:
-                    name: '${backup_k8up:global_backup_config:s3restore_credentials:secretname}'
-                    key: '${backup_k8up:global_backup_config:s3restore_credentials:secretkeyname}'
-              - name: BACKUP_ANNOTATION
-                value: '${backup_k8up:annotation}'
-              - name: BACKUP_BACKUPCOMMANDANNOTATION
-                value: '${backup_k8up:backupcommandannotation}'
-              - name: BACKUP_GLOBALKEEPJOBS
-                value: '${backup_k8up:global_backup_config:keepjobs}'
-              - name: BACKUP_GLOBALS3ENDPOINT
-                value: '${backup_k8up:global_backup_config:s3_endpoint}'
-              - name: BACKUP_GLOBALSTATSURL
-                value: '${backup_k8up:global_backup_config:stats_url}'
-              - name: BACKUP_BACKOFFLIMIT
-                value: '${backup_k8up:backofflimit}'
-              - name: BACKUP_GLOBALRESTORES3BUCKET
-                value: '${backup_k8up:global_backup_config:restore_bucket}'
-              - name: BACKUP_GLOBALRESTORES3ENDPOINT
-                value: '${backup_k8up:global_backup_config:restore_s3endpoint}'
-              - name: TZ
-                value: '${backup_k8up:tz}'
-
+          - backup-k8up/helmcharts/v${backup_k8up:charts:k8up}/k8up
+        helm_values: ${backup_k8up:helmValues}
         helm_params:
           release_name: k8up
           namespace: '${backup_k8up:namespace}'
