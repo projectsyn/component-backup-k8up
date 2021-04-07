@@ -33,3 +33,9 @@ parameters:
         output_type: yaml
         input_paths:
           - backup-k8up/component/main.jsonnet
+  commodore:
+    postprocess:
+      filters:
+        - type: jsonnet
+          filter: postprocess/optional_global_config.jsonnet
+          path: backup-k8up/01_k8up_helmchart/k8up/templates
