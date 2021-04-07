@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.1.0]
+
+### Added
+
+* Re-added `image` parameters and pass them through to `helmValues` ([#23])
+
+### Changed
+
+* Switch to Helm dependency type to download K8up chart ([#23])
+* Move postprocessing filter configuration into hierarchy ([#23])
+* Bump default versions to K8up v1.0.4 and Helm chart 1.0.5 ([#23])
+
+### Fixed
+
+* Use K8up version (not Helm chart) version to fetch CRD YAML ([#23])
+
 ## [v2.0.0]
 ### Changed
 
@@ -30,9 +46,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adjust K8upJobStuck alert configuration ([#10])
 
 
-[Unreleased]: https://github.com/projectsyn/component-backup-k8up/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/projectsyn/component-backup-k8up/compare/v2.1.0...HEAD
 [v1.0.0]: https://github.com/projectsyn/component-backup-k8up/releases/tag/v1.0.0
-[v2.0.0]: https://github.com/projectsyn/component-backup-k8up/releases/tag/v1.0.0
+[v2.0.0]: https://github.com/projectsyn/component-backup-k8up/releases/tag/v2.0.0
+[v2.1.0]: https://github.com/projectsyn/component-backup-k8up/releases/tag/v2.1.0
 
 [#2]: https://github.com/projectsyn/component-backup-k8up/pull/2
 [#6]: https://github.com/projectsyn/component-backup-k8up/pull/6
@@ -42,3 +59,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#18]: https://github.com/projectsyn/component-backup-k8up/pull/18
 [#19]: https://github.com/projectsyn/component-backup-k8up/pull/19
 [#20]: https://github.com/projectsyn/component-backup-k8up/pull/20
+[#23]: https://github.com/projectsyn/component-backup-k8up/pull/23

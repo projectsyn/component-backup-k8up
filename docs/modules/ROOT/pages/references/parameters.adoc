@@ -14,6 +14,30 @@ Setting this to false, effectively disables the component from being deployed.
 
 NOTE: The manifests will still appear in the catalog, but without the ArgoCD app they won't get deployed.
 
+== `charts`
+
+[horizontal]
+type:: dict
+default:: See `class/defaults.yml`
+
+The default K8up Helm chart version to use.
+
+== `images`
+
+[horizontal]
+type:: dict
+default:: See `class/defaults.yml`
+
+The default Docker image locations and tags to use for K8up (key `k8up`) and Wrestic (key `wrestic`).
+
+Entries in this dict should be dictionaries with keys `registry`, `repository`, and `tag`.
+This structure provides the basis for https://syn.tools/syn/SDDs/0017-maintenance-with-renovate.html[dependency maintenance with Renovate].
+
+Please customize K8up and Wrestic image locations and tags in this dict
+instead of directly in `helmValues`.
+
+The value of `k8up.tag` in this dict is used by the component to select the CRD YAML to download.
+
 == `crd`
 
 [horizontal]
