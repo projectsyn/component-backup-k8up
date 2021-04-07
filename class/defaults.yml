@@ -8,6 +8,9 @@ parameters:
     charts:
       k8up: 1.0.3
 
+    images:
+      k8up:
+        tag: v1.0.4
 
     crd: "k8up-crd.yaml" # Use k8up-crd-legacy.yaml for K8s <= 1.15 (e.g. OpenShift 3.11):
     namespace: syn-backup
