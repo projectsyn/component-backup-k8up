@@ -1,9 +1,10 @@
 parameters:
   kapitan:
     dependencies:
-      - type: https
-        source: 'https://charts.appuio.ch/k8up-${backup_k8up:charts:k8up}.tgz'
-        unpack: true
+      - type: helm
+        source: https://charts.appuio.ch
+        chart_name: k8up
+        version: ${backup_k8up:charts:k8up}
         output_path: dependencies/backup-k8up/helmcharts/v${backup_k8up:charts:k8up}
       - type: https
         source: https://github.com/vshn/k8up/releases/download/${backup_k8up:images:k8up:tag}/${backup_k8up:crd}
@@ -22,7 +23,7 @@ parameters:
         input_type: helm
         output_type: yaml
         input_paths:
-          - backup-k8up/helmcharts/v${backup_k8up:charts:k8up}/k8up
+          - backup-k8up/helmcharts/v${backup_k8up:charts:k8up}
         helm_values: ${backup_k8up:helmValues}
         helm_params:
           release_name: k8up
