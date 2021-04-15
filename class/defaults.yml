@@ -6,13 +6,13 @@ parameters:
     enabled: true
 
     charts:
-      k8up: 1.0.5
+      k8up: 1.0.6
 
     images:
       k8up:
         registry: quay.io
         repository: vshn/k8up
-        tag: v1.0.4
+        tag: v1.0.5
       wrestic:
         registry: quay.io
         repository: vshn/wrestic
