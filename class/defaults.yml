@@ -12,11 +12,11 @@ parameters:
       k8up:
         registry: quay.io
         repository: vshn/k8up
-        tag: v1.0.5
+        tag: v1.1.0
       wrestic:
         registry: quay.io
         repository: vshn/wrestic
-        tag: v0.2.3
+        tag: v0.3.1
 
     crd: "k8up-crd.yaml" # Use k8up-crd-legacy.yaml for K8s <= 1.15 (e.g. OpenShift 3.11):
     namespace: syn-backup
