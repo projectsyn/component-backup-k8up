@@ -6,7 +6,7 @@ parameters:
     enabled: true
 
     charts:
-      k8up: 1.0.6
+      k8up: 1.0.8
 
     images:
       k8up:
