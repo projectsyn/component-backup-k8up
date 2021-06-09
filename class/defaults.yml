@@ -23,14 +23,14 @@ parameters:
 
     helmValues:
       replicaCount: 1
+      image:
+        registry: ${backup_k8up:images:k8up:registry}
+        repository: ${backup_k8up:images:k8up:repository}
+        tag: ${backup_k8up:images:k8up:tag}
       k8up:
         enableLeaderElection: true
         timezone: "Etc/UTC"
 
-        image:
-          registry: ${backup_k8up:images:k8up:registry}
-          repository: ${backup_k8up:images:k8up:repository}
-          tag: ${backup_k8up:images:k8up:tag}
         backupImage:
           repository: ${backup_k8up:images:wrestic:registry}/${backup_k8up:images:wrestic:repository}
           tag: ${backup_k8up:images:wrestic:tag}
