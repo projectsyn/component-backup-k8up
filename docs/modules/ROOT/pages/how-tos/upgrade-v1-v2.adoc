@@ -1,0 +1,44 @@
+= Upgrade component from v1 to v2
+
+K8up v1.0.0 and also the respective Helm chart v1.0.0 introduced breaking changes that also affect this component.
+The upgrade process of K8up itself is documented here: https://k8up.io/k8up/1.1.0/how-tos/upgrade.html.
+Contrary to the Helm chart, v2 of this component already ships the necessary CRDs.
+
+v2 of the component exposes the parameter `helmValues`, which is one to one passed to the Helm chart.
+See https://github.com/appuio/charts/tree/master/k8up[Helm Chart] for a list of supported values.
+
+TIP: The component exposes additional parameters for ease of access.
+
+== Parameter changes
+
+- `tz` is now `helmValues.k8up.timezone`, defaults to `Etc/UTC`.
+- parameters `images.k8up` and `images.wrestic` are injected into parameter `helmValues`.
+
+If the target cluster is older than Kubernetes v1.16:
+
+- Set `crd=k8up-crd-legacy.yaml`
+- Set `helmValues.k8up.enableLeaderElection=false`
+
+== Steps
+
+. Make sure ArgoCD can update the CRDs. Requires `kubectl` and https://github.com/mikefarah/yq[`yq`] (version 4)
++
+[source,bash]
+----
+for crd in archives.backup.appuio.ch backups.backup.appuio.ch checks.backup.appuio.ch prebackuppods.backup.appuio.ch prunes.backup.appuio.ch restores.backup.appuio.ch schedules.backup.appuio.ch; do
+  # Get CRD definition in YAML
+  kubectl get crd "${crd}" -o yaml > "${crd}.yaml"
+  # Remove all metadata properties except `metadata.name`
+  yq -i eval 'del(.status) | del(.metadata) | .metadata.name += "'${crd}'"' "${crd}.yaml"
+  # Apply the CRD again (this shouldn't change anything, except adding the annotation "kubectl.kubernetes.io/last-applied-configuration")
+  # You will also see some warnings in the output mentioning the annotation.
+  # This is expected and actually required.
+  kubectl apply -f "${crd}.yaml"
+done
+----
+
+. Update component parameters in cluster config as outlined in section <<_parameter_changes,parameter changes>>:w
+
+. Update component version for the cluster
+
+. Compile and push cluster catalog
