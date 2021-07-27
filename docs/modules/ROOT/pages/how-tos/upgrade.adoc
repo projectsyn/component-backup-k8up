@@ -14,8 +14,7 @@ TIP: The component exposes additional parameters for ease of access.
 === Parameter migration
 
 - `tz` is now `helmValues.k8up.timezone`, defaults to `Etc/UTC`.
-- `images.k8up` is now `helmValues.image` with same subparameters.
-- `images.wrestic` is now `helmValues.k8up.backupImage` with same subparameters except `registry`, which is integrated in `repository`.
+- parameters `images.k8up` and `images.wrestic` are injected into parameter `helmValues`.
 
 If the target cluster is older than Kubernetes v1.16:
 
