@@ -37,7 +37,7 @@ for crd in archives.backup.appuio.ch backups.backup.appuio.ch checks.backup.appu
 done
 ----
 
-. Update component parameters in cluster config as outlined in section <<_parameter_changes,parameter changes>>:w
+. Update component parameters in cluster config as outlined in section <<_parameter_changes,parameter changes>>
 
 . Update component version for the cluster
 
