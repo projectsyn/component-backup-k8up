@@ -47,7 +47,7 @@ default:: `k8up-crd.yaml`
 The name of the CRD yaml File.
 
 Use `k8up-crd.yaml` (default) for K8s >= 1.16
-Change to `k8up-crd-legacy.yaml` for K8s <= 1.15 (e.g. OpenShift 3.11)
+Change to `k8up-crd-legacy.yaml` for K8s <= 1.15 (for example OpenShift 3.11)
 
 See https://github.com/appuio/charts/tree/master/k8up#handling-crds
 
@@ -174,7 +174,7 @@ This parameter allows to set the value of that label.
 [NOTE]
 ====
 If the component Synsights is being used, ensure that this value matches with `parameters.synsights.prometheus.name`.
-It is suggested to do this within you global configuration hierarchy.
+It's suggested to do this within you global configuration hierarchy.
 ====
 
 == `monitoring_enabled`
