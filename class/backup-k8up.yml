@@ -15,7 +15,7 @@ parameters:
         input_type: jsonnet
         output_path: apps/
       - input_paths:
-          - dependencies/backup-k8up/crds/${backup_k8up:images:k8up:tag}/
+          - backup-k8up/crds/${backup_k8up:images:k8up:tag}/
         output_path: backup-k8up
         input_type: copy
         output_type: yaml
