@@ -64,6 +64,8 @@ parameters:
             value: '${backup_k8up:annotation}'
           - name: BACKUP_BACKUPCOMMANDANNOTATION
             value: '${backup_k8up:backupcommandannotation}'
+          - name: BACKUP_GLOBALKEEPJOBS
+            value: '${backup_k8up:global_backup_config:keepjobs}'
           - name: BACKUP_GLOBAL_SUCCESSFUL_JOBS_HISTORY_LIMIT
             value: '${backup_k8up:global_backup_config:successful_jobs_history_limit}'
           - name: BACKUP_GLOBAL_FAILED_JOBS_HISTORY_LIMIT
@@ -99,8 +101,9 @@ parameters:
         secretkeyname: password
       restore_s3endpoint: null
       restore_bucket: null
-      successful_jobs_history_limit: '3'
-      failed_jobs_history_limit: '3'
+      keepjobs: '3'
+      successful_jobs_history_limit: ''
+      failed_jobs_history_limit: ''
       stats_url: null
       s3_endpoint: null
     backofflimit: '2'
