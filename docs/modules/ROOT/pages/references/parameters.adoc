@@ -113,7 +113,13 @@ default:: `null`
 type:: string
 default:: `null`
 
-`global_backup_config.keepjobs`
+== `global_backup_config.successful_jobs_history_limit`
+
+[horizontal]
+type:: string
+default:: `3`
+
+== `global_backup_config.failed_jobs_history_limit`
 
 [horizontal]
 type:: string
@@ -206,6 +212,7 @@ This allows users to make alert expressions configurable without having to copy-
 type:: dict
 default::
 +
+[subs=+quotes]
 [source,yaml]
 ----
 k8up_last_errors:
@@ -215,10 +222,10 @@ k8up_last_errors:
   for: 1m
   labels:
     severity: critical
-K8upBackupFailed:
+K8up**OBJECT_TYPE**Failed:
   annotations:
-    message: Job in {{ $labels.exported_namespace }} of type {{ $labels.jobType }} failed
-  expr: rate(k8up_jobs_failed_counter[1d]) > 0
+    summary: Job in {{ $labels.namespace }} of type {{ $labels.label_k8up_syn_tools_type }} failed
+  expr: (sum(kube_job_status_failed) by(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) * on(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) group_right() kube_job_labels{label_k8up_syn_tools_type="**OBJECT_TYPE**"}) > 0
   for: 1m
   labels:
     severity: critical
@@ -255,7 +262,6 @@ This structure is chosen to easily adjust individual alert configurations in the
 [source,yaml]
 ----
 namespace: example-namespace
-global_keepjobs: "1"
 global_s3_credentials:
   accesskey: '?{vaultkv:${cluster:tenant}/${cluster:name}/global-backup/access-key}'
   secretkey: '?{vaultkv:${cluster:tenant}/${cluster:name}/global-backup/secret-key}'
