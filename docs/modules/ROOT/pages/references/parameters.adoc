@@ -218,47 +218,7 @@ This allows users to make alert expressions configurable without having to copy-
 
 [horizontal]
 type:: dict
-default::
-+
-[subs=+quotes]
-[source,yaml]
-----
-k8up_last_errors:
-  annotations:
-    message: Last backup for PVC {{ $labels.pvc }} in namespace {{ $labels.instance }} had {{ $value }} errors
-  expr: baas_backup_restic_last_errors{${backup_k8up:alert_rule_filters:namespace}} > 0
-  for: 1m
-  labels:
-    severity: critical
-K8up**OBJECT_TYPE**Failed:
-  annotations:
-    summary: Job in {{ $labels.namespace }} of type {{ $labels.label_k8up_syn_tools_type }} failed
-  expr: (sum(kube_job_status_failed) by(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) * on(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) group_right() kube_job_labels{label_k8up_syn_tools_type="**OBJECT_TYPE**"}) > 0
-  for: 1m
-  labels:
-    severity: critical
-K8upBackupNotRunning:
-  annotations:
-    message: No K8up jobs were run in {{ $labels.exported_namespace }} within the last 24 hours. Check the operator, there might be a deadlock
-  expr: sum(rate(k8up_jobs_total[25h])) == 0 and on(namespace) k8up_schedules_gauge > 0
-  for: 1m
-  labels:
-    severity: critical
-K8upJobStuck:
-  annotations:
-    message: Queued K8up jobs in {{ $labels.exported_namespace }} for the last hour.
-  expr: k8up_jobs_queued_gauge{jobType="backup"} > 0 and on(namespace) k8up_schedules_gauge > 0
-  for: 1h
-  labels:
-    severity: critical
-K8upSlowBackup:
-  annotations:
-    message: Backup job {{ $labels.job_name }} in {{ $labels.namespace }} took {{ $value|humanizeDuration }} to complete
-  expr: (kube_job_status_completion_time{job_name=~"^backupjob-.*$"} - kube_job_status_start_time) > ${backup_k8up:alert_thresholds:k8up_slow_backup_job_duration_seconds}
-  for: 1m
-  labels:
-    severity: warning
-----
+default:: See https://github.com/projectsyn/component-backup-k8up/blob/master/class/defaults.yml
 
 Alert definitions to deploy in a `PrometheusRule` object.
 The dict is transformed to a list of alerting rules by the component.
