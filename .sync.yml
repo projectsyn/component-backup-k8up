@@ -1,0 +1,8 @@
+:global:
+  componentName: backup-k8up
+  githubUrl: https://github.com/projectsyn/component-backup-k8up
+  feature_goUnitTests: false
+
+docs/antora.yml:
+  name: backup-k8up
+  title: backup-k8up
