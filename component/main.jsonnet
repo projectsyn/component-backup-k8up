@@ -27,8 +27,7 @@ local global_backup_secret = kube.Secret(params.global_backup_config.backup_secr
 
 local monitoring = import 'monitoring.jsonnet';
 
-local want_global_config = params.global_backup_config.enabled &&
-                           params.global_backup_config.s3_endpoint != null;
+local want_global_config = params.global_backup_config.enabled && params.global_backup_config.s3_endpoint != null;
 
 {
   '00_namespace': kube.Namespace(params.namespace) {

@@ -23,8 +23,7 @@ local stem(elem) =
   std.join('.', elems[:std.length(elems) - 1]);
 
 
-local want_global_config = params.global_backup_config.enabled &&
-                           params.global_backup_config.s3_endpoint != null;
+local want_global_config = params.global_backup_config.enabled && params.global_backup_config.s3_endpoint != null;
 
 local prune_env(deploy) =
   local env = deploy.spec.template.spec.containers[0].env;
