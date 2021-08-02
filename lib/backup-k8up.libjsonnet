@@ -219,7 +219,7 @@ local PreBackupPod(name, image, backupcmd, fileext='') =
           containers_: {
             [name]: kube.Container(name) {
               image: image,
-              command: ['tail', '-f', '/dev/null'],
+              command: [ 'tail', '-f', '/dev/null' ],
             },
           },
         },

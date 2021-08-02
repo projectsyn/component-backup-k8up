@@ -36,7 +36,7 @@ local prune_env(deploy) =
       for e in env
     ]);
   local fixed_env =
-    std.prune([if std.length(e) > 1 then e for e in env_no_global_config]);
+    std.prune([ if std.length(e) > 1 then e for e in env_no_global_config ]);
   deploy {
     spec+: {
       template+: {
@@ -60,7 +60,7 @@ local fixup_obj(obj) =
 local fixup(obj_file) =
   local objs = std.prune(com.yaml_load_all(obj_file));
   // process all objs
-  [fixup_obj(obj) for obj in objs];
+  [ fixup_obj(obj) for obj in objs ];
 
 {
   [stem(elem)]: fixup(input_file(elem))
