@@ -54,4 +54,4 @@ local alert_rules = com.namespaced(params.namespace, {
   },
 });
 
-[alert_rules, service_monitor]
+[ alert_rules, service_monitor ]

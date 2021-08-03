@@ -1,3 +1,9 @@
+#
+# File managed by ModuleSync - Do Not Edit
+#
+# The name and title can be customized in `.sync.yml` with `'docs/antora.yml'.title`, `'docs/antora.yml'.name`
+#
+
 name: backup-k8up
 title: backup-k8up
 version: master

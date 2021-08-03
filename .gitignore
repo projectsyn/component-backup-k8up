@@ -1,7 +1,24 @@
-_archive/
-_public/
+#
+# File managed by ModuleSync - Do Not Edit
+#
+# Additional entries can be added to `.sync.yml` in '.gitignore.additionalEntries'
+#
+
+# Commodore
 .cache/
 helmcharts/
-crds/
 manifests/
-doxygen/
+vendor/
+jsonnetfile.lock.json
+crds/
+compiled/
+
+# Editors
+.vscode/
+.idea/
+
+# Antora
+_archive/
+_public/
+
+# Additional entries
