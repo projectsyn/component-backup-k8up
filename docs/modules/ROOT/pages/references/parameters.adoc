@@ -227,19 +227,24 @@ This allows users to make alert expressions configurable without having to copy-
 
 [horizontal]
 type:: dict
-default:: See https://github.com/projectsyn/component-backup-k8up/blob/master/class/defaults.yml
+valid keys:: `['archive', 'backup', 'check', 'prune', 'restore']`
+default:: [See `class/defaults.yml`|https://github.com/projectsyn/component-backup-k8up/blob/master/class/defaults.yml]
 
-Dict that creates JobFailed alert rules for the given types of jobs.
+Dict which controls the set of JobFailed alert rules to create.
 Valid keys are `archive`, `backup`, `check`, `prune`, and `restore`.
-`enabled: false` removes the alert rule.
-Overrides can override all fields from the `job_failed_alert_template`.
+The value for each key is expected to be a dict with keys `enabled` and `overrides`.
+The value for key `enabled` should be a boolean.
+This key controls whether the corresponding alert rule is created.
+The value for key `overrides` is merged with the object configured in `job_failed_alert_template`.
+When configuring overrides, Jsonnet merges arrays and objects from the template with their counterparts in `overrides`.
+This key allows users to customize any alert properties for individual `JobFailed` alerts.
 The fields are overridden before interpolating `%(type)s`.
 
 == `job_failed_alert_template`
 
 [horizontal]
 type:: dict
-default:: See https://github.com/projectsyn/component-backup-k8up/blob/master/class/defaults.yml
+default:: [See `class/defaults.yml`|https://github.com/projectsyn/component-backup-k8up/blob/master/class/defaults.yml]
 
 The template for the JobFailed alert rules.
 %(type)s in `alert` and `expr` is replaced by the types defined in `job_failed_alerts_for`.
@@ -248,7 +253,7 @@ The template for the JobFailed alert rules.
 
 [horizontal]
 type:: dict
-default:: See https://github.com/projectsyn/component-backup-k8up/blob/master/class/defaults.yml
+default:: [See `class/defaults.yml`|https://github.com/projectsyn/component-backup-k8up/blob/master/class/defaults.yml]
 
 Alert definitions to deploy in a `PrometheusRule` object.
 The dict is transformed to a list of alerting rules by the component.
