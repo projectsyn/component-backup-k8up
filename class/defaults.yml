@@ -119,7 +119,22 @@ parameters:
       k8up_slow_backup_job_duration_seconds: 1200
     # Create JobFailed alert rules for the following types of jobs.
     # Valid values are: ["archive", "backup", "check", "prune", "restore"]
-    job_failed_alerts_for: ["archive", "backup", "check", "prune", "restore"]
+    job_failed_alerts_for:
+      archive:
+        enabled: true
+        overrides: {}
+      backup:
+        enabled: true
+        overrides: {}
+      check:
+        enabled: true
+        overrides: {}
+      prune:
+        enabled: true
+        overrides: {}
+      restore:
+        enabled: true
+        overrides: {}
     # The template for the JobFailed alert rules.
     # %(type)s in `alert` and `expr` is replaced by the types defined in `job_failed_alerts_for`.
     job_failed_alert_template:

@@ -33,12 +33,22 @@ local service_monitor = com.namespaced(params.namespace, {
 
 local asciiTitleCase(str) = std.asciiUpper(str[0]) + str[1:];
 
-local failed_job_alert_rules = std.map(
-  function(type) params.job_failed_alert_template {
-    alert: params.job_failed_alert_template.alert % { type: asciiTitleCase(type) },
-    expr: params.job_failed_alert_template.expr % { type: type },
-  }
-  , params.job_failed_alerts_for
+local render_failed_job_alert(type) =
+  local alertconfig = params.job_failed_alerts_for[type];
+  if alertconfig.enabled then
+    params.job_failed_alert_template + alertconfig.overrides + {
+      alert: super.alert % { type: asciiTitleCase(type) },
+      expr: super.expr % { type: type },
+    }
+  else
+    null;
+
+local failed_job_alert_rules = std.filter(
+  function(it) it != null,
+  std.map(
+    render_failed_job_alert,
+    std.objectFields(params.job_failed_alerts_for)
+  )
 );
 
 local alert_rules = com.namespaced(params.namespace, {
