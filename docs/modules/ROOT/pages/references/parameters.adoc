@@ -214,6 +214,27 @@ This allows users to make alert expressions configurable without having to copy-
 
 * `k8up_slow_backup_job_duration_seconds` configures the threshold in seconds above which alerts are generated for "slow" backup jobs.
 
+== `job_failed_alerts_for`
+
+[horizontal]
+type:: dict
+default:: See https://github.com/projectsyn/component-backup-k8up/blob/master/class/defaults.yml
+
+Dict that creates JobFailed alert rules for the given types of jobs.
+Valid keys are `archive`, `backup`, `check`, `prune`, and `restore`.
+`enabled: false` removes the alert rule.
+Overrides can override all fields from the `job_failed_alert_template`.
+The fields are overridden before interpolating `%(type)s`.
+
+== `job_failed_alert_template`
+
+[horizontal]
+type:: dict
+default:: See https://github.com/projectsyn/component-backup-k8up/blob/master/class/defaults.yml
+
+The template for the JobFailed alert rules.
+%(type)s in `alert` and `expr` is replaced by the types defined in `job_failed_alerts_for`.
+
 == `monitoring_alerts`
 
 [horizontal]

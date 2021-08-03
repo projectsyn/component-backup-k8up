@@ -118,7 +118,9 @@ parameters:
     alert_thresholds:
       k8up_slow_backup_job_duration_seconds: 1200
     # Create JobFailed alert rules for the following types of jobs.
-    # Valid values are: ["archive", "backup", "check", "prune", "restore"]
+    # Valid keys are: ["archive", "backup", "check", "prune", "restore"].
+    # `enabled: false` removes the alert rule.
+    # Overrides can override all fields from the `job_failed_alert_template`. The fields are overridden before interpolating %(type)s.
     job_failed_alerts_for:
       archive:
         enabled: true
