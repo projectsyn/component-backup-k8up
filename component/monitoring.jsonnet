@@ -33,7 +33,9 @@ local service_monitor = com.namespaced(params.namespace, {
 
 local asciiTitleCase(str) = std.asciiUpper(str[0]) + str[1:];
 
+local failed_job_types = [ 'archive', 'backup', 'check', 'prune', 'restore' ];
 local render_failed_job_alert(type) =
+  assert std.member(failed_job_types, type) : 'Unknown failed job type "%s"' % type;
   local alertconfig = params.job_failed_alerts_for[type];
   if alertconfig.enabled then
     params.job_failed_alert_template + alertconfig.overrides + {
