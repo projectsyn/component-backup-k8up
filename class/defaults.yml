@@ -117,46 +117,24 @@ parameters:
     monitoring_kube_state_metrics_job_name_label: "job_name" # Use "job" for kube-state-metrics < v1.5.0 (e.g. OpenShift 3.11):
     alert_thresholds:
       k8up_slow_backup_job_duration_seconds: 1200
+    # Create JobFailed alert rules for the following types of jobs.
+    # Valid values are: ["archive", "backup", "check", "prune", "restore"]
+    job_failed_alerts_for: ["archive", "backup", "check", "prune", "restore"]
+    # The template for the JobFailed alert rules.
+    # %(type)s in `alert` and `expr` is replaced by the types defined in `job_failed_alerts_for`.
+    job_failed_alert_template:
+      alert: K8up%(type)sFailed
+      annotations:
+        summary: Job in {{ $labels.namespace }} of type {{ $labels.label_k8up_syn_tools_type }} failed
+      expr: (sum(kube_job_status_failed) by(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) * on(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) group_right() kube_job_labels{label_k8up_syn_tools_type="%(type)s"}) > 0
+      for: 1m
+      labels:
+        severity: critical
     monitoring_alerts:
       k8up_last_errors:
         annotations:
           message: Last backup for PVC {{ $labels.pvc }} in namespace {{ $labels.instance }} had {{ $value }} errors
         expr: baas_backup_restic_last_errors{${backup_k8up:alert_rule_filters:namespace}} > 0
-        for: 1m
-        labels:
-          severity: critical
-      K8upArchiveFailed:
-        annotations:
-          summary: Job in {{ $labels.namespace }} of type {{ $labels.label_k8up_syn_tools_type }} failed
-        expr: (sum(kube_job_status_failed) by(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) * on(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) group_right() kube_job_labels{label_k8up_syn_tools_type="archive"}) > 0
-        for: 1m
-        labels:
-          severity: critical
-      K8upBackupFailed:
-        annotations:
-          summary: Job in {{ $labels.namespace }} of type {{ $labels.label_k8up_syn_tools_type }} failed
-        expr: (sum(kube_job_status_failed) by(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) * on(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) group_right() kube_job_labels{label_k8up_syn_tools_type="backup"}) > 0
-        for: 1m
-        labels:
-          severity: critical
-      K8upCheckFailed:
-        annotations:
-          summary: Job in {{ $labels.namespace }} of type {{ $labels.label_k8up_syn_tools_type }} failed
-        expr: (sum(kube_job_status_failed) by(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) * on(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) group_right() kube_job_labels{label_k8up_syn_tools_type="check"}) > 0
-        for: 1m
-        labels:
-          severity: critical
-      K8upPruneFailed:
-        annotations:
-          summary: Job in {{ $labels.namespace }} of type {{ $labels.label_k8up_syn_tools_type }} failed
-        expr: (sum(kube_job_status_failed) by(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) * on(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) group_right() kube_job_labels{label_k8up_syn_tools_type="prune"}) > 0
-        for: 1m
-        labels:
-          severity: critical
-      K8upRestoreFailed:
-        annotations:
-          summary: Job in {{ $labels.namespace }} of type {{ $labels.label_k8up_syn_tools_type }} failed
-        expr: (sum(kube_job_status_failed) by(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) * on(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) group_right() kube_job_labels{label_k8up_syn_tools_type="restore"}) > 0
         for: 1m
         labels:
           severity: critical
