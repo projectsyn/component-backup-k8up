@@ -132,6 +132,7 @@ default:: `null`
 
 Sets the number of old, successful jobs to keep when cleaning up, applies to all job types.
 Overrides `global_backup_config.keepjobs`.
+If neither `global_backup_config.keepjobs` nor this parameter are set, the https://k8up.io/k8up/1.2.0/references/config-reference.html[K8up default value] for the configuration is used.
 
 == `global_backup_config.failed_jobs_history_limit`
 
@@ -141,6 +142,7 @@ default:: `null`
 
 Sets the number of old, failed jobs to keep when cleaning up, applies to all job types.
 Overrides `global_backup_config.keepjobs`.
+If neither `global_backup_config.keepjobs` nor this parameter are set, the https://k8up.io/k8up/1.2.0/references/config-reference.html[K8up default value] for the configuration is used.
 
 == `global_backup_config.stats_endpoint`
 
