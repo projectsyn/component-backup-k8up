@@ -31,6 +31,30 @@ local service_monitor = com.namespaced(params.namespace, {
   },
 });
 
+local asciiTitleCase(str) = std.asciiUpper(str[0]) + str[1:];
+
+local failed_job_types = [ 'archive', 'backup', 'check', 'prune', 'restore' ];
+local render_failed_job_alert(type) =
+  assert std.member(failed_job_types, type) : 'Unknown failed job type "%s"' % type;
+  local alertconfig = params.job_failed_alerts_for[type];
+  if alertconfig.enabled then
+    com.makeMergeable(params.job_failed_alert_template) +
+    com.makeMergeable(alertconfig.overrides) +
+    {
+      alert: super.alert % { type: asciiTitleCase(type) },
+      expr: super.expr % { type: type },
+    }
+  else
+    null;
+
+local failed_job_alert_rules = std.filter(
+  function(it) it != null,
+  std.map(
+    render_failed_job_alert,
+    std.objectFields(params.job_failed_alerts_for)
+  )
+);
+
 local alert_rules = com.namespaced(params.namespace, {
   apiVersion: 'monitoring.coreos.com/v1',
   kind: 'PrometheusRule',
@@ -48,7 +72,7 @@ local alert_rules = com.namespaced(params.namespace, {
         rules: [
           { alert: field } + params.monitoring_alerts[field]
           for field in std.sort(std.objectFields(params.monitoring_alerts))
-        ],
+        ] + failed_job_alert_rules,
       },
     ],
   },

@@ -6,13 +6,13 @@ parameters:
     enabled: true
 
     charts:
-      k8up: 1.0.8
+      k8up: 1.1.0
 
     images:
       k8up:
         registry: quay.io
         repository: vshn/k8up
-        tag: v1.1.0
+        tag: v1.2.0
       wrestic:
         registry: quay.io
         repository: vshn/wrestic
@@ -66,6 +66,10 @@ parameters:
             value: '${backup_k8up:backupcommandannotation}'
           - name: BACKUP_GLOBALKEEPJOBS
             value: '${backup_k8up:global_backup_config:keepjobs}'
+          - name: BACKUP_GLOBAL_SUCCESSFUL_JOBS_HISTORY_LIMIT
+            value: '${backup_k8up:global_backup_config:successful_jobs_history_limit}'
+          - name: BACKUP_GLOBAL_FAILED_JOBS_HISTORY_LIMIT
+            value: '${backup_k8up:global_backup_config:failed_jobs_history_limit}'
           - name: BACKUP_GLOBALS3ENDPOINT
             value: '${backup_k8up:global_backup_config:s3_endpoint}'
           - name: BACKUP_GLOBALSTATSURL
@@ -98,6 +102,8 @@ parameters:
       restore_s3endpoint: null
       restore_bucket: null
       keepjobs: '3'
+      successful_jobs_history_limit: null
+      failed_jobs_history_limit: null
       stats_url: null
       s3_endpoint: null
     backofflimit: '2'
@@ -108,20 +114,44 @@ parameters:
     prometheus_push_gateway: 'http://platform-prometheus-pushgateway.syn-synsights.svc:9091'
     prometheus_name: main
     monitoring_enabled: true
+    monitoring_kube_state_metrics_job_name_label: "job_name" # Use "job" for kube-state-metrics < v1.5.0 (e.g. OpenShift 3.11):
     alert_thresholds:
       k8up_slow_backup_job_duration_seconds: 1200
+    # Create JobFailed alert rules for the following types of jobs.
+    # Valid keys are: ["archive", "backup", "check", "prune", "restore"].
+    # `enabled: false` removes the alert rule.
+    # Overrides can override all fields from the `job_failed_alert_template`. The fields are overridden before interpolating %(type)s.
+    job_failed_alerts_for:
+      archive:
+        enabled: true
+        overrides: {}
+      backup:
+        enabled: true
+        overrides: {}
+      check:
+        enabled: true
+        overrides: {}
+      prune:
+        enabled: true
+        overrides: {}
+      restore:
+        enabled: true
+        overrides: {}
+    # The template for the JobFailed alert rules.
+    # %(type)s in `alert` and `expr` is replaced by the types defined in `job_failed_alerts_for`.
+    job_failed_alert_template:
+      alert: K8up%(type)sFailed
+      annotations:
+        summary: Job in {{ $labels.namespace }} of type {{ $labels.label_k8up_syn_tools_type }} failed
+      expr: (sum(kube_job_status_failed) by(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) * on(${backup_k8up:monitoring_kube_state_metrics_job_name_label}, namespace) group_right() kube_job_labels{label_k8up_syn_tools_type="%(type)s"}) > 0
+      for: 1m
+      labels:
+        severity: critical
     monitoring_alerts:
       k8up_last_errors:
         annotations:
           message: Last backup for PVC {{ $labels.pvc }} in namespace {{ $labels.instance }} had {{ $value }} errors
         expr: baas_backup_restic_last_errors{${backup_k8up:alert_rule_filters:namespace}} > 0
-        for: 1m
-        labels:
-          severity: critical
-      K8upBackupFailed:
-        annotations:
-          message: Job in {{ $labels.exported_namespace }} of type {{ $labels.jobType }} failed
-        expr: rate(k8up_jobs_failed_counter[1d]) > 0
         for: 1m
         labels:
           severity: critical
