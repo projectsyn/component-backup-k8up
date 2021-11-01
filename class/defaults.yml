@@ -14,7 +14,8 @@ parameters:
         repository: vshn/wrestic
         tag: v0.3.2
 
-    crd: "k8up-crd.yaml" # Use k8up-crd-legacy.yaml for K8s <= 1.15 (e.g. OpenShift 3.11):
+    # This parameter is deprecated since K8up v2 support
+    crd: "k8up-crd.yaml" # Use `k8up-crd-legacy.yaml` for K8s <= 1.15 (e.g. OpenShift 3.11):
     namespace: syn-backup
 
     helmValues:

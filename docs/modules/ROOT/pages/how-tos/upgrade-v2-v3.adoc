@@ -8,6 +8,8 @@ Contrary to the Helm chart, this component already ships the necessary CRDs.
 
 - `enabled` parameter is **deprecated**.
   This parameter was used as a temporary workaround to disable a component until Commodore could do it natively.
+- `crd` parameter is **deprecated** (only used for K8up v1).
+  Older Kubernetes versions < 1.16 (e.g. OpenShift 3.11) are not supported anymore in K8up v2.
 
 == Steps
 

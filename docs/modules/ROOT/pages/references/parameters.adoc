@@ -42,6 +42,12 @@ The value of `k8up.tag` in this dict is used by the component to select the CRD 
 
 == `crd`
 
+[NOTE]
+====
+This parameter is deprecated since `component-backup-k8up` v3.0.0 (which adds K8up v2 support)
+Only use this parameter if using K8up v1.
+====
+
 [horizontal]
 type:: string
 default:: `k8up-crd.yaml`
