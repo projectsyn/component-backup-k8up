@@ -89,6 +89,10 @@ local app = argocd.App('backup-k8up', params.namespace) {
   },
 };
 
-if params.enabled then {
+local enabled = if std.objectHas(params, 'enabled') then
+  params.enabled
+else
+  true;
+if enabled then {
   backup: app,
 } else {}

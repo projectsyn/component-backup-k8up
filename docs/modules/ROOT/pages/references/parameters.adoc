@@ -5,6 +5,8 @@ The parent key for all of the following parameters is `backup_k8up`.
 
 == `enabled`
 
+NOTE: This parameter is **deprecated**
+
 [horizontal]
 type:: bool
 default:: `true`
