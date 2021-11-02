@@ -111,7 +111,10 @@ parameters:
     prometheus_push_gateway: 'http://platform-prometheus-pushgateway.syn-synsights.svc:9091'
     prometheus_name: main
     monitoring_enabled: true
+
+    # This parameter is deprecated since K8up v2 support
     monitoring_kube_state_metrics_job_name_label: "job_name" # Use "job" for kube-state-metrics < v1.5.0 (e.g. OpenShift 3.11):
+
     alert_thresholds:
       k8up_slow_backup_job_duration_seconds: 1200
     # Create JobFailed alert rules for the following types of jobs.
