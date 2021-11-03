@@ -31,29 +31,24 @@ While you can upgrade the component version to v3, configuring the component wit
 - Default value of `images.wrestic.repository` changed from `vshn/wrestic` to `k8up-io/wrestic`.
 - Default value of `images.wrestic.tag` changed from `v0.3.2` to `v0.3.3`.
 
-== Steps to run two versions at once
+== Steps to run two instances at once
 
 The recommended upgrade path is as follows:
 
 . Update component version to v3.x.x
 
-. Configure existing component as instance of K8up v1.
+. Configure existing component instance for K8up v1.
 +
 [source,diff]
 ----
- applications:
--  - backup-k8up
-+  - backup-k8up as k8up-v1 <1>
  parameters:
--  backup_k8up: <2>
--    ...
-+  k8up_v1: <2>
-+    majorVersion: v1 <3>
+   backup_k8up:
++    majorVersion: v1 <1>
++    namespace: syn-backup <2>
 +    ...
 ----
-<1> Use component instantiation
-<2> Move existing parameters under `backup_k8up` to `k8up_v1`
-<3> Override default value with `v1`
+<1> Override default value with `v1`
+<2> The default for K8up v2 has changed, so keep the original or custom value here
 
 . Compile and push cluster catalog.
   Verify that existing deployment for K8up v1 is upgraded correctly.
@@ -63,15 +58,18 @@ The recommended upgrade path is as follows:
 [source,diff]
 ----
  applications:
-   - backup-k8up as k8up-v1
+   - backup-k8up
 +  - backup-k8up as k8up-v2 <1>
  parameters:
-   k8up_v1:
+   backup_k8up: <2>
      majorVersion: v1
+     namespace: syn-backup
     ...
-+  k8up_v2: <2>
-+    ...
++  k8up_v2: <1>
++    ... <2>
 ----
+<1> Use component instantiation
+<2> Copy specific settings from `backup_k8up` to this instance if applicable
 
 . Compile and push cluster catalog.
   Verify that existing deployment for K8up v1 is untouched.
@@ -83,24 +81,20 @@ NOTE: If you are confident in the rollout you can also combine the comonent inst
 
 == Steps to run after all objects are migrated to K8up v2
 
-. Remove K8up v1 instance and use default instance
+. Remove K8up v2 instance
 +
 [source,diff]
 ----
  applications:
--  - backup-k8up as k8up-v1
+   - backup-k8up
 -  - backup-k8up as k8up-v2
-+  - backup-k8up
  parameters:
--  k8up_v1:
+   backup_k8up: <1>
 -    majorVersion: v1
--    ...
--  k8up_v2: <2>
--    ...
-+  backup_k8up: <2>
-+    ...
+-    namespace: syn-backup
+-  k8up_v2:
+     ... <1>
 ----
-<1> Use component instantiation
-<2> Move existing parameters under `k8up_v2` to `backup_k8up`
+<1> Move custom parameters under `k8up_v2` to `backup_k8up`
 
 . Compile and push cluster catalog.
