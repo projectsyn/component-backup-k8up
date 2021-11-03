@@ -16,3 +16,4 @@ ignore: |
   manifests/
   vendor/
   compiled/
+  tests/golden/
