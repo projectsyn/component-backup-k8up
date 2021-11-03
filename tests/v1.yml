@@ -1,1 +1,3 @@
-# Default parameters
+parameters:
+  backup_k8up:
+    majorVersion: v1

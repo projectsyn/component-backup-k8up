@@ -1,33 +1,53 @@
 parameters:
   backup_k8up:
 
+    =_backupImageRepository:
+      v1: ${backup_k8up:images:wrestic:registry}/${backup_k8up:images:wrestic:repository}
+      v2: ${backup_k8up:images:k8up:registry}/${backup_k8up:images:k8up:repository}
+    =_backupImageTag:
+      v1: ${backup_k8up:images:wrestic:tag}
+      v2: ${backup_k8up:images:k8up:tag}
+    =_k8upImage:
+      v1:
+        registry: ghcr.io
+        repository: k8up-io/k8up
+        tag: v1.2.0
+      v2: ${backup_k8up:images:k8up}
+    =_chartVersion:
+      v1: 1.1.0
+      v2: 2.0.0
+    =_annotationDomain:
+      v1: k8up.syn.tools
+      v2: k8up.io
+
     charts:
-      k8up: 1.1.0
+      k8up: ${backup_k8up:_chartVersion:${backup_k8up:majorVersion}}
 
     images:
       k8up:
-        registry: quay.io
-        repository: vshn/k8up
-        tag: v1.2.0
+        registry: ghcr.io
+        repository: k8up-io/k8up
+        tag: v2.0.0
       wrestic:
-        registry: quay.io
-        repository: vshn/wrestic
-        tag: v0.3.2
+        registry: ghcr.io
+        repository: k8up-io/wrestic
+        tag: v0.3.3
 
+    majorVersion: v2
     # This parameter is deprecated since K8up v2 support
     crd: "k8up-crd.yaml" # Use `k8up-crd-legacy.yaml` for K8s <= 1.15 (e.g. OpenShift 3.11):
     namespace: syn-backup
 
     helmValues:
       replicaCount: 1
-      image: ${backup_k8up:images:k8up}
+      image: ${backup_k8up:_k8upImage:${backup_k8up:majorVersion}}
       k8up:
         enableLeaderElection: true
         timezone: "Etc/UTC"
 
         backupImage:
-          repository: ${backup_k8up:images:wrestic:registry}/${backup_k8up:images:wrestic:repository}
-          tag: ${backup_k8up:images:wrestic:tag}
+          repository: ${backup_k8up:_backupImageRepository:${backup_k8up:majorVersion}}
+          tag: ${backup_k8up:_backupImageTag:${backup_k8up:majorVersion}}
 
         envVars:
           - name: BACKUP_PROMURL
@@ -104,8 +124,8 @@ parameters:
       stats_url: null
       s3_endpoint: null
     backofflimit: '2'
-    annotation: k8up.syn.tools/backup
-    backupcommandannotation: k8up.syn.tools/backupcommand
+    annotation: ${backup_k8up:_annotationDomain:${backup_k8up:majorVersion}}/backup
+    backupcommandannotation: ${backup_k8up:_annotationDomain:${backup_k8up:majorVersion}}/backupcommand
     alert_rule_filters:
       namespace: namespace=~"syn.*"
     prometheus_push_gateway: 'http://platform-prometheus-pushgateway.syn-synsights.svc:9091'
