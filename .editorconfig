@@ -1,8 +1,6 @@
 ;
 ; File managed by ModuleSync - Do Not Edit
 ;
-; Additional Makefiles can be added to `.sync.yml` in 'Makefile.includes'
-;
 ; This file is for unifying the coding style for different editors and IDEs.
 ; More information at https://editorconfig.org
 
@@ -29,3 +27,10 @@ insert_final_newline = false
 
 [Makefile]
 indent_style = tab
+
+; Ignore generated files
+[tests/golden/**]
+indent_style = unset
+indent_size = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset

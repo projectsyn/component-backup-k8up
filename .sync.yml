@@ -7,3 +7,7 @@
 docs/antora.yml:
   name: backup-k8up
   title: backup-k8up
+
+.gitignore:
+  additionalEntries:
+    - jsonnetfile.json
