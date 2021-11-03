@@ -11,8 +11,8 @@ K8up `Backup`, `Schedule` and similar objects will have to be manually migrated 
 
 [NOTE]
 ====
-Older Kubernetes versions < 1.16 (for example OpenShift 3.11) are not supported anymore in K8up v2.
-While you can upgrade the component version to v3, configuring the component with `majorVersion=v2` is not recommended.
+Older Kubernetes versions < 1.16 (for example OpenShift 3.11) aren't supported anymore in K8up v2.
+While you can upgrade the component version to v3, configuring the component with `majorVersion=v2` isn't recommended.
 ====
 
 == Parameter changes
