@@ -28,6 +28,7 @@ parameters:
         registry: ghcr.io
         repository: k8up-io/k8up
         tag: v2.0.0
+      # This image is deprecated since K8up v2 support
       wrestic:
         registry: ghcr.io
         repository: k8up-io/wrestic
