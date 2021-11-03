@@ -1,0 +1,18 @@
+= Upgrade component from v2 to v3
+
+K8up v2.0.0 and also the respective Helm chart v2.0.0 introduced breaking changes that also affect this component.
+The upgrade process of K8up itself is documented here: https://k8up.io/k8up/2.0/how-tos/upgrade.html.
+Contrary to the Helm chart, this component already ships the necessary CRDs.
+
+== Parameter changes
+
+- `enabled` parameter is **deprecated**.
+  This parameter was used as a temporary workaround to disable a component until Commodore could do it natively.
+
+== Steps
+
+. Update component parameters in cluster config as outlined in section <<_parameter_changes,parameter changes>>
+
+. Update component version for the cluster
+
+. Compile and push cluster catalog
