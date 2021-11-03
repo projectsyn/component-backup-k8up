@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: k8up
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: k8up
+    app.kubernetes.io/version: v1.2.0
+    helm.sh/chart: k8up-1.1.0
+  name: k8up-metrics
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: http
+  selector:
+    app.kubernetes.io/instance: k8up
+    app.kubernetes.io/name: k8up
+  type: ClusterIP
