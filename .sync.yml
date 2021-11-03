@@ -2,6 +2,7 @@
   componentName: backup-k8up
   githubUrl: https://github.com/projectsyn/component-backup-k8up
   feature_goUnitTests: false
+  feature_goldenTests: true
 
 docs/antora.yml:
   name: backup-k8up
