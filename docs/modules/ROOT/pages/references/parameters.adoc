@@ -3,6 +3,15 @@
 The parent key for all of the following parameters is `backup_k8up`.
 
 
+== `majorVersion`
+
+[horizontal]
+type:: string
+default:: `v2`
+values:: `v1`, `v2`
+
+This parameter controls what major version of K8up should be installed.
+
 == `enabled`
 
 NOTE: This parameter is **deprecated**
@@ -87,7 +96,7 @@ Enable global K8up configuration (via environment variables)
 
 [horizontal]
 type:: string
-default: `${cluster:name}-k8up-backups`
+default:: `${cluster:name}-k8up-backups`
 
 == `global_backup_config.s3_credentials`
 

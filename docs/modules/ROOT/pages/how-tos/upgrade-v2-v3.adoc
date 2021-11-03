@@ -4,18 +4,102 @@ K8up v2.0.0 and also the respective Helm chart v2.0.0 introduced breaking change
 The upgrade process of K8up itself is documented here: https://k8up.io/k8up/2.0/how-tos/upgrade.html.
 Contrary to the Helm chart, this component already ships the necessary CRDs.
 
+With component version 3.0.0, a new parameter `majorVersion` is introduced (with default value being `v2`).
+This parameter, together with multi-instantiation, enables you to deploy both K8up versions at once.
+With the CRDs having a new domain with K8up v2, it's essentially a new operator with no direct upgrade path.
+K8up `Backup`, `Schedule` and similar objects will have to be manually migrated from `backup.appuio.ch/v1alpha1` to `k8up.io/v1` before K8up v1 can be shut down.
+
+[NOTE]
+====
+Older Kubernetes versions < 1.16 (for example OpenShift 3.11) are not supported anymore in K8up v2.
+While you can upgrade the component version to v3, configuring the component with `majorVersion=v2` is not recommended.
+====
+
 == Parameter changes
 
+- `majorVersion` parameter is introduced with default value `v2`.
 - `enabled` parameter is **deprecated**.
   This parameter was used as a temporary workaround to disable a component until Commodore could do it natively.
-- `crd` parameter is **deprecated** (only used for K8up v1).
-  Older Kubernetes versions < 1.16 (e.g. OpenShift 3.11) are not supported anymore in K8up v2.
-- `monitoring_kube_state_metrics_job_name_label` parameter is **deprecated**.
+- `crd` parameter is **deprecated** (is only used for K8up v1).
+- `monitoring_kube_state_metrics_job_name_label` parameter is **deprecated** (is only used for K8up v1).
+- `images.wrestic` parameter is **deprecated** (is only used for K8up v1).
+- Default value of `charts.k8up` changed from `1.1.0` to `2.0.0`.
+- Default value of `images.k8up.registry` changed from `quay.io` to `ghcr.io`.
+- Default value of `images.k8up.repository` changed from `vshn/wrestic` to `k8up-io/wrestic`.
+- Default value of `images.wrestic.registry` changed from `quay.io` to `ghcr.io`.
+- Default value of `images.wrestic.repository` changed from `vshn/wrestic` to `k8up-io/wrestic`.
+- Default value of `images.wrestic.tag` changed from `v0.3.2` to `v0.3.3`.
 
-== Steps
+== Steps to run two versions at once
 
-. Update component parameters in cluster config as outlined in section <<_parameter_changes,parameter changes>>
+The recommended upgrade path is as follows:
 
-. Update component version for the cluster
+. Update component version to v3.x.x
 
-. Compile and push cluster catalog
+. Configure existing component as instance of K8up v1.
++
+[source,diff]
+----
+ applications:
+-  - backup-k8up
++  - backup-k8up as k8up-v1 <1>
+ parameters:
+-  backup_k8up: <2>
+-    ...
++  k8up_v1: <2>
++    majorVersion: v1 <3>
++    ...
+----
+<1> Use component instantiation
+<2> Move existing parameters under `backup_k8up` to `k8up_v1`
+<3> Override default value with `v1`
+
+. Compile and push cluster catalog.
+  Verify that existing deployment for K8up v1 is upgraded correctly.
+
+. Add another instance of this component, but with K8up v2.
++
+[source,diff]
+----
+ applications:
+   - backup-k8up as k8up-v1
++  - backup-k8up as k8up-v2 <1>
+ parameters:
+   k8up_v1:
+     majorVersion: v1
+    ...
++  k8up_v2: <2>
++    ...
+----
+
+. Compile and push cluster catalog.
+  Verify that existing deployment for K8up v1 is untouched.
+  Verify that new deployment for K8up v2 is rolled out.
++
+NOTE: If you are confident in the rollout you can also combine the comonent instantiation in one compilation.
+
+. Migrate all K8up objects from `backup.appuio.ch/v1alpha1` to `k8up.io/v1`
+
+== Steps to run after all objects are migrated to K8up v2
+
+. Remove K8up v1 instance and use default instance
++
+[source,diff]
+----
+ applications:
+-  - backup-k8up as k8up-v1
+-  - backup-k8up as k8up-v2
++  - backup-k8up
+ parameters:
+-  k8up_v1:
+-    majorVersion: v1
+-    ...
+-  k8up_v2: <2>
+-    ...
++  backup_k8up: <2>
++    ...
+----
+<1> Use component instantiation
+<2> Move existing parameters under `k8up_v2` to `backup_k8up`
+
+. Compile and push cluster catalog.
