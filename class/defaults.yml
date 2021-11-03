@@ -1,5 +1,6 @@
 parameters:
   backup_k8up:
+    multi_instance: true
 
     =_backupImageRepository:
       v1: ${backup_k8up:images:wrestic:registry}/${backup_k8up:images:wrestic:repository}
@@ -37,7 +38,7 @@ parameters:
     majorVersion: v2
     # This parameter is deprecated since K8up v2 support
     crd: "k8up-crd.yaml" # Use `k8up-crd-legacy.yaml` for K8s <= 1.15 (e.g. OpenShift 3.11):
-    namespace: syn-backup
+    namespace: syn-backup-k8up
 
     helmValues:
       replicaCount: 1

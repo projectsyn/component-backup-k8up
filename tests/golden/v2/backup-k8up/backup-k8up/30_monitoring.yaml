@@ -5,7 +5,7 @@ metadata:
     prometheus: main
     role: alert-rules
   name: k8up
-  namespace: syn-backup
+  namespace: syn-backup-k8up
 spec:
   groups:
     - name: k8up.rules
@@ -104,7 +104,7 @@ metadata:
     app.kubernetes.io/name: k8up
     prometheus: main
   name: k8up-operator
-  namespace: syn-backup
+  namespace: syn-backup-k8up
 spec:
   endpoints:
     - interval: 10s

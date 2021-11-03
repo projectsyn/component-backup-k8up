@@ -23,6 +23,7 @@ While you can upgrade the component version to v3, configuring the component wit
 - `crd` parameter is **deprecated** (is only used for K8up v1).
 - `monitoring_kube_state_metrics_job_name_label` parameter is **deprecated** (is only used for K8up v1).
 - `images.wrestic` parameter is **deprecated** (is only used for K8up v1).
+- Default value of `namespace` changed from `syn-backup` to `syn-backup-k8up`.
 - Default value of `charts.k8up` changed from `1.1.0` to `2.0.0`.
 - Default value of `images.k8up.registry` changed from `quay.io` to `ghcr.io`.
 - Default value of `images.k8up.repository` changed from `vshn/wrestic` to `k8up-io/wrestic`.

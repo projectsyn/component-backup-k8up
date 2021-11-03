@@ -80,7 +80,7 @@ Values passed to Helm. See https://github.com/appuio/charts/tree/master/k8up
 
 [horizontal]
 type:: string
-default:: `syn-backup`
+default:: `syn-backup-k8up`
 
 The namespace in which to deploy this component.
 

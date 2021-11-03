@@ -4,5 +4,5 @@ metadata:
   annotations: {}
   labels:
     SYNMonitoring: main
-    name: syn-backup
-  name: syn-backup
+    name: syn-backup-k8up
+  name: syn-backup-k8up
