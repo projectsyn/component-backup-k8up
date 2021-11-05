@@ -3,9 +3,10 @@ local kube = import 'lib/kube.libjsonnet';
 local inv = kap.inventory();
 local params = inv.parameters.backup_k8up;
 local argocd = import 'lib/argocd.libjsonnet';
+local instance = inv.parameters._instance;
 
-local app = argocd.App('backup-k8up', params.namespace) {
-  spec+: {
+local app = argocd.App(instance, params.namespace) {
+  spec+: if params.majorVersion == 'v2' then {} else {
     ignoreDifferences+: [
       {
         group: 'apiextensions.k8s.io',
@@ -94,5 +95,5 @@ local enabled = if std.objectHas(params, 'enabled') then
 else
   true;
 if enabled then {
-  backup: app,
+  [instance]: app,
 } else {}

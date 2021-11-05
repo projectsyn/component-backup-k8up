@@ -1,45 +1,9 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  labels:
-    app.kubernetes.io/instance: k8up
-    app.kubernetes.io/managed-by: Tiller
-    app.kubernetes.io/name: k8up
-  name: k8up-leader-election-role
-  namespace: syn-backup-k8up
-rules:
-- apiGroups:
-  - ''
-  resources:
-  - configmaps
-  verbs:
-  - get
-  - list
-  - watch
-  - create
-  - update
-  - patch
-  - delete
-- apiGroups:
-  - ''
-  resources:
-  - configmaps/finalizers
-  verbs:
-  - update
-- apiGroups:
-  - ''
-  resources:
-  - events
-  verbs:
-  - create
-  - patch
----
-apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
     app.kubernetes.io/instance: k8up
-    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: k8up
     rbac.authorization.k8s.io/aggregate-to-admin: 'true'
     rbac.authorization.k8s.io/aggregate-to-edit: 'true'
@@ -63,7 +27,7 @@ kind: ClusterRole
 metadata:
   labels:
     app.kubernetes.io/instance: k8up
-    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: k8up
     rbac.authorization.k8s.io/aggregate-to-view: 'true'
   name: k8up-k8up-view
@@ -82,7 +46,7 @@ kind: ClusterRole
 metadata:
   labels:
     app.kubernetes.io/instance: k8up
-    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: k8up
   name: k8up-manager-role
 rules:
@@ -334,11 +298,64 @@ rules:
   - list
 ---
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/instance: k8up
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: k8up
+  name: k8up-manager-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: k8up-manager-role
+subjects:
+- kind: ServiceAccount
+  name: k8up
+  namespace: syn-backup-k8up
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    app.kubernetes.io/instance: k8up
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: k8up
+  name: k8up-leader-election-role
+  namespace: syn-backup-k8up
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ''
+  resources:
+  - configmaps/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - ''
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   labels:
     app.kubernetes.io/instance: k8up
-    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: k8up
   name: k8up-leader-election-rolebinding
   namespace: syn-backup-k8up
@@ -346,23 +363,6 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: k8up-leader-election-role
-subjects:
-- kind: ServiceAccount
-  name: k8up
-  namespace: syn-backup-k8up
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  labels:
-    app.kubernetes.io/instance: k8up
-    app.kubernetes.io/managed-by: Tiller
-    app.kubernetes.io/name: k8up
-  name: k8up-manager-rolebinding
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: k8up-manager-role
 subjects:
 - kind: ServiceAccount
   name: k8up
