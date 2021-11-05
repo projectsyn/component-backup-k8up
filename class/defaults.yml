@@ -16,10 +16,13 @@ parameters:
       v2: ${backup_k8up:images:k8up}
     =_chartVersion:
       v1: 1.1.0
-      v2: 2.0.0
+      v2: 2.0.1
     =_annotationDomain:
       v1: k8up.syn.tools
       v2: k8up.io
+    =_monitoringMetricsNamespace:
+      v1: baas
+      v2: k8up
 
     charts:
       k8up: ${backup_k8up:_chartVersion:${backup_k8up:majorVersion}}
@@ -28,7 +31,7 @@ parameters:
       k8up:
         registry: ghcr.io
         repository: k8up-io/k8up
-        tag: v2.0.0
+        tag: v2.0.1
       # This image is deprecated since K8up v2 support
       wrestic:
         registry: ghcr.io
@@ -173,7 +176,7 @@ parameters:
       k8up_last_errors:
         annotations:
           message: Last backup for PVC {{ $labels.pvc }} in namespace {{ $labels.instance }} had {{ $value }} errors
-        expr: baas_backup_restic_last_errors{${backup_k8up:alert_rule_filters:namespace}} > 0
+        expr: ${backup_k8up:_monitoringMetricsNamespace:${backup_k8up:majorVersion}}_backup_restic_last_errors{${backup_k8up:alert_rule_filters:namespace}} > 0
         for: 1m
         labels:
           severity: critical

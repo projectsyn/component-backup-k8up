@@ -41,7 +41,7 @@ spec:
           annotations:
             message: Last backup for PVC {{ $labels.pvc }} in namespace {{ $labels.instance
               }} had {{ $value }} errors
-          expr: baas_backup_restic_last_errors{namespace=~"syn.*"} > 0
+          expr: k8up_backup_restic_last_errors{namespace=~"syn.*"} > 0
           for: 1m
           labels:
             severity: critical

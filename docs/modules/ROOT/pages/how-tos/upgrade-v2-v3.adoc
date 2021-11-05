@@ -24,12 +24,22 @@ While you can upgrade the component version to v3, configuring the component wit
 - `monitoring_kube_state_metrics_job_name_label` parameter is **deprecated** (is only used for K8up v1).
 - `images.wrestic` parameter is **deprecated** (is only used for K8up v1).
 - Default value of `namespace` changed from `syn-backup` to `syn-backup-k8up`.
-- Default value of `charts.k8up` changed from `1.1.0` to `2.0.0`.
+- Default value of `charts.k8up` changed from `1.x` to `2.x`.
 - Default value of `images.k8up.registry` changed from `quay.io` to `ghcr.io`.
 - Default value of `images.k8up.repository` changed from `vshn/wrestic` to `k8up-io/wrestic`.
 - Default value of `images.wrestic.registry` changed from `quay.io` to `ghcr.io`.
 - Default value of `images.wrestic.repository` changed from `vshn/wrestic` to `k8up-io/wrestic`.
 - Default value of `images.wrestic.tag` changed from `v0.3.2` to `v0.3.3`.
+- Default value of `monitoring_alerts.k8up_last_errors.expr` changed from `baas_backup_restic_last_errors[...]` to `k8up_backup_restic_last_errors[...]`.
+  If `majorVersion=v1` then the previous value with `baas_backup_restic_last_errors[...]` is applied.
+
+== Library changes
+
+If you are importing `backup-k8up.libjsonnet` in other components, they have been adjusted to provision K8up v2 CRDs.
+Following functions are affected:
+- `Job`
+- `Schedule`
+- `PreBackupPod`
 
 == Steps to run two instances at once
 
@@ -76,6 +86,8 @@ The recommended upgrade path is as follows:
   Verify that new deployment for K8up v2 is rolled out.
 +
 NOTE: If you are confident in the rollout you can also combine the comonent instantiation in one compilation.
++
+IMPORTANT: This will already recreate K8up resources managed in other components that import `backup-k8up.libjsonnet` with K8up v2 CRDs!
 
 . Migrate all K8up objects from `backup.appuio.ch/v1alpha1` to `k8up.io/v1`
 
