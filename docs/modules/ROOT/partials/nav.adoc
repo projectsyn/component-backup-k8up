@@ -1,6 +1,7 @@
 * xref:index.adoc[Home]
 
 .How-tos
+* xref:how-tos/multi-instances.adoc[Multiple instances of K8up]
 * xref:how-tos/upgrade-v1-v2.adoc[Upgrade component from v1 to v2]
 * xref:how-tos/upgrade-v2-v3.adoc[Upgrade component from v2 to v3]
 

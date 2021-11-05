@@ -89,11 +89,12 @@ The recommended upgrade path is as follows:
   Verify that existing deployment for K8up v1 is untouched.
   Verify that new deployment for K8up v2 is rolled out.
 +
-NOTE: If you are confident in the rollout you can also combine the comonent instantiation in one compilation.
+NOTE: If you are confident in the rollout you can also combine the component instantiation in one compilation.
 +
 IMPORTANT: This will already recreate K8up resources managed in other components that import `backup-k8up.libjsonnet` with K8up v2 CRDs!
 
-. Migrate all K8up objects from `backup.appuio.ch/v1alpha1` to `k8up.io/v1`
+. Migrate all K8up objects from `backup.appuio.ch/v1alpha1` to `k8up.io/v1`.
+  See more details in xref:how-tos/multi-instances.adoc[Multiple Instances Of K8up]
 
 == Steps to run after all objects are migrated to K8up v2
 
@@ -109,8 +110,10 @@ IMPORTANT: This will already recreate K8up resources managed in other components
 -    majorVersion: v1
 -    namespace: syn-backup
 -  k8up_v2:
+-    helmReleaseName: k8upv2 <2>
      ... <1>
 ----
 <1> Move custom parameters under `k8up_v2` to `backup_k8up`
+<2> Overriding the Helm release name isn't necessary anymore
 
 . Compile and push cluster catalog.
