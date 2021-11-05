@@ -39,6 +39,8 @@ parameters:
         tag: v0.3.3
 
     majorVersion: v2
+    helmReleaseName: k8up
+
     # This parameter is deprecated since K8up v2 support
     crd: "k8up-crd.yaml" # Use `k8up-crd-legacy.yaml` for K8s <= 1.15 (e.g. OpenShift 3.11):
     namespace: syn-backup-k8up

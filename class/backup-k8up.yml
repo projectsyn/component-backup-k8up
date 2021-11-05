@@ -26,7 +26,7 @@ parameters:
           - backup-k8up/helmcharts/v${backup_k8up:charts:k8up}
         helm_values: ${backup_k8up:helmValues}
         helm_params:
-          release_name: k8up
+          name: ${backup_k8up:helmReleaseName}
           namespace: '${backup_k8up:namespace}'
       - output_path: ${_instance}
         input_type: jsonnet

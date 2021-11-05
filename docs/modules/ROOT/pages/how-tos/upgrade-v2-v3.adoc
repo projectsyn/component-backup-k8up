@@ -71,15 +71,19 @@ The recommended upgrade path is as follows:
    - backup-k8up
 +  - backup-k8up as k8up-v2 <1>
  parameters:
-   backup_k8up: <2>
+   backup_k8up:
      majorVersion: v1
      namespace: syn-backup
     ...
 +  k8up_v2: <1>
-+    ... <2>
++    majorVersion: v2 <2>
++    namespace: syn-backup-k8up <2>
++    helmReleaseName: k8upv2 <2>
++    ... <3>
 ----
 <1> Use component instantiation
-<2> Copy specific settings from `backup_k8up` to this instance if applicable
+<2> You need to explicitly override these if running both instances at once
+<3> Set specific settings to this instance if applicable
 
 . Compile and push cluster catalog.
   Verify that existing deployment for K8up v1 is untouched.
