@@ -13,10 +13,6 @@ jsonnetfile.lock.json
 crds/
 compiled/
 
-# Editors
-.vscode/
-.idea/
-
 # Antora
 _archive/
 _public/
