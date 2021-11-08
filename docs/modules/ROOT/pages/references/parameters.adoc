@@ -10,7 +10,7 @@ type:: string
 default:: `v2`
 values:: `v1`, `v2`
 
-This parameter controls what major version of K8up should be installed.
+This parameter controls which major version of K8up should be installed.
 
 == `enabled`
 
@@ -53,8 +53,8 @@ The value of `k8up.tag` in this dict is used by the component to select the CRD 
 
 [NOTE]
 ====
-This parameter is deprecated since `component-backup-k8up` v3.0.0 (which adds K8up v2 support)
-Only use this parameter if using K8up v1.
+This parameter is deprecated starting with `component-backup-k8up` v3.0.0 (which adds K8up v2 support)
+Only use this parameter if you're deploying K8up v1 with the component.
 ====
 
 [horizontal]

@@ -5,7 +5,7 @@ The upgrade process of K8up itself is documented here: https://k8up.io/k8up/2.0/
 Contrary to the Helm chart, this component already ships the necessary CRDs.
 
 With component version 3.0.0, a new parameter `majorVersion` is introduced (with default value being `v2`).
-This parameter, together with multi-instantiation, enables you to deploy both K8up versions at once.
+This parameter, together with multi-instantiation, enables you to deploy both K8up v1 and v2 at once.
 With the CRDs having a new domain with K8up v2, it's essentially a new operator with no direct upgrade path.
 K8up `Backup`, `Schedule` and similar objects will have to be manually migrated from `backup.appuio.ch/v1alpha1` to `k8up.io/v1` before K8up v1 can be shut down.
 
@@ -35,8 +35,9 @@ While you can upgrade the component version to v3, configuring the component wit
 
 == Library changes
 
-If you are importing `backup-k8up.libjsonnet` in other components, they have been adjusted to provision K8up v2 CRDs.
-Following functions are affected:
+If you are importing `backup-k8up.libjsonnet` in other components to create K8up objects, these objects will automatically be updated to use the K8up v2 CRDs after upgrading the component to v3.x.
+The following functions have been changed to create K8up v2 resources:
+
 - `Job`
 - `Schedule`
 - `PreBackupPod`
@@ -93,7 +94,7 @@ NOTE: If you are confident in the rollout you can also combine the component ins
 +
 IMPORTANT: This will already recreate K8up resources managed in other components that import `backup-k8up.libjsonnet` with K8up v2 CRDs!
 
-. Migrate all K8up objects from `backup.appuio.ch/v1alpha1` to `k8up.io/v1`.
+. Manually migrate all K8up objects from `backup.appuio.ch/v1alpha1` to `k8up.io/v1`.
   See more details in xref:how-tos/multi-instances.adoc[Multiple Instances Of K8up]
 
 == Steps to run after all objects are migrated to K8up v2

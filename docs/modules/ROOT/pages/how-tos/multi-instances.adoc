@@ -5,8 +5,8 @@ The idea of having multiple instances is to enable upgrades between major versio
 
 == Limitations Of Multiple Instances
 
-* You can't deploy multiple instances with the same major version as K8up.
-* It's possible to encounter a name collision when using K8up's `PreBackupPod` if using K8up v1 and v2 for the same application.
+* You can't deploy multiple instances with the same major version of K8up.
+* It's possible to encounter a name collision when using K8up's `PreBackupPod` when both K8up v1 and v2 backups are configured for the same application.
 
 == Component Configuration
 
@@ -14,8 +14,8 @@ The idea of having multiple instances is to enable upgrades between major versio
 [source,yaml]
 ----
 applications:
-  - backup_k8up as k8up-v1
-  - backup_k8up as k8up-v2
+  - backup-k8up as k8up-v1
+  - backup-k8up as k8up-v2
 parameters:
   k8up_v1:
     majorVersion: v1 <1>
@@ -33,14 +33,14 @@ parameters:
 [NOTE]
 ====
 You need to choose a different Helm release names since the component comes with cluster-scoped resources that share the same name.
-The ArgoCD apps will then "fight" against eachother when doing syncs.
+The ArgoCD apps will then "fight" against each other when doing syncs.
 ====
 
 [IMPORTANT]
 ====
-The `backup-k8up.libjsonnet` library with component v3 will render K8up resources for K8up v2.
+The `backup-k8up.libjsonnet` library provided by v3 of the component will render K8up resources for K8up v2.
 This causes Syn-managed K8up resources for K8up v1 to be **deleted** and replaced with K8up v2 by ArgoCD.
-In other words: You will lose all resources, like `Backups` belonging to a `Schedule` and the `Schedule`, however the actual Restic backup repositories should continue working.
+In other words: Since objects are recreated you will lose all status and job information of past backups. However the actual Restic backup repositories should continue working.
 ====
 
 [NOTE]
@@ -51,10 +51,10 @@ If you would like to list the `Backup` objects from K8up v1, run `kubectl get ba
 
 == Recommendation
 
-As outlined in more detail in xref:how-tos/upgrade-v2-v3.adoc[Upgrade component from v2 to v3] multiple instances enable upgrades from K8up v1 to v2 in a controlled time period.
+As outlined in more detail in xref:how-tos/upgrade-v2-v3.adoc[Upgrade component from v2 to v3], deploying K8up v1 and v2 in parallel provides an upgrade window for users to migrate their backups from K8up v1 to v2.
 
-It's recommended that each application to be upgraded at once.
 Each application should be either working with K8up v1 or with K8up v2, but not both at the same time.
+For example, avoid upgrading `Schedule` to K8up v2 while leaving still having a `PreBackupPod` for K8up v1, otherwise the next scheduled backup will likely fail due to a missing `PreBackupPod` for K8up v2.
 
 An upgrade for an application could look roughly as follows:
 
