@@ -1,0 +1,115 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    prometheus: main
+    role: alert-rules
+  name: k8up
+  namespace: syn-backup-k8up
+spec:
+  groups:
+    - name: k8up.rules
+      rules:
+        - alert: K8upBackupNotRunning
+          annotations:
+            message: No K8up jobs were run in {{ $labels.exported_namespace }} within
+              the last 24 hours. Check the operator, there might be a deadlock
+          expr: sum(rate(k8up_jobs_total[25h])) == 0 and on(namespace) k8up_schedules_gauge
+            > 0
+          for: 1m
+          labels:
+            severity: critical
+        - alert: K8upJobStuck
+          annotations:
+            message: Queued K8up jobs in {{ $labels.exported_namespace }} for the
+              last hour.
+          expr: k8up_jobs_queued_gauge{jobType="backup"} > 0 and on(namespace) k8up_schedules_gauge
+            > 0
+          for: 1h
+          labels:
+            severity: critical
+        - alert: K8upSlowBackup
+          annotations:
+            message: Backup job {{ $labels.job_name }} in {{ $labels.namespace }}
+              took {{ $value|humanizeDuration }} to complete
+          expr: (kube_job_status_completion_time{job_name=~"^backupjob-.*$"} - kube_job_status_start_time)
+            > 1200
+          for: 1m
+          labels:
+            severity: warning
+        - alert: k8up_last_errors
+          annotations:
+            message: Last backup for PVC {{ $labels.pvc }} in namespace {{ $labels.instance
+              }} had {{ $value }} errors
+          expr: k8up_backup_restic_last_errors{namespace=~"syn.*"} > 0
+          for: 1m
+          labels:
+            severity: critical
+        - alert: K8upArchiveFailed
+          annotations:
+            summary: Job in {{ $labels.namespace }} of type {{ $labels.label_k8up_syn_tools_type
+              }} failed
+          expr: (sum(kube_job_status_failed) by(job_name, namespace) * on(job_name,
+            namespace) group_right() kube_job_labels{label_k8up_syn_tools_type="archive"})
+            > 0
+          for: 1m
+          labels:
+            severity: critical
+        - alert: K8upBackupFailed
+          annotations:
+            summary: Job in {{ $labels.namespace }} of type {{ $labels.label_k8up_syn_tools_type
+              }} failed
+          expr: (sum(kube_job_status_failed) by(job_name, namespace) * on(job_name,
+            namespace) group_right() kube_job_labels{label_k8up_syn_tools_type="backup"})
+            > 0
+          for: 1m
+          labels:
+            severity: critical
+        - alert: K8upCheckFailed
+          annotations:
+            summary: Job in {{ $labels.namespace }} of type {{ $labels.label_k8up_syn_tools_type
+              }} failed
+          expr: (sum(kube_job_status_failed) by(job_name, namespace) * on(job_name,
+            namespace) group_right() kube_job_labels{label_k8up_syn_tools_type="check"})
+            > 0
+          for: 1m
+          labels:
+            severity: critical
+        - alert: K8upPruneFailed
+          annotations:
+            summary: Job in {{ $labels.namespace }} of type {{ $labels.label_k8up_syn_tools_type
+              }} failed
+          expr: (sum(kube_job_status_failed) by(job_name, namespace) * on(job_name,
+            namespace) group_right() kube_job_labels{label_k8up_syn_tools_type="prune"})
+            > 0
+          for: 1m
+          labels:
+            severity: critical
+        - alert: K8upRestoreFailed
+          annotations:
+            summary: Job in {{ $labels.namespace }} of type {{ $labels.label_k8up_syn_tools_type
+              }} failed
+          expr: (sum(kube_job_status_failed) by(job_name, namespace) * on(job_name,
+            namespace) group_right() kube_job_labels{label_k8up_syn_tools_type="restore"})
+            > 0
+          for: 1m
+          labels:
+            severity: critical
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/instance: k8up
+    app.kubernetes.io/name: k8up
+    prometheus: main
+  name: k8up-operator
+  namespace: syn-backup-k8up
+spec:
+  endpoints:
+    - interval: 10s
+      port: http
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: k8up
+      app.kubernetes.io/name: k8up

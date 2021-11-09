@@ -7,28 +7,28 @@ parameters:
         version: ${backup_k8up:charts:k8up}
         output_path: dependencies/backup-k8up/helmcharts/v${backup_k8up:charts:k8up}
       - type: https
-        source: https://github.com/vshn/k8up/releases/download/${backup_k8up:images:k8up:tag}/${backup_k8up:crd}
-        output_path: dependencies/backup-k8up/crds/${backup_k8up:images:k8up:tag}/02_k8up_crds.yaml
+        source: https://github.com/vshn/k8up/releases/download/${backup_k8up:_k8upImage:${backup_k8up:majorVersion}:tag}/${backup_k8up:crd}
+        output_path: dependencies/backup-k8up/crds/${backup_k8up:_k8upImage:${backup_k8up:majorVersion}:tag}/02_k8up_crds.yaml
     compile:
       - input_paths:
           - backup-k8up/component/app.jsonnet
         input_type: jsonnet
         output_path: apps/
       - input_paths:
-          - backup-k8up/crds/${backup_k8up:images:k8up:tag}/
-        output_path: backup-k8up
+          - backup-k8up/crds/${backup_k8up:_k8upImage:${backup_k8up:majorVersion}:tag}/
+        output_path: ${_instance}
         input_type: copy
         output_type: yaml
-      - output_path: backup-k8up/01_k8up_helmchart
+      - output_path: ${_instance}/01_k8up_helmchart
         input_type: helm
         output_type: yaml
         input_paths:
           - backup-k8up/helmcharts/v${backup_k8up:charts:k8up}
         helm_values: ${backup_k8up:helmValues}
         helm_params:
-          release_name: k8up
+          name: ${backup_k8up:helmReleaseName}
           namespace: '${backup_k8up:namespace}'
-      - output_path: backup-k8up
+      - output_path: ${_instance}
         input_type: jsonnet
         output_type: yaml
         input_paths:
@@ -38,4 +38,4 @@ parameters:
       filters:
         - type: jsonnet
           filter: postprocess/optional_global_config.jsonnet
-          path: backup-k8up/01_k8up_helmchart/k8up/templates
+          path: ${_instance}/01_k8up_helmchart/k8up/templates

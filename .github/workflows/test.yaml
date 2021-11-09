@@ -29,6 +29,11 @@ jobs:
           args: 'check'
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        instance:
+          - v1
+          - v2
     defaults:
       run:
         working-directory: ${{ env.COMPONENT_NAME }}
@@ -40,6 +45,11 @@ jobs:
         run: make test
   golden:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        instance:
+          - v1
+          - v2
     defaults:
       run:
         working-directory: ${{ env.COMPONENT_NAME }}

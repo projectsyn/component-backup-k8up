@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations: {}
+  labels:
+    SYNMonitoring: main
+    name: syn-backup-k8up
+  name: syn-backup-k8up

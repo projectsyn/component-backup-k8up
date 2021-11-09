@@ -1,0 +1,4 @@
+parameters:
+  backup_k8up:
+    majorVersion: v1
+    namespace: syn-backup

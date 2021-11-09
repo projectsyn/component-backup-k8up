@@ -4,15 +4,117 @@ K8up v2.0.0 and also the respective Helm chart v2.0.0 introduced breaking change
 The upgrade process of K8up itself is documented here: https://k8up.io/k8up/2.0/how-tos/upgrade.html.
 Contrary to the Helm chart, this component already ships the necessary CRDs.
 
+With component version 3.0.0, a new parameter `majorVersion` is introduced (with default value being `v2`).
+This parameter, together with multi-instantiation, enables you to deploy both K8up v1 and v2 at once.
+With the CRDs having a new domain with K8up v2, it's essentially a new operator with no direct upgrade path.
+K8up `Backup`, `Schedule` and similar objects will have to be manually migrated from `backup.appuio.ch/v1alpha1` to `k8up.io/v1` before K8up v1 can be shut down.
+
+[NOTE]
+====
+Older Kubernetes versions < 1.16 (for example OpenShift 3.11) aren't supported anymore in K8up v2.
+While you can upgrade the component version to v3, configuring the component with `majorVersion=v2` isn't recommended.
+====
+
 == Parameter changes
 
+- `majorVersion` parameter is introduced with default value `v2`.
 - `enabled` parameter is **deprecated**.
   This parameter was used as a temporary workaround to disable a component until Commodore could do it natively.
+- `crd` parameter is **deprecated** (is only used for K8up v1).
+- `monitoring_kube_state_metrics_job_name_label` parameter is **deprecated** (is only used for K8up v1).
+- `images.wrestic` parameter is **deprecated** (is only used for K8up v1).
+- Default value of `namespace` changed from `syn-backup` to `syn-backup-k8up`.
+- Default value of `charts.k8up` changed from `1.x` to `2.x`.
+- Default value of `images.k8up.registry` changed from `quay.io` to `ghcr.io`.
+- Default value of `images.k8up.repository` changed from `vshn/wrestic` to `k8up-io/wrestic`.
+- Default value of `images.wrestic.registry` changed from `quay.io` to `ghcr.io`.
+- Default value of `images.wrestic.repository` changed from `vshn/wrestic` to `k8up-io/wrestic`.
+- Default value of `images.wrestic.tag` changed from `v0.3.2` to `v0.3.3`.
+- Default value of `monitoring_alerts.k8up_last_errors.expr` changed from `baas_backup_restic_last_errors[...]` to `k8up_backup_restic_last_errors[...]`.
+  If `majorVersion=v1` then the previous value with `baas_backup_restic_last_errors[...]` is applied.
 
-== Steps
+== Library changes
 
-. Update component parameters in cluster config as outlined in section <<_parameter_changes,parameter changes>>
+If you are importing `backup-k8up.libjsonnet` in other components to create K8up objects, these objects will automatically be updated to use the K8up v2 CRDs after upgrading the component to v3.x.
+The following functions have been changed to create K8up v2 resources:
 
-. Update component version for the cluster
+- `Job`
+- `Schedule`
+- `PreBackupPod`
 
-. Compile and push cluster catalog
+== Steps to run two instances at once
+
+The recommended upgrade path is as follows:
+
+. Update component version to v3.x.x
+
+. Configure existing component instance for K8up v1.
++
+[source,diff]
+----
+ parameters:
+   backup_k8up:
++    majorVersion: v1 <1>
++    namespace: syn-backup <2>
++    ...
+----
+<1> Override default value with `v1`
+<2> The default for K8up v2 has changed, so keep the original or custom value here
+
+. Compile and push cluster catalog.
+  Verify that existing deployment for K8up v1 is upgraded correctly.
+
+. Add another instance of this component, but with K8up v2.
++
+[source,diff]
+----
+ applications:
+   - backup-k8up
++  - backup-k8up as k8up-v2 <1>
+ parameters:
+   backup_k8up:
+     majorVersion: v1
+     namespace: syn-backup
+    ...
++  k8up_v2: <1>
++    majorVersion: v2 <2>
++    namespace: syn-backup-k8up <2>
++    helmReleaseName: k8upv2 <2>
++    ... <3>
+----
+<1> Use component instantiation
+<2> You need to explicitly override these if running both instances at once
+<3> Set specific settings to this instance if applicable
+
+. Compile and push cluster catalog.
+  Verify that existing deployment for K8up v1 is untouched.
+  Verify that new deployment for K8up v2 is rolled out.
++
+NOTE: If you are confident in the rollout you can also combine the component instantiation in one compilation.
++
+IMPORTANT: This will already recreate K8up resources managed in other components that import `backup-k8up.libjsonnet` with K8up v2 CRDs!
+
+. Manually migrate all K8up objects from `backup.appuio.ch/v1alpha1` to `k8up.io/v1`.
+  See more details in xref:how-tos/multi-instances.adoc[Multiple Instances Of K8up]
+
+== Steps to run after all objects are migrated to K8up v2
+
+. Remove K8up v2 instance
++
+[source,diff]
+----
+ applications:
+   - backup-k8up
+-  - backup-k8up as k8up-v2
+ parameters:
+   backup_k8up: <1>
+-    majorVersion: v1
+-    namespace: syn-backup
+-  k8up_v2:
+-    helmReleaseName: k8upv2 <2>
+     ... <1>
+----
+<1> Move custom parameters under `k8up_v2` to `backup_k8up`
+<2> Overriding the Helm release name isn't necessary anymore
+
+. Compile and push cluster catalog.

@@ -144,7 +144,7 @@ local PruneSpec(schedule, keepDaily, keepLast) =
 local Job(name, keep_jobs=3, backupkey=null, bucket=null, s3secret=null, create_bucket=true) =
   local backend = Backend(backupkey, bucket, s3secret, create_bucket);
   local thejob = {
-    apiVersion: 'backup.appuio.ch/v1alpha1',
+    apiVersion: 'k8up.io/v1',
     kind: 'Backup',
     metadata: { name: name },
     spec: {
@@ -175,7 +175,7 @@ local Schedule(name, schedule, keep_jobs=3, backupkey=null, bucket=null, s3secre
   local backend = Backend(backupkey, bucket, s3secret, create_bucket);
   local theschedule =
     {
-      apiVersion: 'backup.appuio.ch/v1alpha1',
+      apiVersion: 'k8up.io/v1',
       kind: 'Schedule',
       metadata: {
         name: name,
@@ -206,7 +206,7 @@ local Schedule(name, schedule, keep_jobs=3, backupkey=null, bucket=null, s3secre
  */
 local PreBackupPod(name, image, backupcmd, fileext='') =
   {
-    apiVersion: 'backup.appuio.ch/v1alpha1',
+    apiVersion: 'k8up.io/v1',
     kind: 'PreBackupPod',
     metadata: {
       name: name,
