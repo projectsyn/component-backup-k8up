@@ -118,3 +118,14 @@ IMPORTANT: This will already recreate K8up resources managed in other components
 <2> Overriding the Helm release name isn't necessary anymore
 
 . Compile and push cluster catalog.
+
+. Delete the K8up v1 CRDs
++
+[source,bash]
+----
+for crd in archives.backup.appuio.ch backups.backup.appuio.ch checks.backup.appuio.ch prebackuppods.backup.appuio.ch prunes.backup.appuio.ch restores.backup.appuio.ch schedules.backup.appuio.ch; do
+  kubectl delete crd "${crd}"
+done
+----
++
+NOTE: This will delete all remaining K8up v1 resources!
