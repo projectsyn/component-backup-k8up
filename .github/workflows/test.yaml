@@ -42,7 +42,7 @@ jobs:
         with:
           path: ${{ env.COMPONENT_NAME }}
       - name: Compile component
-        run: make test
+        run: make test -e instance=${{ matrix.instance }}
   golden:
     runs-on: ubuntu-latest
     strategy:
@@ -58,4 +58,4 @@ jobs:
         with:
           path: ${{ env.COMPONENT_NAME }}
       - name: Golden diff
-        run: make golden-diff
+        run: make golden-diff -e instance=${{ matrix.instance }}
