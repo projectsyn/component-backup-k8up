@@ -1,11 +1,11 @@
 = Upgrade component from v1 to v2
 
 K8up v1.0.0 and also the respective Helm chart v1.0.0 introduced breaking changes that also affect this component.
-The upgrade process of K8up itself is documented here: https://k8up.io/k8up/1.1.0/how-tos/upgrade.html.
+The upgrade process of K8up itself is documented here: https://k8up.io/k8up/1.2/how-tos/upgrade.html.
 Contrary to the Helm chart, v2 of this component already ships the necessary CRDs.
 
 v2 of the component exposes the parameter `helmValues`, which is one to one passed to the Helm chart.
-See https://github.com/appuio/charts/tree/master/k8up[Helm Chart] for a list of supported values.
+See https://github.com/appuio/charts/tree/master/appuio/k8up[Helm Chart] for a list of supported values.
 
 TIP: The component exposes additional parameters for ease of access.
 
