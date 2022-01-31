@@ -12,7 +12,7 @@ parameters:
       v1:
         registry: ghcr.io
         repository: k8up-io/k8up
-        tag: v1.2.0
+        tag: v2.1.0
       v2: ${backup_k8up:images:k8up}
     =_chartVersion:
       v1: 1.1.0
@@ -31,7 +31,7 @@ parameters:
       k8up:
         registry: ghcr.io
         repository: k8up-io/k8up
-        tag: v2.0.1
+        tag: v2.1.0
       # This image is deprecated since K8up v2 support
       wrestic:
         registry: ghcr.io
