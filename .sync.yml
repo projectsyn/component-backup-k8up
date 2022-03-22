@@ -3,6 +3,11 @@
   githubUrl: https://github.com/projectsyn/component-backup-k8up
   feature_goUnitTests: false
   feature_goldenTests: true
+  testMatrix:
+    key: instance
+    entries:
+      - v1
+      - v2
 
 docs/antora.yml:
   name: backup-k8up
@@ -15,8 +20,3 @@ docs/antora.yml:
 .github/workflows/test.yaml:
   makeTarget: test -e instance=${{ matrix.instance }}
   goldenTest_makeTarget: golden-diff -e instance=${{ matrix.instance }}
-  matrix:
-    key: instance
-    entries:
-      - v1
-      - v2
