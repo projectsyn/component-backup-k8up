@@ -1,6 +1,7 @@
 parameters:
   backup_k8up:
-    multi_instance: true
+    =_metadata:
+      multi_instance: true
 
     =_backupImageRepository:
       v1: ${backup_k8up:images:wrestic:registry}/${backup_k8up:images:wrestic:repository}
