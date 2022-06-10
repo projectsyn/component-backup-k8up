@@ -1,7 +1,9 @@
 #
 # File managed by ModuleSync - Do Not Edit
 #
-# The name and title can be customized in `.sync.yml` with `'docs/antora.yml'.title`, `'docs/antora.yml'.name`
+# The title can be customized in `.sync.yml` with `:global.componentName`
+# The name is generated from the component's GitHub repository name, with the
+# `component-` prefix removed.
 #
 
 name: backup-k8up
