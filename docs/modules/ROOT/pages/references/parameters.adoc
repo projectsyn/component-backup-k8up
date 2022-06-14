@@ -224,6 +224,8 @@ It's suggested to do this within you global configuration hierarchy.
 type:: bool
 default:: `true`
 
+For most Kubernetes distributions, the component sets label `SYNMonitoring=main` on the namespace in which K8up is deployed.
+On OpenShift 4, the component sets label `openshift.io/cluster-monitoring=true` on the namespace instead, so that the K8up `ServiceMonitor` and `PrometheusRule` objects are picked up by the OpenShift 4 cluster monitoring stack.
 
 == `alert_thresholds`
 

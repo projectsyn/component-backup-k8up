@@ -27,14 +27,23 @@ local global_backup_secret = kube.Secret(params.global_backup_config.backup_secr
 
 local monitoring = import 'monitoring.jsonnet';
 
+local monitoring_labels =
+  if inv.parameters.facts.distribution == 'openshift4' then
+    {
+
+      'openshift.io/cluster-monitoring': 'true',
+    }
+  else
+    {
+      SYNMonitoring: 'main',
+    };
+
 local want_global_config = params.global_backup_config.enabled && params.global_backup_config.s3_endpoint != null;
 
 {
   '00_namespace': kube.Namespace(params.namespace) {
     metadata+: {
-      labels+: {
-        SYNMonitoring: 'main',
-      },
+      labels+: monitoring_labels,
     },
   },
   [if want_global_config then '10_global_s3_credentials']:
