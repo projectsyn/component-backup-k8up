@@ -79,7 +79,8 @@ local CheckSpec(schedule) =
   {
     spec+: {
       check: {
-        promURL: k8up_params.prometheus_push_gateway,
+        [if k8up_params.prometheus_push_gateway != null then 'promURL']:
+          k8up_params.prometheus_push_gateway,
         schedule: schedule,
       },
     },
@@ -183,7 +184,8 @@ local Schedule(name, schedule, keep_jobs=3, backupkey=null, bucket=null, s3secre
       spec: {
         backend: backend.spec,
         backup: {
-          promURL: k8up_params.prometheus_push_gateway,
+          [if k8up_params.prometheus_push_gateway != null then 'promURL']:
+            k8up_params.prometheus_push_gateway,
           keepJobs: keep_jobs,
           schedule: schedule,
         },
