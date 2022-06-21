@@ -202,6 +202,9 @@ default:: `{'namespace': 'namespace=~"syn.*"'}
 type:: string
 default:: `'http://platform-prometheus-pushgateway.syn-synsights.svc:9091'`
 
+Set this parameter to `null` to configure the component to not set the pushgateway URL.
+Setting the parameter to `null` ensures that the environment variable `BACKUP_PROMURL` is never set for the K8up deployment and that the component library won't set the field `promURL` in any K8up custom resources.
+
 == `prometheus_name`
 
 [horizontal]
