@@ -40,5 +40,13 @@ COMMODORE_CMD  ?= $(DOCKER_CMD) $(DOCKER_ARGS) $(root_volume) docker.io/projects
 COMPILE_CMD    ?= $(COMMODORE_CMD) component compile . $(commodore_args)
 JB_CMD         ?= $(DOCKER_CMD) $(DOCKER_ARGS) --entrypoint /usr/local/bin/jb docker.io/projectsyn/commodore:latest install
 
+GOLDEN_FILES    ?= $(shell find tests/golden/$(instance) -type f)
+
+KUBENT_FILES    ?= $(shell echo "$(GOLDEN_FILES)" | sed 's/ /,/g')
+KUBENT_ARGS     ?= -c=false --helm2=false --helm3=false -e
+# Use our own kubent image until the upstream image is available
+KUBENT_IMAGE    ?= docker.io/projectsyn/kubent:latest
+KUBENT_DOCKER   ?= $(DOCKER_CMD) $(DOCKER_ARGS) $(root_volume) --entrypoint=/app/kubent $(KUBENT_IMAGE)
+
 instance ?= defaults
 test_instances = tests/v1.yml tests/v2.yml
