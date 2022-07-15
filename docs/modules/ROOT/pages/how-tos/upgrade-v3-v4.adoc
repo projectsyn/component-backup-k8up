@@ -1,0 +1,46 @@
+= Upgrade component from v3 to v4
+
+The K8up Helm chart is now available in its own repository and no longer under https://charts.appuio.ch.
+To communicate a clear cut, K8up released a new chart version with `v3.0.0`.
+New chart releases are only available at the new location https://k8up-io.github.io/k8up, while the previous chart versions remain available in the APPUiO repository.
+
+Component version `v4.0.0` changes the defaults slightly so that both the new chart location and the old APPUiO repo to continue support the K8up major version selection using `majorVersion`.
+
+When not doing a chart version pin in the parameters then this upgrade should be a no-brainer in most cases.
+The breaking changes in chart version `v3.0.0` have been made non-breaking in the component, yet a major version is released to remove deprecated features and because some defaults regarding versions changed.
+
+== Parameter changes
+
+- `enabled` parameter is **removed** (was deprecated in component version `v2.0.0`).
+  This parameter was used as a temporary workaround to disable a component until Commodore could do it natively.
+- Default value of `charts.k8up` changed from a version string `2.x` to an object with `{"version": "3.0.0", "source": "https://k8up-io.github.io/k8up"}` for `majorVersion=v2`, and `{"version": "1.1.0", "source": "https://charts.appuio.ch"}` for `majorVersion=v1`.
+  When setting `majorVersion=v1` the chart version isn't upgraded by default.
+- New default value of `images.k8up.pullPolicy=IfNotPresent`.
+  v3 of the Helm chart changed this value to `Always` since it's now using a floating tag, but we'll keep the previously existing default of `IfNotPresent` while pinning the exact K8up version, so there should be no effective change.
+  When setting `majorVersion=v1` this has no effect.
+
+== Steps
+
+. If applicable, remove the top-level `parameters.backup_k8up.enabled` parameter.
+
+. If applicable, move chart version pin from
++
+[source,yaml]
+----
+parameters:
+  backup_k8up:
+    charts:
+      k8up: 2.x.x
+----
+to
++
+[source,yaml]
+----
+parameters:
+  backup_k8up:
+    charts:
+      k8up:
+        version: 2.x.x
+----
+
+. Compile and push cluster catalog
