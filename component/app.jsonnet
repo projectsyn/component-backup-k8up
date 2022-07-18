@@ -90,10 +90,6 @@ local app = argocd.App(instance, params.namespace) {
   },
 };
 
-local enabled = if std.objectHas(params, 'enabled') then
-  params.enabled
-else
-  true;
-if enabled then {
+{
   [instance]: app,
-} else {}
+}
