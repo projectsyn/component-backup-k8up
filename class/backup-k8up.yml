@@ -5,7 +5,7 @@ parameters:
         source: ${backup_k8up:charts:k8up:source}
         chart_name: k8up
         version: ${backup_k8up:charts:k8up:version}
-        output_path: dependencies/backup-k8up/helmcharts/v${backup_k8up:charts:k8up}
+        output_path: dependencies/backup-k8up/helmcharts/v${backup_k8up:charts:k8up:version}
       - type: https
         source: https://github.com/vshn/k8up/releases/download/${backup_k8up:_k8upImage:${backup_k8up:majorVersion}:tag}/${backup_k8up:crd}
         output_path: dependencies/backup-k8up/crds/${backup_k8up:_k8upImage:${backup_k8up:majorVersion}:tag}/02_k8up_crds.yaml
@@ -23,7 +23,7 @@ parameters:
         input_type: helm
         output_type: yaml
         input_paths:
-          - backup-k8up/helmcharts/v${backup_k8up:charts:k8up}
+          - backup-k8up/helmcharts/v${backup_k8up:charts:k8up:version}
         helm_values: ${backup_k8up:helmValues}
         helm_params:
           name: ${backup_k8up:helmReleaseName}
