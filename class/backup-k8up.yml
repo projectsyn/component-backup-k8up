@@ -1,38 +1,86 @@
 parameters:
+  backup_k8up:
+    # We replicate the Kapitan dependencies and compile instructions for
+    # `majorVersion=v1` and `majorVersion=v2` in the constant parameters
+    # below. The entries themselves then don't contain a nested reference to
+    # `${backup_k8up:majorVersion}` but instead directly reference the
+    # corresponding major version. This approach allows us to avoid hitting a
+    # reclass bug where we sometimes don't render nested references correctly,
+    # if this component is included for both `majorVersion=v1` and
+    # `majorVersion=v2` in a single cluster's configuration.
+    # This should all be removed once we remove support for K8up v1.x from the
+    # component.
+    =_kapitan_deps:
+      v1:
+        - type: helm
+          source: ${backup_k8up:charts:k8up:source}
+          chart_name: k8up
+          version: ${backup_k8up:charts:k8up:version}
+          output_path: dependencies/backup-k8up/helmcharts/v${backup_k8up:charts:k8up}
+        - type: https
+          source: https://github.com/vshn/k8up/releases/download/${backup_k8up:_k8upImage:v1:tag}/${backup_k8up:crd}
+          output_path: dependencies/backup-k8up/crds/${backup_k8up:_k8upImage:v1:tag}/02_k8up_crds.yaml
+      v2:
+        - type: helm
+          source: ${backup_k8up:charts:k8up:source}
+          chart_name: k8up
+          version: ${backup_k8up:charts:k8up:version}
+          output_path: dependencies/backup-k8up/helmcharts/v${backup_k8up:charts:k8up}
+        - type: https
+          source: https://github.com/vshn/k8up/releases/download/${backup_k8up:_k8upImage:v2:tag}/${backup_k8up:crd}
+          output_path: dependencies/backup-k8up/crds/${backup_k8up:_k8upImage:v2:tag}/02_k8up_crds.yaml
+    =_kapitan_compile:
+      v1:
+        - input_paths:
+            - backup-k8up/component/app.jsonnet
+          input_type: jsonnet
+          output_path: apps/
+        - input_paths:
+            - backup-k8up/crds/${backup_k8up:_k8upImage:v1:tag}/
+          output_path: ${_instance}
+          input_type: copy
+          output_type: yaml
+        - output_path: ${_instance}/01_k8up_helmchart
+          input_type: helm
+          output_type: yaml
+          input_paths:
+            - backup-k8up/helmcharts/v${backup_k8up:charts:k8up}
+          helm_values: ${backup_k8up:helmValues}
+          helm_params:
+            name: ${backup_k8up:helmReleaseName}
+            namespace: '${backup_k8up:namespace}'
+        - output_path: ${_instance}
+          input_type: jsonnet
+          output_type: yaml
+          input_paths:
+            - backup-k8up/component/main.jsonnet
+      v2:
+        - input_paths:
+            - backup-k8up/component/app.jsonnet
+          input_type: jsonnet
+          output_path: apps/
+        - input_paths:
+            - backup-k8up/crds/${backup_k8up:_k8upImage:v2:tag}/
+          output_path: ${_instance}
+          input_type: copy
+          output_type: yaml
+        - output_path: ${_instance}/01_k8up_helmchart
+          input_type: helm
+          output_type: yaml
+          input_paths:
+            - backup-k8up/helmcharts/v${backup_k8up:charts:k8up}
+          helm_values: ${backup_k8up:helmValues}
+          helm_params:
+            name: ${backup_k8up:helmReleaseName}
+            namespace: '${backup_k8up:namespace}'
+        - output_path: ${_instance}
+          input_type: jsonnet
+          output_type: yaml
+          input_paths:
+            - backup-k8up/component/main.jsonnet
   kapitan:
-    dependencies:
-      - type: helm
-        source: ${backup_k8up:charts:k8up:source}
-        chart_name: k8up
-        version: ${backup_k8up:charts:k8up:version}
-        output_path: dependencies/backup-k8up/helmcharts/v${backup_k8up:charts:k8up}
-      - type: https
-        source: https://github.com/vshn/k8up/releases/download/${backup_k8up:_k8upImage:${backup_k8up:majorVersion}:tag}/${backup_k8up:crd}
-        output_path: dependencies/backup-k8up/crds/${backup_k8up:_k8upImage:${backup_k8up:majorVersion}:tag}/02_k8up_crds.yaml
-    compile:
-      - input_paths:
-          - backup-k8up/component/app.jsonnet
-        input_type: jsonnet
-        output_path: apps/
-      - input_paths:
-          - backup-k8up/crds/${backup_k8up:_k8upImage:${backup_k8up:majorVersion}:tag}/
-        output_path: ${_instance}
-        input_type: copy
-        output_type: yaml
-      - output_path: ${_instance}/01_k8up_helmchart
-        input_type: helm
-        output_type: yaml
-        input_paths:
-          - backup-k8up/helmcharts/v${backup_k8up:charts:k8up}
-        helm_values: ${backup_k8up:helmValues}
-        helm_params:
-          name: ${backup_k8up:helmReleaseName}
-          namespace: '${backup_k8up:namespace}'
-      - output_path: ${_instance}
-        input_type: jsonnet
-        output_type: yaml
-        input_paths:
-          - backup-k8up/component/main.jsonnet
+    dependencies: ${backup_k8up:_kapitan_deps:${backup_k8up:majorVersion}}
+    compile: ${backup_k8up:_kapitan_compile:${backup_k8up:majorVersion}}
   commodore:
     postprocess:
       filters:
