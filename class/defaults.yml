@@ -13,7 +13,7 @@ parameters:
       v1:
         registry: ghcr.io
         repository: k8up-io/k8up
-        tag: v2.5.0
+        tag: v1.2.0
       v2:
         registry: ghcr.io
         repository: k8up-io/k8up
