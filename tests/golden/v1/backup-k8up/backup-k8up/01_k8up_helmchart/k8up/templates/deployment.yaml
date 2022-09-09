@@ -40,7 +40,7 @@ spec:
           value: k8up.syn.tools/backupcommand
         - name: BACKUP_BACKOFFLIMIT
           value: '2'
-        image: ghcr.io/k8up-io/k8up:v1.2.0
+        image: ghcr.io/k8up-io/k8up:v2.5.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
