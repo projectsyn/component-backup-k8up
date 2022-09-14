@@ -4,6 +4,11 @@ local kube = import 'lib/kube.libjsonnet';
 local inv = kap.inventory();
 local params = inv.parameters.backup_k8up;
 
+local alertlabels = {
+  syn: 'true',
+  syn_component: 'backup-k8up',
+};
+
 local service_monitor = com.namespaced(params.namespace, {
   apiVersion: 'monitoring.coreos.com/v1',
   kind: 'ServiceMonitor',
@@ -43,6 +48,7 @@ local render_failed_job_alert(type) =
     {
       alert: super.alert % { type: asciiTitleCase(type) },
       expr: super.expr % { type: type },
+      labels+: alertlabels,
     }
   else
     null;
@@ -70,7 +76,10 @@ local alert_rules = com.namespaced(params.namespace, {
       {
         name: 'k8up.rules',
         rules: [
-          { alert: field } + params.monitoring_alerts[field]
+          params.monitoring_alerts[field] {
+            alert: field,
+            labels+: alertlabels,
+          }
           for field in std.sort(std.objectFields(params.monitoring_alerts))
         ] + failed_job_alert_rules,
       },
