@@ -2,6 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   labels:
+    monitoring.syn.tools/enabled: 'true'
     prometheus: main
     role: alert-rules
   name: k8up
@@ -120,6 +121,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: k8up
     app.kubernetes.io/name: k8up
+    monitoring.syn.tools/enabled: 'true'
     prometheus: main
   name: k8up-operator
   namespace: syn-backup-k8up

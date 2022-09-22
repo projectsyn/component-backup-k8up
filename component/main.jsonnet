@@ -1,5 +1,6 @@
 local kap = import 'lib/kapitan.libjsonnet';
 local kube = import 'lib/kube.libjsonnet';
+local prometheus = import 'lib/prometheus.libsonnet';
 local inv = kap.inventory();
 local params = inv.parameters.backup_k8up;
 
@@ -40,12 +41,25 @@ local monitoring_labels =
 
 local want_global_config = params.global_backup_config.enabled && params.global_backup_config.s3_endpoint != null;
 
+local namespace =
+  if params.monitoring_enabled && std.member(inv.applications, 'prometheus') then
+    prometheus.RegisterNamespace(kube.Namespace(params.namespace)) {
+      metadata+: {
+        labels+: monitoring_labels,
+      },
+    }
+  else if params.monitoring_enabled then
+    kube.Namespace(params.namespace) {
+      metadata+: {
+        labels+: monitoring_labels,
+      },
+    }
+  else
+    kube.Namespace(params.namespace)
+;
+
 {
-  '00_namespace': kube.Namespace(params.namespace) {
-    metadata+: {
-      labels+: monitoring_labels,
-    },
-  },
+  '00_namespace': namespace,
   [if want_global_config then '10_global_s3_credentials']:
     credentials_secret(params.global_backup_config.s3_credentials),
   [if want_global_config then '10_global_s3restore_credentials']:

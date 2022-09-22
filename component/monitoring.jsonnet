@@ -1,6 +1,8 @@
 local com = import 'lib/commodore.libjsonnet';
 local kap = import 'lib/kapitan.libjsonnet';
 local kube = import 'lib/kube.libjsonnet';
+local prometheus = import 'lib/prometheus.libsonnet';
+
 local inv = kap.inventory();
 local params = inv.parameters.backup_k8up;
 
@@ -87,4 +89,18 @@ local alert_rules = com.namespaced(params.namespace, {
   },
 });
 
-[ alert_rules, service_monitor ]
+local final_alert_rules =
+  if std.member(inv.applications, 'prometheus') then
+    prometheus.Enable(alert_rules)
+  else
+    alert_rules
+;
+
+local final_service_monitor =
+  if std.member(inv.applications, 'prometheus') then
+    prometheus.Enable(service_monitor)
+  else
+    service_monitor
+;
+
+[ final_alert_rules, final_service_monitor ]
