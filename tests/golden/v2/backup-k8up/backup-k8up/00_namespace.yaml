@@ -4,5 +4,6 @@ metadata:
   annotations: {}
   labels:
     SYNMonitoring: main
+    monitoring.syn.tools/infra: 'true'
     name: syn-backup-k8up
   name: syn-backup-k8up
