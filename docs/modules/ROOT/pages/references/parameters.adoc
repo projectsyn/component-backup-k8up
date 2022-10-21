@@ -282,6 +282,7 @@ Alert definitions to deploy in a `PrometheusRule` object.
 The dict is transformed to a list of alerting rules by the component.
 Keys in the dict are used to add the field `alert: <key>` to each resulting alerting rule.
 This structure is chosen to easily adjust individual alert configurations in the hierarchy.
+Individual alerts can be excluded by setting their value to `null`.
 
 == Example
 

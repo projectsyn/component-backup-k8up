@@ -83,6 +83,7 @@ local alert_rules = com.namespaced(params.namespace, {
             labels+: alertlabels,
           }
           for field in std.sort(std.objectFields(params.monitoring_alerts))
+          if params.monitoring_alerts[field] != null
         ] + failed_job_alert_rules,
       },
     ],
