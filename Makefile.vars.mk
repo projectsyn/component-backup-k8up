@@ -53,8 +53,7 @@ GOLDEN_FILES    ?= $(shell find tests/golden/$(instance) -type f)
 
 KUBENT_FILES    ?= $(shell echo "$(GOLDEN_FILES)" | sed 's/ /,/g')
 KUBENT_ARGS     ?= -c=false --helm2=false --helm3=false -e
-# Use our own kubent image until the upstream image is available
-KUBENT_IMAGE    ?= docker.io/projectsyn/kubent:latest
+KUBENT_IMAGE    ?= ghcr.io/doitintl/kube-no-trouble:latest
 KUBENT_DOCKER   ?= $(DOCKER_CMD) $(DOCKER_ARGS) $(root_volume) --entrypoint=/app/kubent $(KUBENT_IMAGE)
 
 instance ?= v2
