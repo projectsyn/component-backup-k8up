@@ -1,13 +1,13 @@
 {
   "template": "https://github.com/projectsyn/commodore-component-template.git",
-  "commit": "32f6976d3a3028d3fdb34ea312454f2ea7fda4a2",
+  "commit": "31ba1044d6952012b8015d6bc6bd950900d20453",
   "checkout": "main",
   "context": {
     "cookiecutter": {
       "name": "backup-k8up",
       "slug": "backup-k8up",
       "parameter_key": "backup_k8up",
-      "test_cases": "v1 v2",
+      "test_cases": "v2 v1",
       "add_lib": "y",
       "add_pp": "y",
       "add_golden": "y",
