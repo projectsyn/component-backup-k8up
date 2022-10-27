@@ -58,4 +58,4 @@ KUBENT_IMAGE    ?= docker.io/projectsyn/kubent:latest
 KUBENT_DOCKER   ?= $(DOCKER_CMD) $(DOCKER_ARGS) $(root_volume) --entrypoint=/app/kubent $(KUBENT_IMAGE)
 
 instance ?= v2
-test_instances = tests/v1.yml tests/v2.yml
+test_instances = tests/v2.yml tests/v1.yml
