@@ -9,18 +9,18 @@ metadata:
     rbac.authorization.k8s.io/aggregate-to-edit: 'true'
   name: k8up-k8up-edit
 rules:
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - '*'
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - '*'
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -32,14 +32,14 @@ metadata:
     rbac.authorization.k8s.io/aggregate-to-view: 'true'
   name: k8up-k8up-view
 rules:
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - '*'
-  verbs:
-  - get
-  - list
-  - watch
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - '*'
+    verbs:
+      - get
+      - list
+      - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -50,252 +50,252 @@ metadata:
     app.kubernetes.io/name: k8up
   name: k8up-manager-role
 rules:
-- apiGroups:
-  - apps
-  resources:
-  - deployments
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - archives
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - archives/finalizers
-  - archives/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - backups
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - backups/finalizers
-  - backups/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - checks
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - checks/finalizers
-  - checks/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - effectiveschedules
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - effectiveschedules/finalizers
-  verbs:
-  - update
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - prebackuppods
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - prebackuppods/finalizers
-  - prebackuppods/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - prunes
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - prunes/finalizers
-  - prunes/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - restores
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - restores/finalizers
-  - restores/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - schedules
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - backup.appuio.ch
-  resources:
-  - schedules/finalizers
-  - schedules/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - batch
-  resources:
-  - jobs
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - batch
-  resources:
-  - jobs/finalizers
-  - jobs/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - coordination.k8s.io
-  resources:
-  - leases
-  verbs:
-  - create
-  - get
-  - list
-  - update
-- apiGroups:
-  - ''
-  resources:
-  - persistentvolumeclaims
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - ''
-  resources:
-  - pods
-  verbs:
-  - '*'
-- apiGroups:
-  - ''
-  resources:
-  - pods/exec
-  verbs:
-  - '*'
-- apiGroups:
-  - ''
-  resources:
-  - serviceaccounts
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-- apiGroups:
-  - rbac.authorization.k8s.io
-  resources:
-  - rolebindings
-  - roles
-  verbs:
-  - create
-  - delete
-  - get
-  - list
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - archives
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - archives/finalizers
+      - archives/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - backups
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - backups/finalizers
+      - backups/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - checks
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - checks/finalizers
+      - checks/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - effectiveschedules
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - effectiveschedules/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - prebackuppods
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - prebackuppods/finalizers
+      - prebackuppods/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - prunes
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - prunes/finalizers
+      - prunes/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - restores
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - restores/finalizers
+      - restores/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - schedules
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - backup.appuio.ch
+    resources:
+      - schedules/finalizers
+      - schedules/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - batch
+    resources:
+      - jobs
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - batch
+    resources:
+      - jobs/finalizers
+      - jobs/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - create
+      - get
+      - list
+      - update
+  - apiGroups:
+      - ''
+    resources:
+      - persistentvolumeclaims
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ''
+    resources:
+      - pods
+    verbs:
+      - '*'
+  - apiGroups:
+      - ''
+    resources:
+      - pods/exec
+    verbs:
+      - '*'
+  - apiGroups:
+      - ''
+    resources:
+      - serviceaccounts
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - rolebindings
+      - roles
+    verbs:
+      - create
+      - delete
+      - get
+      - list
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -310,9 +310,9 @@ roleRef:
   kind: ClusterRole
   name: k8up-manager-role
 subjects:
-- kind: ServiceAccount
-  name: k8up
-  namespace: syn-backup
+  - kind: ServiceAccount
+    name: k8up
+    namespace: syn-backup
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -324,31 +324,31 @@ metadata:
   name: k8up-leader-election-role
   namespace: syn-backup
 rules:
-- apiGroups:
-  - ''
-  resources:
-  - configmaps
-  verbs:
-  - get
-  - list
-  - watch
-  - create
-  - update
-  - patch
-  - delete
-- apiGroups:
-  - ''
-  resources:
-  - configmaps/finalizers
-  verbs:
-  - update
-- apiGroups:
-  - ''
-  resources:
-  - events
-  verbs:
-  - create
-  - patch
+  - apiGroups:
+      - ''
+    resources:
+      - configmaps
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - ''
+    resources:
+      - configmaps/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - ''
+    resources:
+      - events
+    verbs:
+      - create
+      - patch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -364,6 +364,6 @@ roleRef:
   kind: Role
   name: k8up-leader-election-role
 subjects:
-- kind: ServiceAccount
-  name: k8up
-  namespace: syn-backup
+  - kind: ServiceAccount
+    name: k8up
+    namespace: syn-backup

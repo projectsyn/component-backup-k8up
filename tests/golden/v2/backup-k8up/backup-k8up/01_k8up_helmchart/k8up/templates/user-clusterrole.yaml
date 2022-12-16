@@ -9,18 +9,18 @@ metadata:
     rbac.authorization.k8s.io/aggregate-to-edit: 'true'
   name: k8up-edit
 rules:
-- apiGroups:
-  - k8up.io
-  resources:
-  - '*'
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
+  - apiGroups:
+      - k8up.io
+    resources:
+      - '*'
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -32,11 +32,11 @@ metadata:
     rbac.authorization.k8s.io/aggregate-to-view: 'true'
   name: k8up-view
 rules:
-- apiGroups:
-  - k8up.io
-  resources:
-  - '*'
-  verbs:
-  - get
-  - list
-  - watch
+  - apiGroups:
+      - k8up.io
+    resources:
+      - '*'
+    verbs:
+      - get
+      - list
+      - watch
