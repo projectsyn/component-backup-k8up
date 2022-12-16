@@ -12,6 +12,6 @@ roleRef:
   kind: ClusterRole
   name: k8up-manager
 subjects:
-- kind: ServiceAccount
-  name: k8up
-  namespace: syn-backup-k8up
+  - kind: ServiceAccount
+    name: k8up
+    namespace: syn-backup-k8up

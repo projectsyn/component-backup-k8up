@@ -9,9 +9,9 @@ metadata:
   name: k8up-metrics
 spec:
   ports:
-  - name: http
-    port: 8080
-    targetPort: http
+    - name: http
+      port: 8080
+      targetPort: http
   selector:
     app.kubernetes.io/instance: k8up
     app.kubernetes.io/name: k8up
