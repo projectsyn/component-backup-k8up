@@ -1529,84 +1529,6 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.10.0
   creationTimestamp: null
-  name: effectiveschedules.k8up.io
-spec:
-  group: k8up.io
-  names:
-    kind: EffectiveSchedule
-    listKind: EffectiveScheduleList
-    plural: effectiveschedules
-    singular: effectiveschedule
-  scope: Namespaced
-  versions:
-    - additionalPrinterColumns:
-        - description: Schedule Namespace
-          jsonPath: .spec.scheduleRefs[0].namespace
-          name: Schedule Namespace
-          type: string
-        - description: Schedule Name
-          jsonPath: .spec.scheduleRefs[0].name
-          name: Schedule Name
-          type: string
-        - description: Generated Schedule
-          jsonPath: .spec.generatedSchedule
-          name: Generated Schedule
-          type: string
-        - description: Job Type
-          jsonPath: .spec.jobType
-          name: Job Type
-          type: string
-        - jsonPath: .metadata.creationTimestamp
-          name: Age
-          type: date
-      name: v1
-      schema:
-        openAPIV3Schema:
-          description: EffectiveSchedule is the Schema to persist schedules generated from Randomized schedules.
-          properties:
-            apiVersion:
-              description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
-              type: string
-            kind:
-              description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-              type: string
-            metadata:
-              type: object
-            spec:
-              description: EffectiveScheduleSpec defines the desired state of EffectiveSchedule
-              properties:
-                generatedSchedule:
-                  description: GeneratedSchedule is the effective schedule that is added to Cron
-                  type: string
-                jobType:
-                  description: JobType defines to which job type this schedule applies
-                  type: string
-                originalSchedule:
-                  description: OriginalSchedule is the original user-defined schedule definition in the Schedule object.
-                  type: string
-                scheduleRefs:
-                  description: ScheduleRefs holds a list of schedules for which the generated schedule applies to. The list may omit entries that aren't generated from smart schedules.
-                  items:
-                    description: ScheduleRef represents a reference to a Schedule resource
-                    properties:
-                      name:
-                        type: string
-                      namespace:
-                        type: string
-                    type: object
-                  type: array
-              type: object
-          type: object
-      served: true
-      storage: true
-      subresources: {}
----
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
-metadata:
-  annotations:
-    controller-gen.kubebuilder.io/version: v0.10.0
-  creationTimestamp: null
   name: prebackuppods.k8up.io
 spec:
   group: k8up.io
@@ -9367,6 +9289,18 @@ spec:
                       - type
                     type: object
                   type: array
+                effectiveSchedules:
+                  description: EffectiveSchedules contains a list of schedules generated from randomizing schedules.
+                  items:
+                    properties:
+                      generatedSchedule:
+                        description: ScheduleDefinition is the actual cron-type expression that defines the interval of the actions.
+                        type: string
+                      jobType:
+                        description: JobType defines what job type this is.
+                        type: string
+                    type: object
+                  type: array
               type: object
           type: object
       served: true
@@ -9390,7 +9324,20 @@ spec:
     singular: snapshot
   scope: Namespaced
   versions:
-    - name: v1
+    - additionalPrinterColumns:
+        - description: Date when snapshot was taken
+          jsonPath: .spec.date
+          name: Date taken
+          type: string
+        - description: Snapshot's paths
+          jsonPath: .spec.paths[*]
+          name: Paths
+          type: string
+        - description: Repository Url
+          jsonPath: .spec.repository
+          name: Repository
+          type: string
+      name: v1
       schema:
         openAPIV3Schema:
           description: Snapshot is the Schema for the snapshots API
@@ -9415,6 +9362,8 @@ spec:
                   items:
                     type: string
                   type: array
+                repository:
+                  type: string
               type: object
             status:
               description: SnapshotStatus defines the observed state of Snapshot

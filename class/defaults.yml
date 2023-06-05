@@ -17,11 +17,11 @@ parameters:
       v2:
         registry: ghcr.io
         repository: k8up-io/k8up
-        tag: v2.5.2
+        tag: v2.7.1
         pullPolicy: IfNotPresent
     =_chartVersion:
       v1: 1.1.0
-      v2: 3.0.2
+      v2: 4.3.0
     =_chartSource:
       v1: https://charts.appuio.ch
       v2: https://k8up-io.github.io/k8up
