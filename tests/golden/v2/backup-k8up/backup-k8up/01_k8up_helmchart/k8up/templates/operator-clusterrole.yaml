@@ -5,7 +5,7 @@ metadata:
     app.kubernetes.io/instance: k8up
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: k8up
-    helm.sh/chart: k8up-3.0.2
+    helm.sh/chart: k8up-4.3.0
   name: k8up-manager
 rules:
   - apiGroups:
@@ -33,15 +33,6 @@ rules:
       - update
       - watch
   - apiGroups:
-      - batch
-    resources:
-      - jobs/finalizers
-      - jobs/status
-    verbs:
-      - get
-      - patch
-      - update
-  - apiGroups:
       - coordination.k8s.io
     resources:
       - leases
@@ -68,15 +59,19 @@ rules:
   - apiGroups:
       - ''
     resources:
-      - pods
+      - persistentvolumes
     verbs:
-      - '*'
+      - get
+      - list
+      - watch
   - apiGroups:
       - ''
     resources:
-      - pods/exec
+      - pods
     verbs:
-      - '*'
+      - get
+      - list
+      - watch
   - apiGroups:
       - ''
     resources:
@@ -86,6 +81,7 @@ rules:
       - delete
       - get
       - list
+      - watch
   - apiGroups:
       - k8up.io
     resources:
@@ -252,12 +248,42 @@ rules:
       - patch
       - update
   - apiGroups:
-      - rbac.authorization.k8s.io
+      - k8up.io
     resources:
-      - rolebindings
-      - roles
+      - snapshots
     verbs:
       - create
       - delete
       - get
       - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - k8up.io
+    resources:
+      - snapshots/finalizers
+      - snapshots/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resourceNames:
+      - k8up-executor
+    resources:
+      - clusterroles
+    verbs:
+      - bind
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - rolebindings
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - update
+      - watch
