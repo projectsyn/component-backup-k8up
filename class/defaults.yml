@@ -1,8 +1,5 @@
 parameters:
   backup_k8up:
-    =_metadata:
-      multi_instance: true
-
     charts:
       k8up:
         source: https://k8up-io.github.io/k8up
