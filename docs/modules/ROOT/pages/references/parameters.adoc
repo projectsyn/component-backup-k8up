@@ -3,28 +3,6 @@
 The parent key for all of the following parameters is `backup_k8up`.
 
 
-== `majorVersion`
-
-[horizontal]
-type:: string
-default:: `v2`
-values:: `v1`, `v2`
-
-This parameter controls which major version of K8up should be installed.
-
-== `enabled`
-
-NOTE: This parameter is **deprecated**
-
-[horizontal]
-type:: bool
-default:: `true`
-
-Whether to create the ArgoCD app for the component.
-Setting this to false, effectively disables the component from being deployed.
-
-NOTE: The manifests will still appear in the catalog, but without the ArgoCD app they won't get deployed.
-
 == `charts`
 
 [horizontal]
@@ -39,34 +17,14 @@ The default K8up Helm chart version to use.
 type:: dict
 default:: See `class/defaults.yml`
 
-The default Docker image locations and tags to use for K8up (key `k8up`) and Wrestic (key `wrestic`).
+The default Docker image location and tag to use for K8up (key `k8up`).
 
 Entries in this dict should be dictionaries with keys `registry`, `repository`, and `tag`.
 This structure provides the basis for https://syn.tools/syn/SDDs/0017-maintenance-with-renovate.html[dependency maintenance with Renovate].
 
-Please customize K8up and Wrestic image locations and tags in this dict
-instead of directly in `helmValues`.
+Please customize K8up image location and tag in this dict instead of directly in `helmValues`.
 
 The value of `k8up.tag` in this dict is used by the component to select the CRD YAML to download.
-
-== `crd`
-
-[NOTE]
-====
-This parameter is deprecated starting with `component-backup-k8up` v3.0.0 (which adds K8up v2 support)
-Only use this parameter if you're deploying K8up v1 with the component.
-====
-
-[horizontal]
-type:: string
-default:: `k8up-crd.yaml`
-
-The name of the CRD yaml File.
-
-Use `k8up-crd.yaml` (default) for K8s >= 1.16
-Change to `k8up-crd-legacy.yaml` for K8s <= 1.15 (for example OpenShift 3.11)
-
-See https://github.com/appuio/charts/tree/master/k8up#handling-crds
 
 == `helmValues`
 
@@ -148,7 +106,7 @@ default:: `null`
 
 Sets the number of old, successful jobs to keep when cleaning up, applies to all job types.
 Overrides `global_backup_config.keepjobs`.
-If neither `global_backup_config.keepjobs` nor this parameter are set, the https://k8up.io/k8up/1.2.0/references/config-reference.html[K8up default value] for the configuration is used.
+If neither `global_backup_config.keepjobs` nor this parameter are set, the https://k8up.io/k8up/2.7/references/operator-config-reference.html[K8up default value] for the configuration is used.
 
 == `global_backup_config.failed_jobs_history_limit`
 
@@ -158,7 +116,7 @@ default:: `null`
 
 Sets the number of old, failed jobs to keep when cleaning up, applies to all job types.
 Overrides `global_backup_config.keepjobs`.
-If neither `global_backup_config.keepjobs` nor this parameter are set, the https://k8up.io/k8up/1.2.0/references/config-reference.html[K8up default value] for the configuration is used.
+If neither `global_backup_config.keepjobs` nor this parameter are set, the https://k8up.io/k8up/2.7/references/operator-config-reference.html[K8up default value] for the configuration is used.
 
 == `global_backup_config.stats_endpoint`
 

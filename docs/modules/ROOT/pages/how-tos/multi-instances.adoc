@@ -1,5 +1,11 @@
 = Multiple Instances Of K8up
 
+[IMPORTANT]
+====
+Component version v5.0.0 removes multi-instance support from K8up.
+If you need to migrate from K8up v1 to K8up v2, please use component version <= v4.3.2.
+====
+
 This guide describes how to install multiple instances of K8up on a cluster.
 The idea of having multiple instances is to enable upgrades between major versions over a longer period.
 

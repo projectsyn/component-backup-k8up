@@ -1,55 +1,19 @@
 parameters:
   backup_k8up:
-    =_metadata:
-      multi_instance: true
+    charts:
+      k8up:
+        source: https://k8up-io.github.io/k8up
+        version: 3.0.2
 
-    =_backupImageRepository:
-      v1: ${backup_k8up:images:wrestic:registry}/${backup_k8up:images:wrestic:repository}
-      v2: ${backup_k8up:images:k8up:registry}/${backup_k8up:images:k8up:repository}
-    =_backupImageTag:
-      v1: ${backup_k8up:images:wrestic:tag}
-      v2: ${backup_k8up:images:k8up:tag}
-    =_k8upImage:
-      v1:
-        registry: ghcr.io
-        repository: k8up-io/k8up
-        tag: v1.2.0
-      v2:
+    images:
+      k8up:
         registry: ghcr.io
         repository: k8up-io/k8up
         tag: v2.5.2
         pullPolicy: IfNotPresent
-    =_chartVersion:
-      v1: 1.1.0
-      v2: 3.0.2
-    =_chartSource:
-      v1: https://charts.appuio.ch
-      v2: https://k8up-io.github.io/k8up
-    =_annotationDomain:
-      v1: k8up.syn.tools
-      v2: k8up.io
-    =_monitoringMetricsNamespace:
-      v1: baas
-      v2: k8up
 
-    charts:
-      k8up:
-        source: ${backup_k8up:_chartSource:${backup_k8up:majorVersion}}
-        version: ${backup_k8up:_chartVersion:${backup_k8up:majorVersion}}
-
-    images:
-      k8up: ${backup_k8up:_k8upImage:${backup_k8up:majorVersion}}
-      # This image is deprecated since K8up v2 support
-      wrestic:
-        registry: ghcr.io
-        repository: k8up-io/wrestic
-        tag: v0.3.3
-
-    majorVersion: v2
     helmReleaseName: k8up
 
-    # This parameter is deprecated since K8up v2 support
-    crd: "k8up-crd.yaml" # Use `k8up-crd-legacy.yaml` for K8s <= 1.15 (e.g. OpenShift 3.11):
     namespace: syn-backup-k8up
 
     helmValues:
@@ -60,8 +24,8 @@ parameters:
         timezone: "Etc/UTC"
 
         backupImage:
-          repository: ${backup_k8up:_backupImageRepository:${backup_k8up:majorVersion}}
-          tag: ${backup_k8up:_backupImageTag:${backup_k8up:majorVersion}}
+          repository: ${backup_k8up:images:k8up:registry}/${backup_k8up:images:k8up:repository}
+          tag: ${backup_k8up:images:k8up:tag}
 
         envVars:
           - name: BACKUP_PROMURL
@@ -138,8 +102,8 @@ parameters:
       stats_url: null
       s3_endpoint: null
     backofflimit: '2'
-    annotation: ${backup_k8up:_annotationDomain:${backup_k8up:majorVersion}}/backup
-    backupcommandannotation: ${backup_k8up:_annotationDomain:${backup_k8up:majorVersion}}/backupcommand
+    annotation: k8up.io/backup
+    backupcommandannotation: k8up.io/backupcommand
     alert_rule_filters:
       namespace: namespace=~"syn.*"
     prometheus_push_gateway: 'http://platform-prometheus-pushgateway.syn-synsights.svc:9091'
@@ -185,7 +149,7 @@ parameters:
       k8up_last_errors:
         annotations:
           message: Last backup for PVC {{ $labels.pvc }} in namespace {{ $labels.instance }} had {{ $value }} errors
-        expr: ${backup_k8up:_monitoringMetricsNamespace:${backup_k8up:majorVersion}}_backup_restic_last_errors{${backup_k8up:alert_rule_filters:namespace}} > 0
+        expr: k8up_backup_restic_last_errors{${backup_k8up:alert_rule_filters:namespace}} > 0
         for: 1m
         labels:
           severity: critical
