@@ -7,7 +7,7 @@
       "name": "backup-k8up",
       "slug": "backup-k8up",
       "parameter_key": "backup_k8up",
-      "test_cases": "v2",
+      "test_cases": "defaults",
       "add_lib": "y",
       "add_pp": "y",
       "add_golden": "y",

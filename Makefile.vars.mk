@@ -56,5 +56,5 @@ KUBENT_ARGS     ?= -c=false --helm3=false -e
 KUBENT_IMAGE    ?= ghcr.io/doitintl/kube-no-trouble:latest
 KUBENT_DOCKER   ?= $(DOCKER_CMD) $(DOCKER_ARGS) $(root_volume) --entrypoint=/app/kubent $(KUBENT_IMAGE)
 
-instance ?= v2
-test_instances = tests/v2.yml
+instance ?= defaults
+test_instances = tests/defaults.yml

@@ -32,7 +32,7 @@ jobs:
     strategy:
       matrix:
         instance:
-          - v2
+          - defaults
     defaults:
       run:
         working-directory: ${{ env.COMPONENT_NAME }}
@@ -47,7 +47,7 @@ jobs:
     strategy:
       matrix:
         instance:
-          - v2
+          - defaults
     defaults:
       run:
         working-directory: ${{ env.COMPONENT_NAME }}
