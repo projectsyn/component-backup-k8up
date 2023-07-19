@@ -7,7 +7,7 @@ parameters:
         version: ${backup_k8up:charts:k8up:version}
         output_path: dependencies/backup-k8up/helmcharts/v${backup_k8up:charts:k8up:version}
       - type: https
-        source: https://github.com/vshn/k8up/releases/download/${backup_k8up:images:k8up:tag}/${backup_k8up:crd}
+        source: https://github.com/vshn/k8up/releases/download/${backup_k8up:images:k8up:tag}/k8up-crd.yaml
         output_path: dependencies/backup-k8up/crds/${backup_k8up:images:k8up:tag}/02_k8up_crds.yaml
     compile:
       - input_paths:
