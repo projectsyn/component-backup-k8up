@@ -4,6 +4,9 @@
     ":gitSignOff",
     ":disableDependencyDashboard"
   ],
+  "ignorePaths": [
+    ".github/**"
+  ],
   "postUpgradeTasks": {
     "commands": [
       "make gen-golden-all"
