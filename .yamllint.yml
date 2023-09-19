@@ -10,6 +10,16 @@ rules:
     max: 80
     level: warning
 
+  # Forbid octal literals until we've fully migrated to reclass-rs
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
+
+  # Restrict truthy values to set which is parsed as boolean by reclass-rs
+  truthy:
+    allowed-values: ['true', 'false', 'True', 'False', 'TRUE', 'FALSE']
+    check-keys: true
+
 ignore: |
   dependencies/
   helmcharts/
