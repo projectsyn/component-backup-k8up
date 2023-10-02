@@ -100,7 +100,7 @@ spec:
           command:
             - sh
             - -c
-          image: bitnami/kubectl:latest
+          image: docker.io/bitnami/kubectl:latest
           name: k8up-cleanup
       restartPolicy: Never
       serviceAccountName: cleanup-service-account

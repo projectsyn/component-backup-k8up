@@ -11,6 +11,10 @@ parameters:
         repository: k8up-io/k8up
         tag: v2.7.1
         pullPolicy: IfNotPresent
+      kubectl:
+        registry: docker.io
+        repository: bitnami/kubectl
+        tag: latest
 
     helmReleaseName: k8up
 

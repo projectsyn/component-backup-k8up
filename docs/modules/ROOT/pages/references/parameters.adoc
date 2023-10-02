@@ -17,7 +17,7 @@ The default K8up Helm chart version to use.
 type:: dict
 default:: See `class/defaults.yml`
 
-The default Docker image location and tag to use for K8up (key `k8up`).
+The default Docker image location and tag to use for K8up (key `k8up`) and kubectl (key `kubectl`).
 
 Entries in this dict should be dictionaries with keys `registry`, `repository`, and `tag`.
 This structure provides the basis for https://syn.tools/syn/SDDs/0017-maintenance-with-renovate.html[dependency maintenance with Renovate].
@@ -25,6 +25,9 @@ This structure provides the basis for https://syn.tools/syn/SDDs/0017-maintenanc
 Please customize K8up image location and tag in this dict instead of directly in `helmValues`.
 
 The value of `k8up.tag` in this dict is used by the component to select the CRD YAML to download.
+
+The component uses the contents of field `kubectl` to patch the Helm chart's cleanup job.
+This allows users to configure a custom location for the `kubectl` image used by the job.
 
 == `helmValues`
 
