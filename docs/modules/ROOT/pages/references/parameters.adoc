@@ -26,8 +26,8 @@ Please customize K8up image location and tag in this dict instead of directly in
 
 The value of `k8up.tag` in this dict is used by the component to select the CRD YAML to download.
 
-The component uses the contents of field `kubectl` to patch the Helm chart's cleanup job.
-This allows users to configure a custom location for the `kubectl` image used by the job.
+The component passes field `kubectl` to the Helm chart in value `cleanup`.
+This allows users to control which container image is used by the cleanup job.
 
 == `helmValues`
 
