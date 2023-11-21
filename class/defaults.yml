@@ -23,6 +23,7 @@ parameters:
     helmValues:
       replicaCount: 1
       image: ${backup_k8up:images:k8up}
+      cleanup: ${backup_k8up:images:kubectl}
       k8up:
         enableLeaderElection: true
         timezone: "Etc/UTC"
