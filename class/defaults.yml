@@ -19,6 +19,7 @@ parameters:
     helmReleaseName: k8up
 
     namespace: syn-backup-k8up
+    priorityClass: system-cluster-critical
 
     helmValues:
       replicaCount: 1

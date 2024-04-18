@@ -39,3 +39,6 @@ parameters:
         - type: jsonnet
           filter: postprocess/optional_global_config.jsonnet
           path: ${_instance}/01_k8up_helmchart/k8up/templates
+        - type: jsonnet
+          filter: postprocess/add_priorityclass.jsonnet
+          path: ${_instance}/01_k8up_helmchart/k8up/templates
