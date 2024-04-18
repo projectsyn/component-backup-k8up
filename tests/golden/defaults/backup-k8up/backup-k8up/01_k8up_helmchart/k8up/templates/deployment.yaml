@@ -59,4 +59,5 @@ spec:
             requests:
               cpu: 20m
               memory: 128Mi
+      priorityClassName: system-cluster-critical
       serviceAccountName: k8up
