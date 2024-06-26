@@ -81,6 +81,8 @@ parameters:
             value: '${backup_k8up:global_backup_config:restore_bucket}'
           - name: BACKUP_GLOBALRESTORES3ENDPOINT
             value: '${backup_k8up:global_backup_config:restore_s3endpoint}'
+          - name: BACKUP_SKIP_WITHOUT_ANNOTATION
+            value: '${backup_k8up:global_backup_config:skip_without_annotation}'
 
     global_backup_config:
       enabled: true
@@ -107,6 +109,7 @@ parameters:
       failed_jobs_history_limit: null
       stats_url: null
       s3_endpoint: null
+      skip_without_annotation: false
     backofflimit: '2'
     annotation: k8up.io/backup
     backupcommandannotation: k8up.io/backupcommand

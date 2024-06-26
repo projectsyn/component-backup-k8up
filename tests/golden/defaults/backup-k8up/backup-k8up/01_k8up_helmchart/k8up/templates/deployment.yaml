@@ -43,6 +43,8 @@ spec:
               value: k8up.io/backupcommand
             - name: BACKUP_BACKOFFLIMIT
               value: '2'
+            - name: BACKUP_SKIP_WITHOUT_ANNOTATION
+              value: false
           image: ghcr.io/k8up-io/k8up:v2.10.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
