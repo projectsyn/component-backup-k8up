@@ -127,6 +127,14 @@ If neither `global_backup_config.keepjobs` nor this parameter are set, the https
 type:: string
 default:: `null`
 
+== `global_backup_config.skip_without_annotation`
+
+[horizontal]
+type:: bool
+default:: `false`
+
+Skips backups for all PVCs that aren't explicitly annotated with `k8up.io/backup`.
+
 == `global_backup_config.s3_endpoint`
 
 [horizontal]
