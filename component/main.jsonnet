@@ -29,7 +29,7 @@ local global_backup_secret = kube.Secret(params.global_backup_config.backup_secr
 local monitoring = import 'monitoring.jsonnet';
 
 local monitoring_labels =
-  if inv.parameters.facts.distribution == 'openshift4' then
+  if std.member([ 'openshift4', 'oke' ], inv.parameters.facts.distribution) then
     {
 
       'openshift.io/cluster-monitoring': 'true',
