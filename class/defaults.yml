@@ -33,6 +33,8 @@ parameters:
           repository: ${backup_k8up:images:k8up:registry}/${backup_k8up:images:k8up:repository}
           tag: ${backup_k8up:images:k8up:tag}
 
+        skipWithoutAnnotation: ${backup_k8up:global_backup_config:skip_without_annotation}
+
         envVars:
           - name: BACKUP_PROMURL
             value: '${backup_k8up:prometheus_push_gateway}'
@@ -81,8 +83,6 @@ parameters:
             value: '${backup_k8up:global_backup_config:restore_bucket}'
           - name: BACKUP_GLOBALRESTORES3ENDPOINT
             value: '${backup_k8up:global_backup_config:restore_s3endpoint}'
-          - name: BACKUP_SKIP_WITHOUT_ANNOTATION
-            value: '${backup_k8up:global_backup_config:skip_without_annotation}'
 
     global_backup_config:
       enabled: true
