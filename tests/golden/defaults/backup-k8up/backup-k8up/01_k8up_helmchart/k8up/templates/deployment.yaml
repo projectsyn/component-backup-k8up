@@ -24,7 +24,7 @@ spec:
             - operator
           env:
             - name: BACKUP_IMAGE
-              value: ghcr.io/k8up-io/k8up:v2.11.1
+              value: ghcr.io/k8up-io/k8up:v2.11.2
             - name: TZ
               value: Etc/UTC
             - name: BACKUP_ENABLE_LEADER_ELECTION
@@ -43,7 +43,7 @@ spec:
               value: k8up.io/backupcommand
             - name: BACKUP_BACKOFFLIMIT
               value: '2'
-          image: ghcr.io/k8up-io/k8up:v2.11.1
+          image: ghcr.io/k8up-io/k8up:v2.11.2
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
