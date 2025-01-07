@@ -13,7 +13,7 @@ parameters:
       - input_paths:
           - backup-k8up/component/app.jsonnet
         input_type: jsonnet
-        output_path: apps/
+        output_path: .
       - input_paths:
           - backup-k8up/component/crds.jsonnet
         output_path: ${_instance}
