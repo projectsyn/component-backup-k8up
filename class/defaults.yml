@@ -6,7 +6,7 @@ parameters:
     charts:
       k8up:
         source: https://k8up-io.github.io/k8up
-        version: 4.8.3
+        version: 4.8.4
 
     images:
       k8up:
