@@ -100,7 +100,7 @@ spec:
           command:
             - sh
             - -c
-          image: docker.io/bitnami/kubectl:latest
+          image: quay.io/appuio/oc:v4.18
           imagePullPolicy: IfNotPresent
           name: k8up-cleanup
       restartPolicy: Never
