@@ -24,7 +24,7 @@ local secret_key_ref(s3secret) =
       key: s3secret.secretkeyname,
     };
 
-local Backend(backupkey, bucket, s3secret, create_bucket=true) =
+local Backend(backupkey, bucket, s3secret, create_bucket=true, tls_options=null) =
   local bsecret =
     if s3secret == null && bucket != null then
       {
@@ -63,6 +63,7 @@ local Backend(backupkey, bucket, s3secret, create_bucket=true) =
         accessKeyIDSecretRef: access_key_ref(bsecret),
         secretAccessKeySecretRef: secret_key_ref(bsecret),
       },
+      [if tls_options != null then 'tlsOptions']: tls_options,
     },
   };
 
@@ -142,8 +143,8 @@ local PruneSpec(schedule, keepDaily, keepLast) =
  * \returns an object with keys 'bucket' and 'job'. 'bucket' can be `null`, if
  *          the global bucket or an externally-managed bucket is used.
  */
-local Job(name, keep_jobs=3, backupkey=null, bucket=null, s3secret=null, create_bucket=true) =
-  local backend = Backend(backupkey, bucket, s3secret, create_bucket);
+local Job(name, keep_jobs=3, backupkey=null, bucket=null, s3secret=null, create_bucket=true, tls_options=null) =
+  local backend = Backend(backupkey, bucket, s3secret, create_bucket, tls_options);
   local thejob = {
     apiVersion: 'k8up.io/v1',
     kind: 'Backup',
@@ -168,12 +169,12 @@ local Job(name, keep_jobs=3, backupkey=null, bucket=null, s3secret=null, create_
  *
  * See the documentation for \ref Job for definitions of the other arguments.
  */
-local Schedule(name, schedule, keep_jobs=3, backupkey=null, bucket=null, s3secret=null, create_bucket=true) =
+local Schedule(name, schedule, keep_jobs=3, backupkey=null, bucket=null, s3secret=null, create_bucket=true, tls_options=null) =
   // prune backups daily, keep last 5 and 30 daily backups
   local pspec = PruneSpec('30 2 * * *', 30, 5);
   // check backup repo dalily
   local cspec = CheckSpec('30 3 * * *');
-  local backend = Backend(backupkey, bucket, s3secret, create_bucket);
+  local backend = Backend(backupkey, bucket, s3secret, create_bucket, tls_options);
   local theschedule =
     {
       apiVersion: 'k8up.io/v1',
