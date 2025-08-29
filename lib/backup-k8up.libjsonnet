@@ -201,8 +201,8 @@ local Schedule(name, schedule, keep_jobs=3, backupkey=null, bucket=null, s3secre
           [if caConfigMap != null then 'volumes']: [
             {
               name: 'ca',
-              secret: {
-                secretName: caConfigMap,
+              configMap: {
+                name: caConfigMap,
               },
             },
           ],
