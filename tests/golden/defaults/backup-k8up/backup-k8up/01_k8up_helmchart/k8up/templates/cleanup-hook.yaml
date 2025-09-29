@@ -100,7 +100,7 @@ spec:
           command:
             - sh
             - -c
-          image: quay.io/appuio/oc:v4.18
+          image: quay.io/appuio/oc:v4.19
           imagePullPolicy: IfNotPresent
           name: k8up-cleanup
       restartPolicy: Never
