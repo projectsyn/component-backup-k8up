@@ -17,7 +17,7 @@ parameters:
       oc:
         registry: quay.io
         repository: appuio/oc
-        tag: v4.18
+        tag: v4.19
 
     helmReleaseName: k8up
 
