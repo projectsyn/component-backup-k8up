@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/projectsyn/commodore-component-template.git",
-  "commit": "56dd2ee980f197ec2c8b3977c16458e43d0c6ef2",
+  "commit": "de1ad5aa829f6a478ba4d245c080056f9305e17e",
   "checkout": "main",
   "context": {
     "cookiecutter": {
@@ -25,7 +25,7 @@
       "github_name": "component-backup-k8up",
       "github_url": "https://github.com/projectsyn/component-backup-k8up",
       "_template": "https://github.com/projectsyn/commodore-component-template.git",
-      "_commit": "56dd2ee980f197ec2c8b3977c16458e43d0c6ef2"
+      "_commit": "de1ad5aa829f6a478ba4d245c080056f9305e17e"
     }
   },
   "directory": null
