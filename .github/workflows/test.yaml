@@ -17,13 +17,13 @@ jobs:
           - lint_yaml
           - lint_adoc
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Run ${{ matrix.command }}
         run: make ${{ matrix.command }}
   editorconfig:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: snow-actions/eclint@v1.0.1
         with:
           args: 'check'
@@ -37,7 +37,7 @@ jobs:
       run:
         working-directory: ${{ env.COMPONENT_NAME }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           path: ${{ env.COMPONENT_NAME }}
       - name: Compile component
@@ -52,7 +52,7 @@ jobs:
       run:
         working-directory: ${{ env.COMPONENT_NAME }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           path: ${{ env.COMPONENT_NAME }}
       - name: Golden diff
