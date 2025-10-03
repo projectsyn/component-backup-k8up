@@ -5,7 +5,7 @@ metadata:
     app.kubernetes.io/instance: k8up
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: k8up
-    helm.sh/chart: k8up-4.8.5
+    helm.sh/chart: k8up-4.8.6
   name: k8up
 spec:
   replicas: 1
@@ -24,7 +24,7 @@ spec:
             - operator
           env:
             - name: BACKUP_IMAGE
-              value: ghcr.io/k8up-io/k8up:v2.13.0
+              value: ghcr.io/k8up-io/k8up:v2.13.1
             - name: TZ
               value: Etc/UTC
             - name: BACKUP_ENABLE_LEADER_ELECTION
@@ -43,7 +43,7 @@ spec:
               value: k8up.io/backupcommand
             - name: BACKUP_BACKOFFLIMIT
               value: '2'
-          image: ghcr.io/k8up-io/k8up:v2.13.0
+          image: ghcr.io/k8up-io/k8up:v2.13.1
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

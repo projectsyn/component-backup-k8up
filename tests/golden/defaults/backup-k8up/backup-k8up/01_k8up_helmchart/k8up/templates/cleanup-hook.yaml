@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/instance: k8up
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: k8up
-    helm.sh/chart: k8up-4.8.5
+    helm.sh/chart: k8up-4.8.6
   name: cleanup-service-account
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -23,7 +23,7 @@ metadata:
     app.kubernetes.io/instance: k8up
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: k8up
-    helm.sh/chart: k8up-4.8.5
+    helm.sh/chart: k8up-4.8.6
   name: k8up-cleanup-roles
   namespace: syn-backup-k8up
 rules:
@@ -53,7 +53,7 @@ metadata:
     app.kubernetes.io/instance: k8up
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: k8up
-    helm.sh/chart: k8up-4.8.5
+    helm.sh/chart: k8up-4.8.6
   name: cleanup-rolebinding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -75,7 +75,7 @@ metadata:
     app.kubernetes.io/instance: k8up
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: k8up
-    helm.sh/chart: k8up-4.8.5
+    helm.sh/chart: k8up-4.8.6
   name: k8up-cleanup
 spec:
   template:
@@ -88,7 +88,7 @@ spec:
       containers:
         - args:
             - |
-              #!/bin/bash
+              set -eo pipefail
 
               NAMESPACES=$(kubectl get namespace -ojson | jq -r '.items[].metadata.name')
 
@@ -100,7 +100,7 @@ spec:
           command:
             - sh
             - -c
-          image: quay.io/appuio/oc:v4.19
+          image: ghcr.io/k8up-io/k8up:v2.13.1
           imagePullPolicy: IfNotPresent
           name: k8up-cleanup
       restartPolicy: Never
