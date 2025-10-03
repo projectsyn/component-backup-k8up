@@ -14,10 +14,6 @@ parameters:
         repository: k8up-io/k8up
         tag: v2.13.1
         pullPolicy: IfNotPresent
-      oc:
-        registry: quay.io
-        repository: appuio/oc
-        tag: v4.19
 
     helmReleaseName: k8up
 
@@ -27,7 +23,6 @@ parameters:
     helmValues:
       replicaCount: 1
       image: ${backup_k8up:images:k8up}
-      cleanup: ${backup_k8up:images:oc}
       priorityClassName: ${backup_k8up:priorityClass}
       k8up:
         enableLeaderElection: true
