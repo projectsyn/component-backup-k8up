@@ -179,10 +179,24 @@ local Job(name, keep_jobs=3, backupkey=null, bucket=null, s3secret=null, create_
  * See the documentation for \ref Job for definitions of the other arguments.
  */
 local Schedule(name, schedule, keep_jobs=3, backupkey=null, bucket=null, s3secret=null, create_bucket=true, caConfigMap=null) =
+  local caVolume = {
+    [if caConfigMap != null then 'volumes']: [
+      {
+        name: 'ca',
+        configMap: {
+          name: caConfigMap,
+        },
+      },
+    ],
+  };
   // prune backups daily, keep last 5 and 30 daily backups
-  local pspec = PruneSpec('30 2 * * *', 30, 5);
+  local pspec = PruneSpec('30 2 * * *', 30, 5) {
+    spec+: { prune+: caVolume },
+  };
   // check backup repo dalily
-  local cspec = CheckSpec('30 3 * * *');
+  local cspec = CheckSpec('30 3 * * *') {
+    spec+: { check+: caVolume },
+  };
   local backend = Backend(backupkey, bucket, s3secret, create_bucket, caConfigMap);
   local theschedule =
     {
@@ -198,15 +212,7 @@ local Schedule(name, schedule, keep_jobs=3, backupkey=null, bucket=null, s3secre
             k8up_params.prometheus_push_gateway,
           keepJobs: keep_jobs,
           schedule: schedule,
-          [if caConfigMap != null then 'volumes']: [
-            {
-              name: 'ca',
-              configMap: {
-                name: caConfigMap,
-              },
-            },
-          ],
-        },
+        } + caVolume,
       },
     } + pspec + cspec;
   {
