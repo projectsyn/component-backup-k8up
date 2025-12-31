@@ -88,7 +88,7 @@ local Backend(backupkey, bucket, s3secret, create_bucket=true, caConfigMap=null)
 local CheckSpec(schedule) =
   {
     spec+: {
-      check: {
+      check+: {
         [if k8up_params.prometheus_push_gateway != null then 'promURL']:
           k8up_params.prometheus_push_gateway,
         schedule: schedule,
@@ -110,7 +110,7 @@ local CheckSpec(schedule) =
 local PruneSpec(schedule, keepDaily, keepLast) =
   {
     spec+: {
-      prune: {
+      prune+: {
         retention: {
           keepDaily: keepDaily,
           keepLast: keepLast,
