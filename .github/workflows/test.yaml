@@ -33,6 +33,7 @@ jobs:
       matrix:
         instance:
           - defaults
+          - component-lib
     defaults:
       run:
         working-directory: ${{ env.COMPONENT_NAME }}
@@ -48,6 +49,7 @@ jobs:
       matrix:
         instance:
           - defaults
+          - component-lib
     defaults:
       run:
         working-directory: ${{ env.COMPONENT_NAME }}

@@ -1,0 +1,40 @@
+parameters:
+  kapitan:
+    ~compile:
+      - input_paths:
+          - ${_base_directory}/tests/component-lib-tests.jsonnet
+        input_type: jsonnet
+        output_path: ${_instance}/
+
+  # disable commodore postprocessing for lib test
+  ~commodore: {}
+
+  backup_k8up:
+    default_backup_bucket: null
+    global_backup_config:
+      s3_endpoint: https://s3.example.com
+
+  test_cases:
+    default: &d
+      schedule: "10 3 * * *"
+      bucket: default-bucket
+      backupkey:
+        name: backup-secret
+        key: password
+      s3secret:
+        name: s3-secret
+        accesskeyname: username
+        secretkeyname: password
+    custom-ca:
+      <<: *d
+      bucket: custom-ca-bucket
+      caConfigMap: custom-ca
+    custom-ca-with-extra:
+      <<: *d
+      bucket: custom-ca-bucket
+      caConfigMap: custom-ca
+      prune_spec:
+        schedule: "10 */4 * * *"
+        keep_last: 20
+        keep_daily: 30
+      check_schedule: "30 3 * * *"

@@ -1,0 +1,30 @@
+apiVersion: k8up.io/v1
+kind: Schedule
+metadata:
+  name: default
+spec:
+  backend:
+    repoPasswordSecretRef:
+      key: password
+      name: backup-secret
+    s3:
+      accessKeyIDSecretRef:
+        key: username
+        name: s3-secret
+      bucket: default-bucket
+      endpoint: https://s3.example.com
+      secretAccessKeySecretRef:
+        key: password
+        name: s3-secret
+  backup:
+    keepJobs: 3
+    promURL: http://platform-prometheus-pushgateway.syn-synsights.svc:9091
+    schedule: 10 3 * * *
+  check:
+    promURL: http://platform-prometheus-pushgateway.syn-synsights.svc:9091
+    schedule: 30 3 * * *
+  prune:
+    retention:
+      keepDaily: 30
+      keepLast: 5
+    schedule: 30 2 * * *
