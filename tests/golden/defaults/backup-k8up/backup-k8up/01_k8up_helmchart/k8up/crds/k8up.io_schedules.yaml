@@ -3,7 +3,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     argocd.argoproj.io/sync-options: ServerSideApply=true
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: schedules.k8up.io
 spec:
   group: k8up.io
@@ -64,10 +64,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -85,10 +88,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -113,10 +119,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -134,10 +143,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -157,16 +169,19 @@ spec:
                             a an external source to the Restic job.
                           items:
                             description: EnvFromSource represents the source of a
-                              set of ConfigMaps
+                              set of ConfigMaps or Secrets
                             properties:
                               configMapRef:
                                 description: The ConfigMap to select from
                                 properties:
                                   name:
+                                    default: ''
                                     description: |-
                                       Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
                                       More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind, uid?
                                     type: string
                                   optional:
                                     description: Specify whether the ConfigMap must
@@ -175,17 +190,21 @@ spec:
                                 type: object
                                 x-kubernetes-map-type: atomic
                               prefix:
-                                description: An optional identifier to prepend to
-                                  each key in the ConfigMap. Must be a C_IDENTIFIER.
+                                description: |-
+                                  Optional text to prepend to the name of each environment variable.
+                                  May consist of any printable ASCII characters except '='.
                                 type: string
                               secretRef:
                                 description: The Secret to select from
                                 properties:
                                   name:
+                                    default: ''
                                     description: |-
                                       Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
                                       More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind, uid?
                                     type: string
                                   optional:
                                     description: Specify whether the Secret must be
@@ -205,10 +224,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -228,10 +250,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -256,10 +281,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -279,10 +307,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -302,10 +333,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -326,10 +360,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -351,10 +388,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -397,6 +437,8 @@ spec:
                                   to container and the other way around.
                                   When not set, MountPropagationNone is used.
                                   This field is beta in 1.10.
+                                  When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified
+                                  (which defaults to None).
                                 type: string
                               name:
                                 description: This must match the Name of a Volume.
@@ -406,6 +448,25 @@ spec:
                                   Mounted read-only if true, read-write otherwise (false or unspecified).
                                   Defaults to false.
                                 type: boolean
+                              recursiveReadOnly:
+                                description: |-
+                                  RecursiveReadOnly specifies whether read-only mounts should be handled
+                                  recursively.
+
+                                  If ReadOnly is false, this field has no meaning and must be unspecified.
+
+                                  If ReadOnly is true, and this field is set to Disabled, the mount is not made
+                                  recursively read-only.  If this field is set to IfPossible, the mount is made
+                                  recursively read-only, if it is supported by the container runtime.  If this
+                                  field is set to Enabled, the mount is made recursively read-only if it is
+                                  supported by the container runtime, otherwise the pod will not be started and
+                                  an error will be generated to indicate the reason.
+
+                                  If this field is set to IfPossible or Enabled, MountPropagation must be set to
+                                  None (or be unspecified, which defaults to None).
+
+                                  If this field is not specified, it is treated as an equivalent of Disabled.
+                                type: string
                               subPath:
                                 description: |-
                                   Path within the volume from which the container's volume should be mounted.
@@ -426,6 +487,11 @@ spec:
                       type: object
                     concurrentRunsAllowed:
                       type: boolean
+                    delete:
+                      description: |-
+                        Delete ensures the state after restoring a snapshot is identical to the snapshot
+                        Deletes files from target if they do not exist in snapshot
+                      type: boolean
                     failedJobsHistoryLimit:
                       description: |-
                         FailedJobsHistoryLimit amount of failed jobs to keep for later analysis.
@@ -435,9 +501,14 @@ spec:
                       description: |-
                         KeepJobs amount of jobs to keep for later analysis.
 
-
                         Deprecated: Use FailedJobsHistoryLimit and SuccessfulJobsHistoryLimit respectively.
                       type: integer
+                    paths:
+                      description: Paths is a list of paths that are contained with
+                        in a snapshot and can be filtered by
+                      items:
+                        type: string
+                      type: array
                     podConfigRef:
                       description: |-
                         PodConfigRef describes the pod spec with wich this action shall be executed.
@@ -446,10 +517,13 @@ spec:
                         This is for advanced use-cases only. Please only set this if you know what you're doing.
                       properties:
                         name:
+                          default: ''
                           description: |-
                             Name of the referent.
+                            This field is effectively required, but due to backwards compatibility is
+                            allowed to be empty. Instances of this type with an empty value here are
+                            almost certainly wrong.
                             More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                            TODO: Add other useful fields. apiVersion, kind, uid?
                           type: string
                       type: object
                       x-kubernetes-map-type: atomic
@@ -457,17 +531,38 @@ spec:
                       description: PodSecurityContext describes the security context
                         with which this action shall be executed.
                       properties:
+                        appArmorProfile:
+                          description: |-
+                            appArmorProfile is the AppArmor options to use by the containers in this pod.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          properties:
+                            localhostProfile:
+                              description: |-
+                                localhostProfile indicates a profile loaded on the node that should be used.
+                                The profile must be preconfigured on the node to work.
+                                Must match the loaded name of the profile.
+                                Must be set if and only if type is "Localhost".
+                              type: string
+                            type:
+                              description: |-
+                                type indicates which kind of AppArmor profile will be applied.
+                                Valid options are:
+                                  Localhost - a profile pre-loaded on the node.
+                                  RuntimeDefault - the container runtime's default profile.
+                                  Unconfined - no AppArmor enforcement.
+                              type: string
+                          required:
+                            - type
+                          type: object
                         fsGroup:
                           description: |-
                             A special supplemental group that applies to all containers in a pod.
                             Some volume types allow the Kubelet to change the ownership of that volume
                             to be owned by the pod:
 
-
                             1. The owning GID will be the FSGroup
                             2. The setgid bit is set (new files created in the volume will be owned by FSGroup)
                             3. The permission bits are OR'd with rw-rw----
-
 
                             If unset, the Kubelet will not modify the ownership and permissions of any volume.
                             Note that this field cannot be set when spec.os.name is windows.
@@ -512,6 +607,32 @@ spec:
                             Note that this field cannot be set when spec.os.name is windows.
                           format: int64
                           type: integer
+                        seLinuxChangePolicy:
+                          description: |-
+                            seLinuxChangePolicy defines how the container's SELinux label is applied to all volumes used by the Pod.
+                            It has no effect on nodes that do not support SELinux or to volumes does not support SELinux.
+                            Valid values are "MountOption" and "Recursive".
+
+                            "Recursive" means relabeling of all files on all Pod volumes by the container runtime.
+                            This may be slow for large volumes, but allows mixing privileged and unprivileged Pods sharing the same volume on the same node.
+
+                            "MountOption" mounts all eligible Pod volumes with `-o context` mount option.
+                            This requires all Pods that share the same volume to use the same SELinux label.
+                            It is not possible to share the same volume among privileged and unprivileged Pods.
+                            Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes
+                            whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their
+                            CSIDriver instance. Other volumes are always re-labelled recursively.
+                            "MountOption" value is allowed only when SELinuxMount feature gate is enabled.
+
+                            If not specified and SELinuxMount feature gate is enabled, "MountOption" is used.
+                            If not specified and SELinuxMount feature gate is disabled, "MountOption" is used for ReadWriteOncePod volumes
+                            and "Recursive" for all other volumes.
+
+                            This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers.
+
+                            All Pods that use the same volume should use the same seLinuxChangePolicy, otherwise some pods can get stuck in ContainerCreating state.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          type: string
                         seLinuxOptions:
                           description: |-
                             The SELinux context to be applied to all containers.
@@ -555,7 +676,6 @@ spec:
                                 type indicates which kind of seccomp profile will be applied.
                                 Valid options are:
 
-
                                 Localhost - a profile defined in a file on the node should be used.
                                 RuntimeDefault - the container runtime default profile should be used.
                                 Unconfined - no profile should be applied.
@@ -565,17 +685,28 @@ spec:
                           type: object
                         supplementalGroups:
                           description: |-
-                            A list of groups applied to the first process run in each container, in addition
-                            to the container's primary GID, the fsGroup (if specified), and group memberships
-                            defined in the container image for the uid of the container process. If unspecified,
-                            no additional groups are added to any container. Note that group memberships
-                            defined in the container image for the uid of the container process are still effective,
-                            even if they are not included in this list.
+                            A list of groups applied to the first process run in each container, in
+                            addition to the container's primary GID and fsGroup (if specified).  If
+                            the SupplementalGroupsPolicy feature is enabled, the
+                            supplementalGroupsPolicy field determines whether these are in addition
+                            to or instead of any group memberships defined in the container image.
+                            If unspecified, no additional groups are added, though group memberships
+                            defined in the container image may still be used, depending on the
+                            supplementalGroupsPolicy field.
                             Note that this field cannot be set when spec.os.name is windows.
                           items:
                             format: int64
                             type: integer
                           type: array
+                          x-kubernetes-list-type: atomic
+                        supplementalGroupsPolicy:
+                          description: |-
+                            Defines how supplemental groups of the first container processes are calculated.
+                            Valid values are "Merge" and "Strict". If not specified, "Merge" is used.
+                            (Alpha) Using the field requires the SupplementalGroupsPolicy feature gate to be enabled
+                            and the container runtime must implement support for this feature.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          type: string
                         sysctls:
                           description: |-
                             Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
@@ -595,6 +726,7 @@ spec:
                               - value
                             type: object
                           type: array
+                          x-kubernetes-list-type: atomic
                         windowsOptions:
                           description: |-
                             The Windows specific settings applied to all containers.
@@ -637,10 +769,8 @@ spec:
                             Claims lists the names of resources, defined in spec.resourceClaims,
                             that are used by this container.
 
-
-                            This is an alpha field and requires enabling the
+                            This field depends on the
                             DynamicResourceAllocation feature gate.
-
 
                             This field is immutable. It can only be set for containers.
                           items:
@@ -651,6 +781,12 @@ spec:
                                   Name must match the name of one entry in pod.spec.resourceClaims of
                                   the Pod where this field is used. It makes that resource available
                                   inside a container.
+                                type: string
+                              request:
+                                description: |-
+                                  Request is the name chosen for a request in the referenced claim.
+                                  If empty, everything from the claim is made available, otherwise
+                                  only the result of this request.
                                 type: string
                             required:
                               - name
@@ -716,10 +852,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -741,10 +880,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -780,6 +922,8 @@ spec:
                                   to container and the other way around.
                                   When not set, MountPropagationNone is used.
                                   This field is beta in 1.10.
+                                  When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified
+                                  (which defaults to None).
                                 type: string
                               name:
                                 description: This must match the Name of a Volume.
@@ -789,6 +933,25 @@ spec:
                                   Mounted read-only if true, read-write otherwise (false or unspecified).
                                   Defaults to false.
                                 type: boolean
+                              recursiveReadOnly:
+                                description: |-
+                                  RecursiveReadOnly specifies whether read-only mounts should be handled
+                                  recursively.
+
+                                  If ReadOnly is false, this field has no meaning and must be unspecified.
+
+                                  If ReadOnly is true, and this field is set to Disabled, the mount is not made
+                                  recursively read-only.  If this field is set to IfPossible, the mount is made
+                                  recursively read-only, if it is supported by the container runtime.  If this
+                                  field is set to Enabled, the mount is made recursively read-only if it is
+                                  supported by the container runtime, otherwise the pod will not be started and
+                                  an error will be generated to indicate the reason.
+
+                                  If this field is set to IfPossible or Enabled, MountPropagation must be set to
+                                  None (or be unspecified, which defaults to None).
+
+                                  If this field is not specified, it is treated as an equivalent of Disabled.
+                                type: string
                               subPath:
                                 description: |-
                                   Path within the volume from which the container's volume should be mounted.
@@ -807,6 +970,11 @@ spec:
                             type: object
                           type: array
                       type: object
+                    restoreTimeFilter:
+                      description: Simple filter to define a timestamp (prefix, YYYY-MM-DD
+                        hh:mm:ss) for snapshot selection instead of latest (or latest
+                        if nothing matches)
+                      type: string
                     schedule:
                       description: ScheduleDefinition is the actual cron-type expression
                         that defines the interval of the actions.
@@ -882,11 +1050,15 @@ spec:
                                     - path
                                   type: object
                                 type: array
+                                x-kubernetes-list-type: atomic
                               name:
+                                default: ''
                                 description: |-
                                   Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
                                   More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind, uid?
                                 type: string
                               optional:
                                 description: optional specify whether the ConfigMap
@@ -973,6 +1145,7 @@ spec:
                                     - path
                                   type: object
                                 type: array
+                                x-kubernetes-list-type: atomic
                               optional:
                                 description: optional field specify whether the Secret
                                   or its keys must be defined
@@ -1003,10 +1176,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -1024,10 +1200,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -1052,10 +1231,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -1073,10 +1255,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -1096,16 +1281,19 @@ spec:
                         external source to the Restic job.
                       items:
                         description: EnvFromSource represents the source of a set
-                          of ConfigMaps
+                          of ConfigMaps or Secrets
                         properties:
                           configMapRef:
                             description: The ConfigMap to select from
                             properties:
                               name:
+                                default: ''
                                 description: |-
                                   Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
                                   More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind, uid?
                                 type: string
                               optional:
                                 description: Specify whether the ConfigMap must be
@@ -1114,17 +1302,21 @@ spec:
                             type: object
                             x-kubernetes-map-type: atomic
                           prefix:
-                            description: An optional identifier to prepend to each
-                              key in the ConfigMap. Must be a C_IDENTIFIER.
+                            description: |-
+                              Optional text to prepend to the name of each environment variable.
+                              May consist of any printable ASCII characters except '='.
                             type: string
                           secretRef:
                             description: The Secret to select from
                             properties:
                               name:
+                                default: ''
                                 description: |-
                                   Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
                                   More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind, uid?
                                 type: string
                               optional:
                                 description: Specify whether the Secret must be defined
@@ -1143,10 +1335,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -1166,10 +1361,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -1194,10 +1392,13 @@ spec:
                             be a valid secret key.
                           type: string
                         name:
+                          default: ''
                           description: |-
                             Name of the referent.
+                            This field is effectively required, but due to backwards compatibility is
+                            allowed to be empty. Instances of this type with an empty value here are
+                            almost certainly wrong.
                             More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                            TODO: Add other useful fields. apiVersion, kind, uid?
                           type: string
                         optional:
                           description: Specify whether the Secret or its key must
@@ -1217,10 +1418,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -1240,10 +1444,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -1264,10 +1471,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -1289,10 +1499,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -1335,6 +1548,8 @@ spec:
                               to container and the other way around.
                               When not set, MountPropagationNone is used.
                               This field is beta in 1.10.
+                              When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified
+                              (which defaults to None).
                             type: string
                           name:
                             description: This must match the Name of a Volume.
@@ -1344,6 +1559,25 @@ spec:
                               Mounted read-only if true, read-write otherwise (false or unspecified).
                               Defaults to false.
                             type: boolean
+                          recursiveReadOnly:
+                            description: |-
+                              RecursiveReadOnly specifies whether read-only mounts should be handled
+                              recursively.
+
+                              If ReadOnly is false, this field has no meaning and must be unspecified.
+
+                              If ReadOnly is true, and this field is set to Disabled, the mount is not made
+                              recursively read-only.  If this field is set to IfPossible, the mount is made
+                              recursively read-only, if it is supported by the container runtime.  If this
+                              field is set to Enabled, the mount is made recursively read-only if it is
+                              supported by the container runtime, otherwise the pod will not be started and
+                              an error will be generated to indicate the reason.
+
+                              If this field is set to IfPossible or Enabled, MountPropagation must be set to
+                              None (or be unspecified, which defaults to None).
+
+                              If this field is not specified, it is treated as an equivalent of Disabled.
+                            type: string
                           subPath:
                             description: |-
                               Path within the volume from which the container's volume should be mounted.
@@ -1385,10 +1619,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -1406,10 +1643,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -1434,10 +1674,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -1455,10 +1698,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -1478,16 +1724,19 @@ spec:
                             a an external source to the Restic job.
                           items:
                             description: EnvFromSource represents the source of a
-                              set of ConfigMaps
+                              set of ConfigMaps or Secrets
                             properties:
                               configMapRef:
                                 description: The ConfigMap to select from
                                 properties:
                                   name:
+                                    default: ''
                                     description: |-
                                       Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
                                       More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind, uid?
                                     type: string
                                   optional:
                                     description: Specify whether the ConfigMap must
@@ -1496,17 +1745,21 @@ spec:
                                 type: object
                                 x-kubernetes-map-type: atomic
                               prefix:
-                                description: An optional identifier to prepend to
-                                  each key in the ConfigMap. Must be a C_IDENTIFIER.
+                                description: |-
+                                  Optional text to prepend to the name of each environment variable.
+                                  May consist of any printable ASCII characters except '='.
                                 type: string
                               secretRef:
                                 description: The Secret to select from
                                 properties:
                                   name:
+                                    default: ''
                                     description: |-
                                       Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
                                       More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind, uid?
                                     type: string
                                   optional:
                                     description: Specify whether the Secret must be
@@ -1526,10 +1779,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -1549,10 +1805,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -1577,10 +1836,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -1600,10 +1862,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -1623,10 +1888,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -1647,10 +1915,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -1672,10 +1943,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -1718,6 +1992,8 @@ spec:
                                   to container and the other way around.
                                   When not set, MountPropagationNone is used.
                                   This field is beta in 1.10.
+                                  When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified
+                                  (which defaults to None).
                                 type: string
                               name:
                                 description: This must match the Name of a Volume.
@@ -1727,6 +2003,25 @@ spec:
                                   Mounted read-only if true, read-write otherwise (false or unspecified).
                                   Defaults to false.
                                 type: boolean
+                              recursiveReadOnly:
+                                description: |-
+                                  RecursiveReadOnly specifies whether read-only mounts should be handled
+                                  recursively.
+
+                                  If ReadOnly is false, this field has no meaning and must be unspecified.
+
+                                  If ReadOnly is true, and this field is set to Disabled, the mount is not made
+                                  recursively read-only.  If this field is set to IfPossible, the mount is made
+                                  recursively read-only, if it is supported by the container runtime.  If this
+                                  field is set to Enabled, the mount is made recursively read-only if it is
+                                  supported by the container runtime, otherwise the pod will not be started and
+                                  an error will be generated to indicate the reason.
+
+                                  If this field is set to IfPossible or Enabled, MountPropagation must be set to
+                                  None (or be unspecified, which defaults to None).
+
+                                  If this field is not specified, it is treated as an equivalent of Disabled.
+                                type: string
                               subPath:
                                 description: |-
                                   Path within the volume from which the container's volume should be mounted.
@@ -1759,7 +2054,6 @@ spec:
                     keepJobs:
                       description: |-
                         KeepJobs amount of jobs to keep for later analysis.
-
 
                         Deprecated: Use FailedJobsHistoryLimit and SuccessfulJobsHistoryLimit respectively.
                       type: integer
@@ -1799,11 +2093,13 @@ spec:
                                   items:
                                     type: string
                                   type: array
+                                  x-kubernetes-list-type: atomic
                               required:
                                 - key
                                 - operator
                               type: object
                             type: array
+                            x-kubernetes-list-type: atomic
                           matchLabels:
                             additionalProperties:
                               type: string
@@ -1823,10 +2119,13 @@ spec:
                         This is for advanced use-cases only. Please only set this if you know what you're doing.
                       properties:
                         name:
+                          default: ''
                           description: |-
                             Name of the referent.
+                            This field is effectively required, but due to backwards compatibility is
+                            allowed to be empty. Instances of this type with an empty value here are
+                            almost certainly wrong.
                             More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                            TODO: Add other useful fields. apiVersion, kind, uid?
                           type: string
                       type: object
                       x-kubernetes-map-type: atomic
@@ -1834,17 +2133,38 @@ spec:
                       description: PodSecurityContext describes the security context
                         with which this action shall be executed.
                       properties:
+                        appArmorProfile:
+                          description: |-
+                            appArmorProfile is the AppArmor options to use by the containers in this pod.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          properties:
+                            localhostProfile:
+                              description: |-
+                                localhostProfile indicates a profile loaded on the node that should be used.
+                                The profile must be preconfigured on the node to work.
+                                Must match the loaded name of the profile.
+                                Must be set if and only if type is "Localhost".
+                              type: string
+                            type:
+                              description: |-
+                                type indicates which kind of AppArmor profile will be applied.
+                                Valid options are:
+                                  Localhost - a profile pre-loaded on the node.
+                                  RuntimeDefault - the container runtime's default profile.
+                                  Unconfined - no AppArmor enforcement.
+                              type: string
+                          required:
+                            - type
+                          type: object
                         fsGroup:
                           description: |-
                             A special supplemental group that applies to all containers in a pod.
                             Some volume types allow the Kubelet to change the ownership of that volume
                             to be owned by the pod:
 
-
                             1. The owning GID will be the FSGroup
                             2. The setgid bit is set (new files created in the volume will be owned by FSGroup)
                             3. The permission bits are OR'd with rw-rw----
-
 
                             If unset, the Kubelet will not modify the ownership and permissions of any volume.
                             Note that this field cannot be set when spec.os.name is windows.
@@ -1889,6 +2209,32 @@ spec:
                             Note that this field cannot be set when spec.os.name is windows.
                           format: int64
                           type: integer
+                        seLinuxChangePolicy:
+                          description: |-
+                            seLinuxChangePolicy defines how the container's SELinux label is applied to all volumes used by the Pod.
+                            It has no effect on nodes that do not support SELinux or to volumes does not support SELinux.
+                            Valid values are "MountOption" and "Recursive".
+
+                            "Recursive" means relabeling of all files on all Pod volumes by the container runtime.
+                            This may be slow for large volumes, but allows mixing privileged and unprivileged Pods sharing the same volume on the same node.
+
+                            "MountOption" mounts all eligible Pod volumes with `-o context` mount option.
+                            This requires all Pods that share the same volume to use the same SELinux label.
+                            It is not possible to share the same volume among privileged and unprivileged Pods.
+                            Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes
+                            whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their
+                            CSIDriver instance. Other volumes are always re-labelled recursively.
+                            "MountOption" value is allowed only when SELinuxMount feature gate is enabled.
+
+                            If not specified and SELinuxMount feature gate is enabled, "MountOption" is used.
+                            If not specified and SELinuxMount feature gate is disabled, "MountOption" is used for ReadWriteOncePod volumes
+                            and "Recursive" for all other volumes.
+
+                            This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers.
+
+                            All Pods that use the same volume should use the same seLinuxChangePolicy, otherwise some pods can get stuck in ContainerCreating state.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          type: string
                         seLinuxOptions:
                           description: |-
                             The SELinux context to be applied to all containers.
@@ -1932,7 +2278,6 @@ spec:
                                 type indicates which kind of seccomp profile will be applied.
                                 Valid options are:
 
-
                                 Localhost - a profile defined in a file on the node should be used.
                                 RuntimeDefault - the container runtime default profile should be used.
                                 Unconfined - no profile should be applied.
@@ -1942,17 +2287,28 @@ spec:
                           type: object
                         supplementalGroups:
                           description: |-
-                            A list of groups applied to the first process run in each container, in addition
-                            to the container's primary GID, the fsGroup (if specified), and group memberships
-                            defined in the container image for the uid of the container process. If unspecified,
-                            no additional groups are added to any container. Note that group memberships
-                            defined in the container image for the uid of the container process are still effective,
-                            even if they are not included in this list.
+                            A list of groups applied to the first process run in each container, in
+                            addition to the container's primary GID and fsGroup (if specified).  If
+                            the SupplementalGroupsPolicy feature is enabled, the
+                            supplementalGroupsPolicy field determines whether these are in addition
+                            to or instead of any group memberships defined in the container image.
+                            If unspecified, no additional groups are added, though group memberships
+                            defined in the container image may still be used, depending on the
+                            supplementalGroupsPolicy field.
                             Note that this field cannot be set when spec.os.name is windows.
                           items:
                             format: int64
                             type: integer
                           type: array
+                          x-kubernetes-list-type: atomic
+                        supplementalGroupsPolicy:
+                          description: |-
+                            Defines how supplemental groups of the first container processes are calculated.
+                            Valid values are "Merge" and "Strict". If not specified, "Merge" is used.
+                            (Alpha) Using the field requires the SupplementalGroupsPolicy feature gate to be enabled
+                            and the container runtime must implement support for this feature.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          type: string
                         sysctls:
                           description: |-
                             Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
@@ -1972,6 +2328,7 @@ spec:
                               - value
                             type: object
                           type: array
+                          x-kubernetes-list-type: atomic
                         windowsOptions:
                           description: |-
                             The Windows specific settings applied to all containers.
@@ -2018,10 +2375,8 @@ spec:
                             Claims lists the names of resources, defined in spec.resourceClaims,
                             that are used by this container.
 
-
-                            This is an alpha field and requires enabling the
+                            This field depends on the
                             DynamicResourceAllocation feature gate.
-
 
                             This field is immutable. It can only be set for containers.
                           items:
@@ -2032,6 +2387,12 @@ spec:
                                   Name must match the name of one entry in pod.spec.resourceClaims of
                                   the Pod where this field is used. It makes that resource available
                                   inside a container.
+                                type: string
+                              request:
+                                description: |-
+                                  Request is the name chosen for a request in the referenced claim.
+                                  If empty, everything from the claim is made available, otherwise
+                                  only the result of this request.
                                 type: string
                             required:
                               - name
@@ -2144,11 +2505,15 @@ spec:
                                     - path
                                   type: object
                                 type: array
+                                x-kubernetes-list-type: atomic
                               name:
+                                default: ''
                                 description: |-
                                   Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
                                   More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind, uid?
                                 type: string
                               optional:
                                 description: optional specify whether the ConfigMap
@@ -2235,6 +2600,7 @@ spec:
                                     - path
                                   type: object
                                 type: array
+                                x-kubernetes-list-type: atomic
                               optional:
                                 description: optional field specify whether the Secret
                                   or its keys must be defined
@@ -2273,10 +2639,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -2294,10 +2663,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -2322,10 +2694,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -2343,10 +2718,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -2366,16 +2744,19 @@ spec:
                             a an external source to the Restic job.
                           items:
                             description: EnvFromSource represents the source of a
-                              set of ConfigMaps
+                              set of ConfigMaps or Secrets
                             properties:
                               configMapRef:
                                 description: The ConfigMap to select from
                                 properties:
                                   name:
+                                    default: ''
                                     description: |-
                                       Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
                                       More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind, uid?
                                     type: string
                                   optional:
                                     description: Specify whether the ConfigMap must
@@ -2384,17 +2765,21 @@ spec:
                                 type: object
                                 x-kubernetes-map-type: atomic
                               prefix:
-                                description: An optional identifier to prepend to
-                                  each key in the ConfigMap. Must be a C_IDENTIFIER.
+                                description: |-
+                                  Optional text to prepend to the name of each environment variable.
+                                  May consist of any printable ASCII characters except '='.
                                 type: string
                               secretRef:
                                 description: The Secret to select from
                                 properties:
                                   name:
+                                    default: ''
                                     description: |-
                                       Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
                                       More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind, uid?
                                     type: string
                                   optional:
                                     description: Specify whether the Secret must be
@@ -2414,10 +2799,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -2437,10 +2825,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -2465,10 +2856,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -2488,10 +2882,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -2511,10 +2908,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -2535,10 +2935,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -2560,10 +2963,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -2606,6 +3012,8 @@ spec:
                                   to container and the other way around.
                                   When not set, MountPropagationNone is used.
                                   This field is beta in 1.10.
+                                  When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified
+                                  (which defaults to None).
                                 type: string
                               name:
                                 description: This must match the Name of a Volume.
@@ -2615,6 +3023,25 @@ spec:
                                   Mounted read-only if true, read-write otherwise (false or unspecified).
                                   Defaults to false.
                                 type: boolean
+                              recursiveReadOnly:
+                                description: |-
+                                  RecursiveReadOnly specifies whether read-only mounts should be handled
+                                  recursively.
+
+                                  If ReadOnly is false, this field has no meaning and must be unspecified.
+
+                                  If ReadOnly is true, and this field is set to Disabled, the mount is not made
+                                  recursively read-only.  If this field is set to IfPossible, the mount is made
+                                  recursively read-only, if it is supported by the container runtime.  If this
+                                  field is set to Enabled, the mount is made recursively read-only if it is
+                                  supported by the container runtime, otherwise the pod will not be started and
+                                  an error will be generated to indicate the reason.
+
+                                  If this field is set to IfPossible or Enabled, MountPropagation must be set to
+                                  None (or be unspecified, which defaults to None).
+
+                                  If this field is not specified, it is treated as an equivalent of Disabled.
+                                type: string
                               subPath:
                                 description: |-
                                   Path within the volume from which the container's volume should be mounted.
@@ -2648,7 +3075,6 @@ spec:
                       description: |-
                         KeepJobs amount of jobs to keep for later analysis.
 
-
                         Deprecated: Use FailedJobsHistoryLimit and SuccessfulJobsHistoryLimit respectively.
                       type: integer
                     podConfigRef:
@@ -2659,10 +3085,13 @@ spec:
                         This is for advanced use-cases only. Please only set this if you know what you're doing.
                       properties:
                         name:
+                          default: ''
                           description: |-
                             Name of the referent.
+                            This field is effectively required, but due to backwards compatibility is
+                            allowed to be empty. Instances of this type with an empty value here are
+                            almost certainly wrong.
                             More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                            TODO: Add other useful fields. apiVersion, kind, uid?
                           type: string
                       type: object
                       x-kubernetes-map-type: atomic
@@ -2670,17 +3099,38 @@ spec:
                       description: PodSecurityContext describes the security context
                         with which this action shall be executed.
                       properties:
+                        appArmorProfile:
+                          description: |-
+                            appArmorProfile is the AppArmor options to use by the containers in this pod.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          properties:
+                            localhostProfile:
+                              description: |-
+                                localhostProfile indicates a profile loaded on the node that should be used.
+                                The profile must be preconfigured on the node to work.
+                                Must match the loaded name of the profile.
+                                Must be set if and only if type is "Localhost".
+                              type: string
+                            type:
+                              description: |-
+                                type indicates which kind of AppArmor profile will be applied.
+                                Valid options are:
+                                  Localhost - a profile pre-loaded on the node.
+                                  RuntimeDefault - the container runtime's default profile.
+                                  Unconfined - no AppArmor enforcement.
+                              type: string
+                          required:
+                            - type
+                          type: object
                         fsGroup:
                           description: |-
                             A special supplemental group that applies to all containers in a pod.
                             Some volume types allow the Kubelet to change the ownership of that volume
                             to be owned by the pod:
 
-
                             1. The owning GID will be the FSGroup
                             2. The setgid bit is set (new files created in the volume will be owned by FSGroup)
                             3. The permission bits are OR'd with rw-rw----
-
 
                             If unset, the Kubelet will not modify the ownership and permissions of any volume.
                             Note that this field cannot be set when spec.os.name is windows.
@@ -2725,6 +3175,32 @@ spec:
                             Note that this field cannot be set when spec.os.name is windows.
                           format: int64
                           type: integer
+                        seLinuxChangePolicy:
+                          description: |-
+                            seLinuxChangePolicy defines how the container's SELinux label is applied to all volumes used by the Pod.
+                            It has no effect on nodes that do not support SELinux or to volumes does not support SELinux.
+                            Valid values are "MountOption" and "Recursive".
+
+                            "Recursive" means relabeling of all files on all Pod volumes by the container runtime.
+                            This may be slow for large volumes, but allows mixing privileged and unprivileged Pods sharing the same volume on the same node.
+
+                            "MountOption" mounts all eligible Pod volumes with `-o context` mount option.
+                            This requires all Pods that share the same volume to use the same SELinux label.
+                            It is not possible to share the same volume among privileged and unprivileged Pods.
+                            Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes
+                            whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their
+                            CSIDriver instance. Other volumes are always re-labelled recursively.
+                            "MountOption" value is allowed only when SELinuxMount feature gate is enabled.
+
+                            If not specified and SELinuxMount feature gate is enabled, "MountOption" is used.
+                            If not specified and SELinuxMount feature gate is disabled, "MountOption" is used for ReadWriteOncePod volumes
+                            and "Recursive" for all other volumes.
+
+                            This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers.
+
+                            All Pods that use the same volume should use the same seLinuxChangePolicy, otherwise some pods can get stuck in ContainerCreating state.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          type: string
                         seLinuxOptions:
                           description: |-
                             The SELinux context to be applied to all containers.
@@ -2768,7 +3244,6 @@ spec:
                                 type indicates which kind of seccomp profile will be applied.
                                 Valid options are:
 
-
                                 Localhost - a profile defined in a file on the node should be used.
                                 RuntimeDefault - the container runtime default profile should be used.
                                 Unconfined - no profile should be applied.
@@ -2778,17 +3253,28 @@ spec:
                           type: object
                         supplementalGroups:
                           description: |-
-                            A list of groups applied to the first process run in each container, in addition
-                            to the container's primary GID, the fsGroup (if specified), and group memberships
-                            defined in the container image for the uid of the container process. If unspecified,
-                            no additional groups are added to any container. Note that group memberships
-                            defined in the container image for the uid of the container process are still effective,
-                            even if they are not included in this list.
+                            A list of groups applied to the first process run in each container, in
+                            addition to the container's primary GID and fsGroup (if specified).  If
+                            the SupplementalGroupsPolicy feature is enabled, the
+                            supplementalGroupsPolicy field determines whether these are in addition
+                            to or instead of any group memberships defined in the container image.
+                            If unspecified, no additional groups are added, though group memberships
+                            defined in the container image may still be used, depending on the
+                            supplementalGroupsPolicy field.
                             Note that this field cannot be set when spec.os.name is windows.
                           items:
                             format: int64
                             type: integer
                           type: array
+                          x-kubernetes-list-type: atomic
+                        supplementalGroupsPolicy:
+                          description: |-
+                            Defines how supplemental groups of the first container processes are calculated.
+                            Valid values are "Merge" and "Strict". If not specified, "Merge" is used.
+                            (Alpha) Using the field requires the SupplementalGroupsPolicy feature gate to be enabled
+                            and the container runtime must implement support for this feature.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          type: string
                         sysctls:
                           description: |-
                             Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
@@ -2808,6 +3294,7 @@ spec:
                               - value
                             type: object
                           type: array
+                          x-kubernetes-list-type: atomic
                         windowsOptions:
                           description: |-
                             The Windows specific settings applied to all containers.
@@ -2854,10 +3341,8 @@ spec:
                             Claims lists the names of resources, defined in spec.resourceClaims,
                             that are used by this container.
 
-
-                            This is an alpha field and requires enabling the
+                            This field depends on the
                             DynamicResourceAllocation feature gate.
-
 
                             This field is immutable. It can only be set for containers.
                           items:
@@ -2868,6 +3353,12 @@ spec:
                                   Name must match the name of one entry in pod.spec.resourceClaims of
                                   the Pod where this field is used. It makes that resource available
                                   inside a container.
+                                type: string
+                              request:
+                                description: |-
+                                  Request is the name chosen for a request in the referenced claim.
+                                  If empty, everything from the claim is made available, otherwise
+                                  only the result of this request.
                                 type: string
                             required:
                               - name
@@ -2968,11 +3459,15 @@ spec:
                                     - path
                                   type: object
                                 type: array
+                                x-kubernetes-list-type: atomic
                               name:
+                                default: ''
                                 description: |-
                                   Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
                                   More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind, uid?
                                 type: string
                               optional:
                                 description: optional specify whether the ConfigMap
@@ -3059,6 +3554,7 @@ spec:
                                     - path
                                   type: object
                                 type: array
+                                x-kubernetes-list-type: atomic
                               optional:
                                 description: optional field specify whether the Secret
                                   or its keys must be defined
@@ -3083,7 +3579,6 @@ spec:
                   description: |-
                     KeepJobs amount of jobs to keep for later analysis.
 
-
                     Deprecated: Use FailedJobsHistoryLimit and SuccessfulJobsHistoryLimit respectively.
                   type: integer
                 podConfigRef:
@@ -3092,10 +3587,13 @@ spec:
                     It can be overriden for specific jobs if necessary.
                   properties:
                     name:
+                      default: ''
                       description: |-
                         Name of the referent.
+                        This field is effectively required, but due to backwards compatibility is
+                        allowed to be empty. Instances of this type with an empty value here are
+                        almost certainly wrong.
                         More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                        TODO: Add other useful fields. apiVersion, kind, uid?
                       type: string
                   type: object
                   x-kubernetes-map-type: atomic
@@ -3103,17 +3601,38 @@ spec:
                   description: PodSecurityContext describes the security context with
                     which actions (such as backups) shall be executed.
                   properties:
+                    appArmorProfile:
+                      description: |-
+                        appArmorProfile is the AppArmor options to use by the containers in this pod.
+                        Note that this field cannot be set when spec.os.name is windows.
+                      properties:
+                        localhostProfile:
+                          description: |-
+                            localhostProfile indicates a profile loaded on the node that should be used.
+                            The profile must be preconfigured on the node to work.
+                            Must match the loaded name of the profile.
+                            Must be set if and only if type is "Localhost".
+                          type: string
+                        type:
+                          description: |-
+                            type indicates which kind of AppArmor profile will be applied.
+                            Valid options are:
+                              Localhost - a profile pre-loaded on the node.
+                              RuntimeDefault - the container runtime's default profile.
+                              Unconfined - no AppArmor enforcement.
+                          type: string
+                      required:
+                        - type
+                      type: object
                     fsGroup:
                       description: |-
                         A special supplemental group that applies to all containers in a pod.
                         Some volume types allow the Kubelet to change the ownership of that volume
                         to be owned by the pod:
 
-
                         1. The owning GID will be the FSGroup
                         2. The setgid bit is set (new files created in the volume will be owned by FSGroup)
                         3. The permission bits are OR'd with rw-rw----
-
 
                         If unset, the Kubelet will not modify the ownership and permissions of any volume.
                         Note that this field cannot be set when spec.os.name is windows.
@@ -3158,6 +3677,32 @@ spec:
                         Note that this field cannot be set when spec.os.name is windows.
                       format: int64
                       type: integer
+                    seLinuxChangePolicy:
+                      description: |-
+                        seLinuxChangePolicy defines how the container's SELinux label is applied to all volumes used by the Pod.
+                        It has no effect on nodes that do not support SELinux or to volumes does not support SELinux.
+                        Valid values are "MountOption" and "Recursive".
+
+                        "Recursive" means relabeling of all files on all Pod volumes by the container runtime.
+                        This may be slow for large volumes, but allows mixing privileged and unprivileged Pods sharing the same volume on the same node.
+
+                        "MountOption" mounts all eligible Pod volumes with `-o context` mount option.
+                        This requires all Pods that share the same volume to use the same SELinux label.
+                        It is not possible to share the same volume among privileged and unprivileged Pods.
+                        Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes
+                        whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their
+                        CSIDriver instance. Other volumes are always re-labelled recursively.
+                        "MountOption" value is allowed only when SELinuxMount feature gate is enabled.
+
+                        If not specified and SELinuxMount feature gate is enabled, "MountOption" is used.
+                        If not specified and SELinuxMount feature gate is disabled, "MountOption" is used for ReadWriteOncePod volumes
+                        and "Recursive" for all other volumes.
+
+                        This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers.
+
+                        All Pods that use the same volume should use the same seLinuxChangePolicy, otherwise some pods can get stuck in ContainerCreating state.
+                        Note that this field cannot be set when spec.os.name is windows.
+                      type: string
                     seLinuxOptions:
                       description: |-
                         The SELinux context to be applied to all containers.
@@ -3201,7 +3746,6 @@ spec:
                             type indicates which kind of seccomp profile will be applied.
                             Valid options are:
 
-
                             Localhost - a profile defined in a file on the node should be used.
                             RuntimeDefault - the container runtime default profile should be used.
                             Unconfined - no profile should be applied.
@@ -3211,17 +3755,28 @@ spec:
                       type: object
                     supplementalGroups:
                       description: |-
-                        A list of groups applied to the first process run in each container, in addition
-                        to the container's primary GID, the fsGroup (if specified), and group memberships
-                        defined in the container image for the uid of the container process. If unspecified,
-                        no additional groups are added to any container. Note that group memberships
-                        defined in the container image for the uid of the container process are still effective,
-                        even if they are not included in this list.
+                        A list of groups applied to the first process run in each container, in
+                        addition to the container's primary GID and fsGroup (if specified).  If
+                        the SupplementalGroupsPolicy feature is enabled, the
+                        supplementalGroupsPolicy field determines whether these are in addition
+                        to or instead of any group memberships defined in the container image.
+                        If unspecified, no additional groups are added, though group memberships
+                        defined in the container image may still be used, depending on the
+                        supplementalGroupsPolicy field.
                         Note that this field cannot be set when spec.os.name is windows.
                       items:
                         format: int64
                         type: integer
                       type: array
+                      x-kubernetes-list-type: atomic
+                    supplementalGroupsPolicy:
+                      description: |-
+                        Defines how supplemental groups of the first container processes are calculated.
+                        Valid values are "Merge" and "Strict". If not specified, "Merge" is used.
+                        (Alpha) Using the field requires the SupplementalGroupsPolicy feature gate to be enabled
+                        and the container runtime must implement support for this feature.
+                        Note that this field cannot be set when spec.os.name is windows.
+                      type: string
                     sysctls:
                       description: |-
                         Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
@@ -3241,6 +3796,7 @@ spec:
                           - value
                         type: object
                       type: array
+                      x-kubernetes-list-type: atomic
                     windowsOptions:
                       description: |-
                         The Windows specific settings applied to all containers.
@@ -3297,10 +3853,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -3318,10 +3877,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -3346,10 +3908,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -3367,10 +3932,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -3390,16 +3958,19 @@ spec:
                             a an external source to the Restic job.
                           items:
                             description: EnvFromSource represents the source of a
-                              set of ConfigMaps
+                              set of ConfigMaps or Secrets
                             properties:
                               configMapRef:
                                 description: The ConfigMap to select from
                                 properties:
                                   name:
+                                    default: ''
                                     description: |-
                                       Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
                                       More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind, uid?
                                     type: string
                                   optional:
                                     description: Specify whether the ConfigMap must
@@ -3408,17 +3979,21 @@ spec:
                                 type: object
                                 x-kubernetes-map-type: atomic
                               prefix:
-                                description: An optional identifier to prepend to
-                                  each key in the ConfigMap. Must be a C_IDENTIFIER.
+                                description: |-
+                                  Optional text to prepend to the name of each environment variable.
+                                  May consist of any printable ASCII characters except '='.
                                 type: string
                               secretRef:
                                 description: The Secret to select from
                                 properties:
                                   name:
+                                    default: ''
                                     description: |-
                                       Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
                                       More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind, uid?
                                     type: string
                                   optional:
                                     description: Specify whether the Secret must be
@@ -3438,10 +4013,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -3461,10 +4039,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -3489,10 +4070,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -3512,10 +4096,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -3535,10 +4122,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -3559,10 +4149,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -3584,10 +4177,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -3630,6 +4226,8 @@ spec:
                                   to container and the other way around.
                                   When not set, MountPropagationNone is used.
                                   This field is beta in 1.10.
+                                  When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified
+                                  (which defaults to None).
                                 type: string
                               name:
                                 description: This must match the Name of a Volume.
@@ -3639,6 +4237,25 @@ spec:
                                   Mounted read-only if true, read-write otherwise (false or unspecified).
                                   Defaults to false.
                                 type: boolean
+                              recursiveReadOnly:
+                                description: |-
+                                  RecursiveReadOnly specifies whether read-only mounts should be handled
+                                  recursively.
+
+                                  If ReadOnly is false, this field has no meaning and must be unspecified.
+
+                                  If ReadOnly is true, and this field is set to Disabled, the mount is not made
+                                  recursively read-only.  If this field is set to IfPossible, the mount is made
+                                  recursively read-only, if it is supported by the container runtime.  If this
+                                  field is set to Enabled, the mount is made recursively read-only if it is
+                                  supported by the container runtime, otherwise the pod will not be started and
+                                  an error will be generated to indicate the reason.
+
+                                  If this field is set to IfPossible or Enabled, MountPropagation must be set to
+                                  None (or be unspecified, which defaults to None).
+
+                                  If this field is not specified, it is treated as an equivalent of Disabled.
+                                type: string
                               subPath:
                                 description: |-
                                   Path within the volume from which the container's volume should be mounted.
@@ -3668,7 +4285,6 @@ spec:
                       description: |-
                         KeepJobs amount of jobs to keep for later analysis.
 
-
                         Deprecated: Use FailedJobsHistoryLimit and SuccessfulJobsHistoryLimit respectively.
                       type: integer
                     podConfigRef:
@@ -3679,10 +4295,13 @@ spec:
                         This is for advanced use-cases only. Please only set this if you know what you're doing.
                       properties:
                         name:
+                          default: ''
                           description: |-
                             Name of the referent.
+                            This field is effectively required, but due to backwards compatibility is
+                            allowed to be empty. Instances of this type with an empty value here are
+                            almost certainly wrong.
                             More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                            TODO: Add other useful fields. apiVersion, kind, uid?
                           type: string
                       type: object
                       x-kubernetes-map-type: atomic
@@ -3690,17 +4309,38 @@ spec:
                       description: PodSecurityContext describes the security context
                         with which this action shall be executed.
                       properties:
+                        appArmorProfile:
+                          description: |-
+                            appArmorProfile is the AppArmor options to use by the containers in this pod.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          properties:
+                            localhostProfile:
+                              description: |-
+                                localhostProfile indicates a profile loaded on the node that should be used.
+                                The profile must be preconfigured on the node to work.
+                                Must match the loaded name of the profile.
+                                Must be set if and only if type is "Localhost".
+                              type: string
+                            type:
+                              description: |-
+                                type indicates which kind of AppArmor profile will be applied.
+                                Valid options are:
+                                  Localhost - a profile pre-loaded on the node.
+                                  RuntimeDefault - the container runtime's default profile.
+                                  Unconfined - no AppArmor enforcement.
+                              type: string
+                          required:
+                            - type
+                          type: object
                         fsGroup:
                           description: |-
                             A special supplemental group that applies to all containers in a pod.
                             Some volume types allow the Kubelet to change the ownership of that volume
                             to be owned by the pod:
 
-
                             1. The owning GID will be the FSGroup
                             2. The setgid bit is set (new files created in the volume will be owned by FSGroup)
                             3. The permission bits are OR'd with rw-rw----
-
 
                             If unset, the Kubelet will not modify the ownership and permissions of any volume.
                             Note that this field cannot be set when spec.os.name is windows.
@@ -3745,6 +4385,32 @@ spec:
                             Note that this field cannot be set when spec.os.name is windows.
                           format: int64
                           type: integer
+                        seLinuxChangePolicy:
+                          description: |-
+                            seLinuxChangePolicy defines how the container's SELinux label is applied to all volumes used by the Pod.
+                            It has no effect on nodes that do not support SELinux or to volumes does not support SELinux.
+                            Valid values are "MountOption" and "Recursive".
+
+                            "Recursive" means relabeling of all files on all Pod volumes by the container runtime.
+                            This may be slow for large volumes, but allows mixing privileged and unprivileged Pods sharing the same volume on the same node.
+
+                            "MountOption" mounts all eligible Pod volumes with `-o context` mount option.
+                            This requires all Pods that share the same volume to use the same SELinux label.
+                            It is not possible to share the same volume among privileged and unprivileged Pods.
+                            Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes
+                            whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their
+                            CSIDriver instance. Other volumes are always re-labelled recursively.
+                            "MountOption" value is allowed only when SELinuxMount feature gate is enabled.
+
+                            If not specified and SELinuxMount feature gate is enabled, "MountOption" is used.
+                            If not specified and SELinuxMount feature gate is disabled, "MountOption" is used for ReadWriteOncePod volumes
+                            and "Recursive" for all other volumes.
+
+                            This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers.
+
+                            All Pods that use the same volume should use the same seLinuxChangePolicy, otherwise some pods can get stuck in ContainerCreating state.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          type: string
                         seLinuxOptions:
                           description: |-
                             The SELinux context to be applied to all containers.
@@ -3788,7 +4454,6 @@ spec:
                                 type indicates which kind of seccomp profile will be applied.
                                 Valid options are:
 
-
                                 Localhost - a profile defined in a file on the node should be used.
                                 RuntimeDefault - the container runtime default profile should be used.
                                 Unconfined - no profile should be applied.
@@ -3798,17 +4463,28 @@ spec:
                           type: object
                         supplementalGroups:
                           description: |-
-                            A list of groups applied to the first process run in each container, in addition
-                            to the container's primary GID, the fsGroup (if specified), and group memberships
-                            defined in the container image for the uid of the container process. If unspecified,
-                            no additional groups are added to any container. Note that group memberships
-                            defined in the container image for the uid of the container process are still effective,
-                            even if they are not included in this list.
+                            A list of groups applied to the first process run in each container, in
+                            addition to the container's primary GID and fsGroup (if specified).  If
+                            the SupplementalGroupsPolicy feature is enabled, the
+                            supplementalGroupsPolicy field determines whether these are in addition
+                            to or instead of any group memberships defined in the container image.
+                            If unspecified, no additional groups are added, though group memberships
+                            defined in the container image may still be used, depending on the
+                            supplementalGroupsPolicy field.
                             Note that this field cannot be set when spec.os.name is windows.
                           items:
                             format: int64
                             type: integer
                           type: array
+                          x-kubernetes-list-type: atomic
+                        supplementalGroupsPolicy:
+                          description: |-
+                            Defines how supplemental groups of the first container processes are calculated.
+                            Valid values are "Merge" and "Strict". If not specified, "Merge" is used.
+                            (Alpha) Using the field requires the SupplementalGroupsPolicy feature gate to be enabled
+                            and the container runtime must implement support for this feature.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          type: string
                         sysctls:
                           description: |-
                             Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
@@ -3828,6 +4504,7 @@ spec:
                               - value
                             type: object
                           type: array
+                          x-kubernetes-list-type: atomic
                         windowsOptions:
                           description: |-
                             The Windows specific settings applied to all containers.
@@ -3870,10 +4547,8 @@ spec:
                             Claims lists the names of resources, defined in spec.resourceClaims,
                             that are used by this container.
 
-
-                            This is an alpha field and requires enabling the
+                            This field depends on the
                             DynamicResourceAllocation feature gate.
-
 
                             This field is immutable. It can only be set for containers.
                           items:
@@ -3884,6 +4559,12 @@ spec:
                                   Name must match the name of one entry in pod.spec.resourceClaims of
                                   the Pod where this field is used. It makes that resource available
                                   inside a container.
+                                type: string
+                              request:
+                                description: |-
+                                  Request is the name chosen for a request in the referenced claim.
+                                  If empty, everything from the claim is made available, otherwise
+                                  only the result of this request.
                                 type: string
                             required:
                               - name
@@ -4018,11 +4699,15 @@ spec:
                                     - path
                                   type: object
                                 type: array
+                                x-kubernetes-list-type: atomic
                               name:
+                                default: ''
                                 description: |-
                                   Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
                                   More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind, uid?
                                 type: string
                               optional:
                                 description: optional specify whether the ConfigMap
@@ -4109,6 +4794,7 @@ spec:
                                     - path
                                   type: object
                                 type: array
+                                x-kubernetes-list-type: atomic
                               optional:
                                 description: optional field specify whether the Secret
                                   or its keys must be defined
@@ -4133,10 +4819,8 @@ spec:
                         Claims lists the names of resources, defined in spec.resourceClaims,
                         that are used by this container.
 
-
-                        This is an alpha field and requires enabling the
+                        This field depends on the
                         DynamicResourceAllocation feature gate.
-
 
                         This field is immutable. It can only be set for containers.
                       items:
@@ -4147,6 +4831,12 @@ spec:
                               Name must match the name of one entry in pod.spec.resourceClaims of
                               the Pod where this field is used. It makes that resource available
                               inside a container.
+                            type: string
+                          request:
+                            description: |-
+                              Request is the name chosen for a request in the referenced claim.
+                              If empty, everything from the claim is made available, otherwise
+                              only the result of this request.
                             type: string
                         required:
                           - name
@@ -4203,10 +4893,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -4224,10 +4917,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -4252,10 +4948,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -4273,10 +4972,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -4296,16 +4998,19 @@ spec:
                             a an external source to the Restic job.
                           items:
                             description: EnvFromSource represents the source of a
-                              set of ConfigMaps
+                              set of ConfigMaps or Secrets
                             properties:
                               configMapRef:
                                 description: The ConfigMap to select from
                                 properties:
                                   name:
+                                    default: ''
                                     description: |-
                                       Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
                                       More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind, uid?
                                     type: string
                                   optional:
                                     description: Specify whether the ConfigMap must
@@ -4314,17 +5019,21 @@ spec:
                                 type: object
                                 x-kubernetes-map-type: atomic
                               prefix:
-                                description: An optional identifier to prepend to
-                                  each key in the ConfigMap. Must be a C_IDENTIFIER.
+                                description: |-
+                                  Optional text to prepend to the name of each environment variable.
+                                  May consist of any printable ASCII characters except '='.
                                 type: string
                               secretRef:
                                 description: The Secret to select from
                                 properties:
                                   name:
+                                    default: ''
                                     description: |-
                                       Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
                                       More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind, uid?
                                     type: string
                                   optional:
                                     description: Specify whether the Secret must be
@@ -4344,10 +5053,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -4367,10 +5079,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -4395,10 +5110,13 @@ spec:
                                 be a valid secret key.
                               type: string
                             name:
+                              default: ''
                               description: |-
                                 Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                TODO: Add other useful fields. apiVersion, kind, uid?
                               type: string
                             optional:
                               description: Specify whether the Secret or its key must
@@ -4418,10 +5136,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -4441,10 +5162,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -4465,10 +5189,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -4490,10 +5217,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -4536,6 +5266,8 @@ spec:
                                   to container and the other way around.
                                   When not set, MountPropagationNone is used.
                                   This field is beta in 1.10.
+                                  When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified
+                                  (which defaults to None).
                                 type: string
                               name:
                                 description: This must match the Name of a Volume.
@@ -4545,6 +5277,25 @@ spec:
                                   Mounted read-only if true, read-write otherwise (false or unspecified).
                                   Defaults to false.
                                 type: boolean
+                              recursiveReadOnly:
+                                description: |-
+                                  RecursiveReadOnly specifies whether read-only mounts should be handled
+                                  recursively.
+
+                                  If ReadOnly is false, this field has no meaning and must be unspecified.
+
+                                  If ReadOnly is true, and this field is set to Disabled, the mount is not made
+                                  recursively read-only.  If this field is set to IfPossible, the mount is made
+                                  recursively read-only, if it is supported by the container runtime.  If this
+                                  field is set to Enabled, the mount is made recursively read-only if it is
+                                  supported by the container runtime, otherwise the pod will not be started and
+                                  an error will be generated to indicate the reason.
+
+                                  If this field is set to IfPossible or Enabled, MountPropagation must be set to
+                                  None (or be unspecified, which defaults to None).
+
+                                  If this field is not specified, it is treated as an equivalent of Disabled.
+                                type: string
                               subPath:
                                 description: |-
                                   Path within the volume from which the container's volume should be mounted.
@@ -4565,6 +5316,11 @@ spec:
                       type: object
                     concurrentRunsAllowed:
                       type: boolean
+                    delete:
+                      description: |-
+                        Delete ensures the state after restoring a snapshot is identical to the snapshot
+                        Deletes files from target if they do not exist in snapshot
+                      type: boolean
                     failedJobsHistoryLimit:
                       description: |-
                         FailedJobsHistoryLimit amount of failed jobs to keep for later analysis.
@@ -4574,9 +5330,14 @@ spec:
                       description: |-
                         KeepJobs amount of jobs to keep for later analysis.
 
-
                         Deprecated: Use FailedJobsHistoryLimit and SuccessfulJobsHistoryLimit respectively.
                       type: integer
+                    paths:
+                      description: Paths is a list of paths that are contained with
+                        in a snapshot and can be filtered by
+                      items:
+                        type: string
+                      type: array
                     podConfigRef:
                       description: |-
                         PodConfigRef describes the pod spec with wich this action shall be executed.
@@ -4585,10 +5346,13 @@ spec:
                         This is for advanced use-cases only. Please only set this if you know what you're doing.
                       properties:
                         name:
+                          default: ''
                           description: |-
                             Name of the referent.
+                            This field is effectively required, but due to backwards compatibility is
+                            allowed to be empty. Instances of this type with an empty value here are
+                            almost certainly wrong.
                             More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                            TODO: Add other useful fields. apiVersion, kind, uid?
                           type: string
                       type: object
                       x-kubernetes-map-type: atomic
@@ -4596,17 +5360,38 @@ spec:
                       description: PodSecurityContext describes the security context
                         with which this action shall be executed.
                       properties:
+                        appArmorProfile:
+                          description: |-
+                            appArmorProfile is the AppArmor options to use by the containers in this pod.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          properties:
+                            localhostProfile:
+                              description: |-
+                                localhostProfile indicates a profile loaded on the node that should be used.
+                                The profile must be preconfigured on the node to work.
+                                Must match the loaded name of the profile.
+                                Must be set if and only if type is "Localhost".
+                              type: string
+                            type:
+                              description: |-
+                                type indicates which kind of AppArmor profile will be applied.
+                                Valid options are:
+                                  Localhost - a profile pre-loaded on the node.
+                                  RuntimeDefault - the container runtime's default profile.
+                                  Unconfined - no AppArmor enforcement.
+                              type: string
+                          required:
+                            - type
+                          type: object
                         fsGroup:
                           description: |-
                             A special supplemental group that applies to all containers in a pod.
                             Some volume types allow the Kubelet to change the ownership of that volume
                             to be owned by the pod:
 
-
                             1. The owning GID will be the FSGroup
                             2. The setgid bit is set (new files created in the volume will be owned by FSGroup)
                             3. The permission bits are OR'd with rw-rw----
-
 
                             If unset, the Kubelet will not modify the ownership and permissions of any volume.
                             Note that this field cannot be set when spec.os.name is windows.
@@ -4651,6 +5436,32 @@ spec:
                             Note that this field cannot be set when spec.os.name is windows.
                           format: int64
                           type: integer
+                        seLinuxChangePolicy:
+                          description: |-
+                            seLinuxChangePolicy defines how the container's SELinux label is applied to all volumes used by the Pod.
+                            It has no effect on nodes that do not support SELinux or to volumes does not support SELinux.
+                            Valid values are "MountOption" and "Recursive".
+
+                            "Recursive" means relabeling of all files on all Pod volumes by the container runtime.
+                            This may be slow for large volumes, but allows mixing privileged and unprivileged Pods sharing the same volume on the same node.
+
+                            "MountOption" mounts all eligible Pod volumes with `-o context` mount option.
+                            This requires all Pods that share the same volume to use the same SELinux label.
+                            It is not possible to share the same volume among privileged and unprivileged Pods.
+                            Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes
+                            whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their
+                            CSIDriver instance. Other volumes are always re-labelled recursively.
+                            "MountOption" value is allowed only when SELinuxMount feature gate is enabled.
+
+                            If not specified and SELinuxMount feature gate is enabled, "MountOption" is used.
+                            If not specified and SELinuxMount feature gate is disabled, "MountOption" is used for ReadWriteOncePod volumes
+                            and "Recursive" for all other volumes.
+
+                            This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers.
+
+                            All Pods that use the same volume should use the same seLinuxChangePolicy, otherwise some pods can get stuck in ContainerCreating state.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          type: string
                         seLinuxOptions:
                           description: |-
                             The SELinux context to be applied to all containers.
@@ -4694,7 +5505,6 @@ spec:
                                 type indicates which kind of seccomp profile will be applied.
                                 Valid options are:
 
-
                                 Localhost - a profile defined in a file on the node should be used.
                                 RuntimeDefault - the container runtime default profile should be used.
                                 Unconfined - no profile should be applied.
@@ -4704,17 +5514,28 @@ spec:
                           type: object
                         supplementalGroups:
                           description: |-
-                            A list of groups applied to the first process run in each container, in addition
-                            to the container's primary GID, the fsGroup (if specified), and group memberships
-                            defined in the container image for the uid of the container process. If unspecified,
-                            no additional groups are added to any container. Note that group memberships
-                            defined in the container image for the uid of the container process are still effective,
-                            even if they are not included in this list.
+                            A list of groups applied to the first process run in each container, in
+                            addition to the container's primary GID and fsGroup (if specified).  If
+                            the SupplementalGroupsPolicy feature is enabled, the
+                            supplementalGroupsPolicy field determines whether these are in addition
+                            to or instead of any group memberships defined in the container image.
+                            If unspecified, no additional groups are added, though group memberships
+                            defined in the container image may still be used, depending on the
+                            supplementalGroupsPolicy field.
                             Note that this field cannot be set when spec.os.name is windows.
                           items:
                             format: int64
                             type: integer
                           type: array
+                          x-kubernetes-list-type: atomic
+                        supplementalGroupsPolicy:
+                          description: |-
+                            Defines how supplemental groups of the first container processes are calculated.
+                            Valid values are "Merge" and "Strict". If not specified, "Merge" is used.
+                            (Alpha) Using the field requires the SupplementalGroupsPolicy feature gate to be enabled
+                            and the container runtime must implement support for this feature.
+                            Note that this field cannot be set when spec.os.name is windows.
+                          type: string
                         sysctls:
                           description: |-
                             Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
@@ -4734,6 +5555,7 @@ spec:
                               - value
                             type: object
                           type: array
+                          x-kubernetes-list-type: atomic
                         windowsOptions:
                           description: |-
                             The Windows specific settings applied to all containers.
@@ -4776,10 +5598,8 @@ spec:
                             Claims lists the names of resources, defined in spec.resourceClaims,
                             that are used by this container.
 
-
-                            This is an alpha field and requires enabling the
+                            This field depends on the
                             DynamicResourceAllocation feature gate.
-
 
                             This field is immutable. It can only be set for containers.
                           items:
@@ -4790,6 +5610,12 @@ spec:
                                   Name must match the name of one entry in pod.spec.resourceClaims of
                                   the Pod where this field is used. It makes that resource available
                                   inside a container.
+                                type: string
+                              request:
+                                description: |-
+                                  Request is the name chosen for a request in the referenced claim.
+                                  If empty, everything from the claim is made available, otherwise
+                                  only the result of this request.
                                 type: string
                             required:
                               - name
@@ -4855,10 +5681,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -4880,10 +5709,13 @@ spec:
                                     be a valid secret key.
                                   type: string
                                 name:
+                                  default: ''
                                   description: |-
                                     Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                    TODO: Add other useful fields. apiVersion, kind, uid?
                                   type: string
                                 optional:
                                   description: Specify whether the Secret or its key
@@ -4919,6 +5751,8 @@ spec:
                                   to container and the other way around.
                                   When not set, MountPropagationNone is used.
                                   This field is beta in 1.10.
+                                  When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified
+                                  (which defaults to None).
                                 type: string
                               name:
                                 description: This must match the Name of a Volume.
@@ -4928,6 +5762,25 @@ spec:
                                   Mounted read-only if true, read-write otherwise (false or unspecified).
                                   Defaults to false.
                                 type: boolean
+                              recursiveReadOnly:
+                                description: |-
+                                  RecursiveReadOnly specifies whether read-only mounts should be handled
+                                  recursively.
+
+                                  If ReadOnly is false, this field has no meaning and must be unspecified.
+
+                                  If ReadOnly is true, and this field is set to Disabled, the mount is not made
+                                  recursively read-only.  If this field is set to IfPossible, the mount is made
+                                  recursively read-only, if it is supported by the container runtime.  If this
+                                  field is set to Enabled, the mount is made recursively read-only if it is
+                                  supported by the container runtime, otherwise the pod will not be started and
+                                  an error will be generated to indicate the reason.
+
+                                  If this field is set to IfPossible or Enabled, MountPropagation must be set to
+                                  None (or be unspecified, which defaults to None).
+
+                                  If this field is not specified, it is treated as an equivalent of Disabled.
+                                type: string
                               subPath:
                                 description: |-
                                   Path within the volume from which the container's volume should be mounted.
@@ -4946,6 +5799,11 @@ spec:
                             type: object
                           type: array
                       type: object
+                    restoreTimeFilter:
+                      description: Simple filter to define a timestamp (prefix, YYYY-MM-DD
+                        hh:mm:ss) for snapshot selection instead of latest (or latest
+                        if nothing matches)
+                      type: string
                     schedule:
                       description: ScheduleDefinition is the actual cron-type expression
                         that defines the interval of the actions.
@@ -5021,11 +5879,15 @@ spec:
                                     - path
                                   type: object
                                 type: array
+                                x-kubernetes-list-type: atomic
                               name:
+                                default: ''
                                 description: |-
                                   Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
                                   More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind, uid?
                                 type: string
                               optional:
                                 description: optional specify whether the ConfigMap
@@ -5112,6 +5974,7 @@ spec:
                                     - path
                                   type: object
                                 type: array
+                                x-kubernetes-list-type: atomic
                               optional:
                                 description: optional field specify whether the Secret
                                   or its keys must be defined
@@ -5142,17 +6005,8 @@ spec:
                     They are an extension mechanism which allows tools and other controllers to collect summary information about
                     resources without needing to understand resource-specific status details.
                   items:
-                    description: "Condition contains details for one aspect of the\
-                      \ current state of this API Resource.\n---\nThis struct is intended\
-                      \ for direct use as an array at the field path .status.conditions.\
-                      \  For example,\n\n\n\ttype FooStatus struct{\n\t    // Represents\
-                      \ the observations of a foo's current state.\n\t    // Known\
-                      \ .status.conditions.type are: \"Available\", \"Progressing\"\
-                      , and \"Degraded\"\n\t    // +patchMergeKey=type\n\t    // +patchStrategy=merge\n\
-                      \t    // +listType=map\n\t    // +listMapKey=type\n\t    Conditions\
-                      \ []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"\
-                      merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"\
-                      `\n\n\n\t    // other fields\n\t}"
+                    description: Condition contains details for one aspect of the
+                      current state of this API Resource.
                     properties:
                       lastTransitionTime:
                         description: |-
@@ -5194,12 +6048,7 @@ spec:
                           - Unknown
                         type: string
                       type:
-                        description: |-
-                          type of condition in CamelCase or in foo.example.com/CamelCase.
-                          ---
-                          Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be
-                          useful (see .node.status.conditions), the ability to deconflict is important.
-                          The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
+                        description: type of condition in CamelCase or in foo.example.com/CamelCase.
                         maxLength: 316
                         pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
                         type: string

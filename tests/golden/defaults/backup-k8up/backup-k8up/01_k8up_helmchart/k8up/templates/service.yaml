@@ -5,8 +5,9 @@ metadata:
     app.kubernetes.io/instance: k8up
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: k8up
-    helm.sh/chart: k8up-4.8.6
+    helm.sh/chart: k8up-4.8.7
   name: k8up-metrics
+  namespace: syn-backup-k8up
 spec:
   ports:
     - name: http
