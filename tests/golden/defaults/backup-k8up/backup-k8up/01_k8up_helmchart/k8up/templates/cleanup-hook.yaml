@@ -101,7 +101,7 @@ spec:
           command:
             - sh
             - -c
-          image: ghcr.io/k8up-io/k8up:v2.13.1
+          image: ghcr.io/k8up-io/k8up:v2.15.0
           imagePullPolicy: IfNotPresent
           name: k8up-cleanup
       restartPolicy: Never
