@@ -11,13 +11,5 @@ local appPath =
   if project == 'syn' then 'apps' else 'apps-%s' % project;
 
 {
-  ['%s/backup-k8up' % appPath]: app {
-    metadata+: {
-      finalizers: [
-        'resources-finalizer.argocd.argoproj.io',
-        'post-delete-finalizer.argocd.argoproj.io',
-        'post-delete-finalizer.argocd.argoproj.io/cleanup'
-      ],
-    },
-  },
+  ['%s/backup-k8up' % appPath]: app,
 }
