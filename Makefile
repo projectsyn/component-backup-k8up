@@ -44,7 +44,7 @@ format: format_jsonnet ## All-in-one formatting
 
 .PHONY: format_jsonnet
 format_jsonnet: $(JSONNET_FILES) ## Format jsonnet files
-	$(JSONNET_DOCKER) $(JSONNETFMT_ARGS) -- $?
+	$(JSONNET_DOCKER) $(JSONNETFMT_ARGS) --in-place -- $?
 
 .PHONY: docs-serve
 docs-serve: ## Preview the documentation

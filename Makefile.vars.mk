@@ -31,7 +31,7 @@ endif
 DOCKER_ARGS ?= run --rm -u "$$(id -u):$$(id -g)" --userns=$(DOCKER_USERNS) -w /$(COMPONENT_NAME) -e HOME="/$(COMPONENT_NAME)"
 
 JSONNET_FILES   ?= $(shell find . -type f -not -path './vendor/*' \( -name '*.*jsonnet' -or -name '*.libsonnet' \))
-JSONNETFMT_ARGS ?= --in-place --pad-arrays
+JSONNETFMT_ARGS ?= --pad-arrays
 JSONNET_IMAGE   ?= ghcr.io/projectsyn/jsonnet:latest
 JSONNET_DOCKER  ?= $(DOCKER_CMD) $(DOCKER_ARGS) $(root_volume) --entrypoint=jsonnetfmt $(JSONNET_IMAGE)
 
