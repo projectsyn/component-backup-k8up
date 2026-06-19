@@ -163,14 +163,14 @@ parameters:
           severity: critical
       K8upBackupNotRunning:
         annotations:
-          message: No K8up jobs were run in {{ $labels.exported_namespace }} within the last 24 hours. Check the operator, there might be a deadlock
-        expr: sum(rate(k8up_jobs_total[25h])) == 0 and on(namespace) k8up_schedules_gauge > 0
+          message: No K8up jobs were run in {{ $labels.namespace }} within the last 24 hours. Check the operator, there might be a deadlock
+        expr: sum by (namespace) (rate(k8up_jobs_total[25h])) == 0 and on(namespace) k8up_schedules_gauge > 0
         for: 1m
         labels:
           severity: critical
       K8upJobStuck:
         annotations:
-          message: Queued K8up jobs in {{ $labels.exported_namespace }} for the last hour.
+          message: Queued K8up jobs in {{ $labels.namespace }} for the last hour.
         expr: k8up_jobs_queued_gauge{jobType="backup"} > 0 and on(namespace) k8up_schedules_gauge > 0
         for: 1h
         labels:
