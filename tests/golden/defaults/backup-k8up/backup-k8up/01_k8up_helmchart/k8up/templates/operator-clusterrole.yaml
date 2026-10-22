@@ -5,7 +5,7 @@ metadata:
     app.kubernetes.io/instance: k8up
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: k8up
-    helm.sh/chart: k8up-4.9.0
+    helm.sh/chart: k8up-4.10.1
   name: k8up-manager
 rules:
   - apiGroups:
@@ -25,6 +25,14 @@ rules:
       - get
       - list
       - watch
+  - apiGroups:
+      - ''
+    resourceNames:
+      - k8up-repo
+    resources:
+      - secrets
+    verbs:
+      - get
   - apiGroups:
       - ''
     resources:
