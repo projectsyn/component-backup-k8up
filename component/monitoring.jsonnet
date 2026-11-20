@@ -27,6 +27,19 @@ local service_monitor = com.namespaced(params.namespace, {
       {
         interval: '10s',
         port: 'http',
+        // NOTE(sg): This is required to ensure that the backup namespace is
+        // preserved as label `namespace`. Without this, the scraped metrics
+        // have the backup namespace as `exported_namespace` and are useless
+        // for OCP User Workload monitoring users, because UWM only allows
+        // querying metrics whose `namespace` label matches the alert rule
+        // source namespace.
+        honorLabels: true,
+        // add k8up namespace as label `k8up_namespace`.
+        relabelings: [ {
+          action: 'replace',
+          sourceLabels: [ 'namespace' ],
+          targetLabel: 'k8up_namespace',
+        } ],
       },
     ],
     selector: {
