@@ -66,6 +66,8 @@ parameters:
             value: '${backup_k8up:annotation}'
           - name: BACKUP_BACKUPCOMMANDANNOTATION
             value: '${backup_k8up:backupcommandannotation}'
+          - name: BACKUP_ENABLE_RELAXED_SCHEDULING
+            value: '${backup_k8up:enable_relaxed_scheduling}'
           - name: BACKUP_GLOBALKEEPJOBS
             value: '${backup_k8up:global_backup_config:keepjobs}'
           - name: BACKUP_GLOBAL_SUCCESSFUL_JOBS_HISTORY_LIMIT
@@ -117,6 +119,7 @@ parameters:
     prometheus_push_gateway: 'http://platform-prometheus-pushgateway.syn-synsights.svc:9091'
     prometheus_name: main
     monitoring_enabled: true
+    enable_relaxed_scheduling: 'false'
 
     # This parameter is deprecated since K8up v2 support
     monitoring_kube_state_metrics_job_name_label: "job_name" # Use "job" for kube-state-metrics < v1.5.0 (e.g. OpenShift 3.11):
