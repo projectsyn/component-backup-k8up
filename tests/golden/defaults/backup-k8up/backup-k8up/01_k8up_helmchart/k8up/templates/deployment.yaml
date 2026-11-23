@@ -44,6 +44,8 @@ spec:
               value: k8up.io/backup
             - name: BACKUP_BACKUPCOMMANDANNOTATION
               value: k8up.io/backupcommand
+            - name: BACKUP_ENABLE_RELAXED_SCHEDULING
+              value: 'false'
             - name: BACKUP_BACKOFFLIMIT
               value: '2'
           image: ghcr.io/k8up-io/k8up:v2.16.1
